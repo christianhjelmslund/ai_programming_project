@@ -21,7 +21,6 @@ public class Main {
 
         BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
 
-
         ArrayList<State> solution;
         try {
             solution = client.Search(bestFirstStrategy);
