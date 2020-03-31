@@ -24,11 +24,11 @@ public class BoxesDistanceToGoal extends Heuristic {
                     boxMap.put(String.valueOf(n.boxes[i][j]).toLowerCase(), new Point(i, j));
                 }
 
-                if ('a' <= State.goals[i][j]  && State.goals[i][j]  <= 'z'){
-                    goalMap.put(String.valueOf(State.goals[i][j]).toLowerCase(), new Point(i, j));
-                }
-            }
+        if ('a' <= State.goals[i][j]  && State.goals[i][j]  <= 'z'){
+            goalMap.put(String.valueOf(State.goals[i][j]).toLowerCase(), new Point(i, j));
         }
+    }
+}
 
         AtomicInteger cost = new AtomicInteger(0);
 

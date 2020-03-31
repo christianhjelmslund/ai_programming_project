@@ -29,6 +29,7 @@ public class BestFirstStrategy implements Comparator<State> {
         return n.g() + this.heuristic.h(n);
     }
 
+
     @Override
     public int compare(State n1, State n2) {
         return fAStar(n1)-fAStar(n2);
