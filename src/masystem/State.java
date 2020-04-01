@@ -70,7 +70,6 @@ public class State {
 
     public ArrayList<State> getExpandedStates() {
         //TODO: Generalize to several agents - remember to check for conflicts
-        System.out.println("FIXED PROBLEM SOVLED");
         ArrayList<State> expandedStates = new ArrayList<>(Command.EVERY.length);
         for (Command c : Command.EVERY) {
             // Determine applicability of action
