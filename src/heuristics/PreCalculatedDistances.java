@@ -43,7 +43,7 @@ public class PreCalculatedDistances extends Heuristic {
             if (newX < 0 || newX >= distMap.length || newY < 0 || newY >= distMap[0].length) {
                 continue; // out of bounds
             }
-            if (State.walls[newX][newY]){
+            if (State.WALLS[newX][newY]) {
                 continue; //do not update walls
             }
             if (dist + 1 < distMap[newX][newY]) {
@@ -59,20 +59,20 @@ public class PreCalculatedDistances extends Heuristic {
         //make dictinary for each goal, containing its distance map
         //goals with same letter share their dist map
         distMaps = new HashMap<Character, int[][]>();
-        for (int x=0; x<State.goals.length; x++){
-            for (int y=0; y<State.goals[x].length; y++){
-                char letter = State.goals[x][y]; //get char
+        for (int x=0; x<State.GOALS.length; x++) {
+            for (int y = 0; y < State.GOALS[x].length; y++) {
+                char letter = State.GOALS[x][y]; // get char
                 int intLetter = letter; // enable us to check if letter == null
-                if (intLetter != 0){ //got a goal
-                    goals.add(new int[]{x,y}); //add goal to goals
+                if (intLetter != 0) { // got a goal
+                    goals.add(new int[] { x, y }); // add goal to goals
                     int[][] distMap;
-                    if (distMaps.containsKey(letter)){ //extend twin goal's distmap
+                    if (distMaps.containsKey(letter)) { // extend twin goal's distmap
                         distMap = distMaps.get(letter);
                     } else {
-                        distMap = createDistMap(State.MAX_ROW, State.MAX_COL); //create new distmap
+                        distMap = createDistMap(State.MAX_ROW, State.MAX_COL); // create new distmap
                     }
-                    distMap = getDistMapRec(distMap, x, y, initialState, 0); //get distmap
-                    distMaps.put(letter, distMap); //add to dict
+                    distMap = getDistMapRec(distMap, x, y, initialState, 0); // get distmap
+                    distMaps.put(letter, distMap); // add to dict
                 }
             }
         }
@@ -83,21 +83,21 @@ public class PreCalculatedDistances extends Heuristic {
         int h = 0;
         int loopCount = 0;
         ArrayList<int[]> boxes = new ArrayList<int[]>();
-        for (int x=0; x<State.MAX_ROW; x++){
-            for (int y=0; y<State.MAX_COL; y++){
-                //get all boxes
+        for (int x = 0; x < State.MAX_ROW; x++) {
+            for (int y = 0; y < State.MAX_COL; y++) {
+                // get all boxes
                 char letter = n.boxes[x][y];
                 int intLetter = letter;
-                if (intLetter != 0){ //for all boxes
-                    boxes.add(new int[]{x,y});
+                if (intLetter != 0) { // for all boxes
+                    boxes.add(new int[] { x, y });
                 }
             }
         }
 
-        for (int[] goalCoords : goals){ // for each goal, get coords and letter
+        for (int[] goalCoords : goals) { // for each goal, get coords and letter
             int goalX = goalCoords[0];
             int goalY = goalCoords[1];
-            char goalLetter = State.goals[goalX][goalY];
+            char goalLetter = State.GOALS[goalX][goalY];
             int minDist = 10000;
             for (int[] boxCoords: boxes){ 
                 int boxX = boxCoords[0];
@@ -115,6 +115,7 @@ public class PreCalculatedDistances extends Heuristic {
         return h;
     }
 
+    /*
     public int hOld(State n) {
         int h = 0;
         int loopCount = 0;
@@ -135,7 +136,7 @@ public class PreCalculatedDistances extends Heuristic {
         }
 
         return h;
-    }
+    }*/
 
     public void printDistMaps(HashMap<Character, int[][]> distMaps){
         System.err.println("DistMap:");
