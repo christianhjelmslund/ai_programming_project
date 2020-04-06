@@ -9,8 +9,5 @@ public abstract class Heuristic {
     }
 
     public abstract int h(State n);
-
-
-
-
+    
 }

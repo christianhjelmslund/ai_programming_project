@@ -1,4 +1,5 @@
 import heuristics.BoxesDistanceToGoal;
+import heuristics.PreCalculatedDistances;
 import masystem.BestFirstStrategy;
 import masystem.SearchClient;
 import masystem.State;
@@ -19,7 +20,8 @@ public class Main {
         // Read level and create the initial state of the problem
         SearchClient client = new SearchClient(serverMessages);
 
-        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
+        //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
+        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalculatedDistances(client.initialState));
 
         ArrayList<State> solution;
         try {
