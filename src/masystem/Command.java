@@ -9,7 +9,7 @@ public class Command {
     }
 
     public enum Type {
-        Move, Push, Pull
+        Move, Push, Pull, NoOp
     }
 
     public static final Command[] EVERY; //Contains every possible actions - e.g. Push(N, W) is possible, but not Push(N,S)
@@ -32,6 +32,9 @@ public class Command {
         for (Dir d : Dir.values()) {
             cmds.add(new Command(d));
         }
+
+        // Added No-move command with empty constructor
+        cmds.add(new Command());
 
         EVERY = cmds.toArray(new Command[0]);
     }
@@ -68,6 +71,11 @@ public class Command {
     public final Dir dir1; //TODO: refactor dir1 and d1 to agentDir
     public final Dir dir2;
 
+    private Command() {
+        this.actionType = Type.NoOp;
+        this.dir1 = null;
+        this.dir2 = null;
+    }
     private Command(Dir d) {
         this.actionType = Type.Move;
         this.dir1 = d;
@@ -82,9 +90,11 @@ public class Command {
 
     @Override
     public String toString() {
-        if (this.actionType == Type.Move)
-            return String.format("[%s(%s)]", this.actionType.toString(), this.dir1.toString());
+        if (this.actionType == Type.NoOp) {
+            return String.format("%s", actionType.toString());
+        }else if (this.actionType == Type.Move)
+            return String.format("%s(%s)", this.actionType.toString(), this.dir1.toString());
         else
-            return String.format("[%s(%s,%s)]", this.actionType.toString(), this.dir1.toString(), this.dir2.toString());
+            return String.format("%s(%s,%s)", this.actionType.toString(), this.dir1.toString(), this.dir2.toString());
     }
 }

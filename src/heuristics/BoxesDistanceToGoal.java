@@ -15,6 +15,7 @@ public class BoxesDistanceToGoal extends Heuristic {
 
     @Override
     public int h(State n) {
+        /*
         HashMap<String, Point> boxMap = new HashMap<>();
         HashMap<String, Point> goalMap = new HashMap<>();
 
@@ -24,8 +25,8 @@ public class BoxesDistanceToGoal extends Heuristic {
                     boxMap.put(String.valueOf(n.boxes[i][j]).toLowerCase(), new Point(i, j));
                 }
 
-        if ('a' <= State.goals[i][j]  && State.goals[i][j]  <= 'z'){
-            goalMap.put(String.valueOf(State.goals[i][j]).toLowerCase(), new Point(i, j));
+        if ('a' <= State.GOALS[i][j]  && State.GOALS[i][j]  <= 'z'){
+            goalMap.put(String.valueOf(State.GOALS[i][j]).toLowerCase(), new Point(i, j));
         }
     }
 }
@@ -40,5 +41,8 @@ public class BoxesDistanceToGoal extends Heuristic {
         });
 
         return cost.get();
+        */
+        return 1;
+
     }
 }
