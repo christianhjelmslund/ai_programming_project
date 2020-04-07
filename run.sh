@@ -5,4 +5,4 @@ T=300 # time out in seconds
 
 rm -rf out
 javac -cp "src;lib/guava-28.2-jre.jar" src/Main.java -d out
-cd out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp /lib/*:. Main " -g $G  -t $T
+cd out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ../out;../lib/guava-28.2-jre.jar Main " -g $G  -t $T
