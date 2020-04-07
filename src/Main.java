@@ -5,7 +5,6 @@ import masystem.SearchClient;
 import masystem.State;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -15,10 +14,14 @@ public class Main {
         BufferedReader serverMessages = new BufferedReader(new InputStreamReader(System.in));
 
         // Use stderr to print to console
-        System.err.println("masystem.SearchClient initializing. I am sending this using the error output stream.");
+        System.err.println("DEBUG BY THESE PRINTS");
+
+        // Client name statement
+        System.out.println("PearEasy Client");
 
         // Read level and create the initial state of the problem
         SearchClient client = new SearchClient(serverMessages);
+
 
         //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
         BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalculatedDistances(client.initialState));
@@ -41,8 +44,21 @@ public class Main {
             System.err.println(bestFirstStrategy.searchStatus());
 
             for (State n : solution) {
-                String act = n.action.toString();
-                System.out.println(act);
+                System.err.println(n);
+
+                String act = n.actions.toString();
+
+                StringBuilder actions = new StringBuilder();
+
+                for (int i = 0; i < n.actions.size(); i++) {
+                    actions.append(n.actions.get(i).toString());
+                    actions.append(";");
+
+                }
+
+                actions.replace(actions.length()-1, actions.length(), "");
+
+                System.out.println(actions);
                 String response = serverMessages.readLine();
                 if (response.contains("false")) {
                     System.err.format("Server responsed with %s to the inapplicable action: %s\n", response, act);
