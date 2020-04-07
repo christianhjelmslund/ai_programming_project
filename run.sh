@@ -1,4 +1,4 @@
-LEVELS_DIR=levels/comp18
+LEVELS_DIR=levels/comp18/
 LEVEL=MAKJFWAOL.lvl # change level name
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
 T=300 # time out in seconds 
