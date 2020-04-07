@@ -16,4 +16,4 @@ compile: clean
 
 .PHONY: run
 run: clean compile
-	cd out && java -jar ../server.jar -l ../$(LEVELS_DIR)/$(LEVEL) -c "java -cp ../lib/*:. Main " -g ${G¢}  -t $(T)
+	cd out && java -jar ../server.jar -l ../$(LEVELS_DIR)/$(LEVEL) -c "java -cp ../lib/*:. Main " -g ${G}  -t $(T)
