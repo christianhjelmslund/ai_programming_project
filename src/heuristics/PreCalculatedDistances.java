@@ -76,7 +76,6 @@ public class PreCalculatedDistances extends Heuristic {
                 }
             }
         }
-        printDistMaps(distMaps);
     }
 
     public int h(State n) {
