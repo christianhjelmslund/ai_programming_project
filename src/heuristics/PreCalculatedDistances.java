@@ -101,13 +101,14 @@ public class PreCalculatedDistances extends Heuristic {
             for (int[] boxCoords: boxes){ 
                 int boxX = boxCoords[0];
                 int boxY = boxCoords[1];
-                if (Character.toLowerCase(n.boxes[boxX][boxY]) == goalLetter){ //for all boxes with same letter as goal
+                if (n.boxes[boxX][boxY] == goalLetter){ //for all boxes with same letter as goal
                     int distToBox = distMaps.get(goalLetter)[boxX][boxY]; //get lowest dist to any of these boxes
                     if (distToBox < minDist){
                         minDist = distToBox;
                     }
                 }
             }
+            //System.err.println(minDist);
             h = h + minDist;
         }
         
