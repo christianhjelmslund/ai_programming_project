@@ -14,4 +14,4 @@ to run project (clean, compiles and runs the project):
 
 ON WINDOWS: 
 to run project (clean, compile and run the project):
-From git bash: ```sh run.sh´´´
+From git bash: ```sh run.sh```
