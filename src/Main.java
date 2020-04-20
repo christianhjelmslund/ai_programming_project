@@ -1,4 +1,5 @@
 import heuristics.BoxesDistanceToGoal;
+import heuristics.PreCalcDistForCompleteMap;
 import heuristics.PreCalculatedDistances;
 import masystem.BestFirstStrategy;
 import masystem.SearchClient;
@@ -22,9 +23,9 @@ public class Main {
         // Read level and create the initial state of the problem
         SearchClient client = new SearchClient(serverMessages);
 
-        // BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new
-        // BoxesDistanceToGoal(client.initialState));
-        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalculatedDistances(client.initialState));
+        //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
+        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalcDistForCompleteMap(client.initialState));
+
 
         ArrayList<State> solution;
         try {
@@ -42,9 +43,8 @@ public class Main {
             System.err.println("\nSummary for " + bestFirstStrategy.toString());
             System.err.println("Found solution of length " + solution.size() + ". " + bestFirstStrategy.searchStatus());
 
-            for (State n : solution) {
-                System.err.println(n);
 
+            for (State n : solution) {
                 String act = n.actions.toString();
 
                 StringBuilder actions = new StringBuilder();

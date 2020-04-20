@@ -9,5 +9,12 @@ public abstract class Heuristic {
     }
 
     public abstract int h(State n);
+    //TODO: Things to consider for heuristics:
+    /*
+    -
+    -
+
+
+     */
     
 }

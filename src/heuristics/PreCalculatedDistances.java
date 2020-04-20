@@ -1,14 +1,42 @@
 package heuristics;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import masystem.State;
-import masystem.Agent;
 
 public class PreCalculatedDistances extends Heuristic {
     HashMap<Character, int[][]> distMaps;
     ArrayList<int[]> goals = new ArrayList<int[]>();
+
+
+    public PreCalculatedDistances(State initialState) {
+        super(initialState);
+        //make dictionary for each goal, containing its distance map
+        //goals with same letter share their dist map
+        distMaps = new HashMap<Character, int[][]>();
+        for (int x=0; x<State.GOALS.length; x++) {
+            for (int y = 0; y < State.GOALS[x].length; y++) {
+                char letter = State.GOALS[x][y]; // get char
+                int intLetter = letter; // enable us to check if letter == null
+                if (intLetter != 0) { // got a goal
+                    goals.add(new int[] { x, y }); // add goal to goals
+                    int[][] distMap;
+                    if (distMaps.containsKey(letter)) { // extend twin goal's distmap
+                        distMap = distMaps.get(letter);
+                    } else {
+                        distMap = createDistMap(State.MAX_ROW, State.MAX_COL); // create new distmap
+                    }
+                    distMap = getDistMapRec(distMap, x, y, initialState, 0); // get distmap
+                    distMaps.put(letter, distMap); // add to dict
+                }
+            }
+        }
+    }
+
+
+
     public int[][] createDistMap(int max_row, int max_col){
         //creates a 2d int array with all values being 100000
         int[][] distMap = new int[max_row][max_col];
@@ -53,55 +81,25 @@ public class PreCalculatedDistances extends Heuristic {
         return distMap;
     }
 
-    public PreCalculatedDistances(State initialState) {
-        super(initialState);
-    
-        //make dictinary for each goal, containing its distance map
-        //goals with same letter share their dist map
-        distMaps = new HashMap<Character, int[][]>();
-        for (int x=0; x<State.GOALS.length; x++) {
-            for (int y = 0; y < State.GOALS[x].length; y++) {
-                char letter = State.GOALS[x][y]; // get char
-                int intLetter = letter; // enable us to check if letter == null
-                if (intLetter != 0) { // got a goal
-                    goals.add(new int[] { x, y }); // add goal to goals
-                    int[][] distMap;
-                    if (distMaps.containsKey(letter)) { // extend twin goal's distmap
-                        distMap = distMaps.get(letter);
-                    } else {
-                        distMap = createDistMap(State.MAX_ROW, State.MAX_COL); // create new distmap
-                    }
-                    distMap = getDistMapRec(distMap, x, y, initialState, 0); // get distmap
-                    distMaps.put(letter, distMap); // add to dict
-                }
-            }
-        }
-    }
+    //TODO: Expand to having some goals 'occupied'?
+    //TODO: Add agents distance to a box?
+    //TODO:
 
     public int h(State n) {
         int h = 0;
         int loopCount = 0;
-        ArrayList<int[]> boxes = new ArrayList<int[]>();
-        for (int x = 0; x < State.MAX_ROW; x++) {
-            for (int y = 0; y < State.MAX_COL; y++) {
-                // get all boxes
-                char letter = n.boxes[x][y];
-                int intLetter = letter;
-                if (intLetter != 0) { // for all boxes
-                    boxes.add(new int[] { x, y });
-                }
-            }
-        }
 
         for (int[] goalCoords : goals) { // for each goal, get coords and letter
             int goalX = goalCoords[0];
             int goalY = goalCoords[1];
             char goalLetter = State.GOALS[goalX][goalY];
             int minDist = 10000;
-            for (int[] boxCoords: boxes){ 
-                int boxX = boxCoords[0];
-                int boxY = boxCoords[1];
-                if (n.boxes[boxX][boxY] == goalLetter){ //for all boxes with same letter as goal
+            for (Point boxCoords :
+                    n.boxes.keySet()) {
+
+                int boxX = boxCoords.x;
+                int boxY = boxCoords.y;
+                if (n.boxes2dArray[boxX][boxY] == goalLetter){ //for all boxes with same letter as goal
                     int distToBox = distMaps.get(goalLetter)[boxX][boxY]; //get lowest dist to any of these boxes
                     if (distToBox < minDist){
                         minDist = distToBox;
@@ -111,7 +109,6 @@ public class PreCalculatedDistances extends Heuristic {
             //System.err.println(minDist);
             h = h + minDist;
         }
-        
         return h;
     }
 

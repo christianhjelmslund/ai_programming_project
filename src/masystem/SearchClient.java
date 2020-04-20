@@ -1,5 +1,6 @@
 package masystem;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +16,11 @@ public class SearchClient {
         int maxCol = 70;
         boolean[][] walls = new boolean[maxRow][maxCol];
         char[][] goals = new char[maxRow][maxCol];
-        char[][] boxes = new char[maxRow][maxCol];
+        char[][] boxes2dArray = new char[maxRow][maxCol];
         Map <Character,Integer> boxColors = new HashMap();
 
         ArrayList<Agent> agents = new ArrayList<>();
+        Map<Point,Box> boxes = new HashMap<>();
         String line = "init";
 
         while (!line.contains("#colors")){
@@ -29,8 +31,8 @@ public class SearchClient {
         //Read first color
         line = serverMessages.readLine();
 
-        //Categorize agents and boxes into colors
-        int color = 0; //Using integer to represent a color for agent and boxes
+        //Categorize agents and boxes2dArray into colors
+        int color = 0; //Using integer to represent a color for agent and boxes2dArray
         while (line.contains("blue") || line.contains("red") || line.contains("cyan") || line.contains("purple") || line.contains("green")
                 || line.contains("orange") || line.contains("pink") || line.contains("grey") || line.contains("lightblue") || line.contains("brown")){
 
@@ -74,9 +76,13 @@ public class SearchClient {
                         agents.get(number).row = row;
                         agents.get(number).column = col;
                     } else if ('A' <= chr && chr <= 'Z') { // Box.
-                        // System.err.println(row);
-                        // System.err.println(col);
-                        boxes[row][col] = chr;
+                        boxes2dArray[row][col] = chr;
+                        Box box = new Box();
+                        box.letter = chr;
+                        box.color = boxColors.get(chr);
+                        box.row = row;
+                        box.column = col;
+                        boxes.put(new Point(box.row,box.column), box);
                     } else if (chr == ' ') {
                         // Free space.
                     } else {
@@ -117,6 +123,17 @@ public class SearchClient {
             }
         }
 
+        //Resize walls and goals array
+        boolean[][] wallsResized = new boolean[row][column];
+        char[][] goalsResized = new char[row][column];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                wallsResized[i][j] = walls[i][j];
+                goalsResized[i][j] = goals[i][j];
+            }
+        }
+
 
 
         // Create new initial state
@@ -124,12 +141,12 @@ public class SearchClient {
         // time
         State.MAX_ROW = row;
         State.MAX_COL = column;
-        State.WALLS = walls;
-        State.GOALS = goals;
+        State.WALLS = wallsResized;
+        State.GOALS = goalsResized;
         State.BOXCOLORS = boxColors;
-
-        this.initialState = new State(null, boxes, agents);
+        this.initialState = new State(null, boxes2dArray, agents, boxes);
     }
+
 
     public ArrayList<State> Search(BestFirstStrategy bestFirstStrategy) {
         System.err.format("Search starting with bestFirstStrategy %s.\n", bestFirstStrategy.toString());
