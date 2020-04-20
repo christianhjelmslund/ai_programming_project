@@ -87,13 +87,12 @@ public class State {
 
 
         return Sets.cartesianProduct(agentCommands);
-
     }
 
 
 
     // Checks if an individual command performed by a certain agent is valid
-    private boolean isValidCommand(Agent agent, Command cmd) {
+    public boolean isValidCommand(Agent agent, Command cmd) {
         if (cmd.actionType == Command.Type.NoOp)
             return true;
 

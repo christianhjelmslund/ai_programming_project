@@ -22,8 +22,8 @@ public class Main {
         // Read level and create the initial state of the problem
         SearchClient client = new SearchClient(serverMessages);
 
-
-        //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
+        // BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new
+        // BoxesDistanceToGoal(client.initialState));
         BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalculatedDistances(client.initialState));
 
         ArrayList<State> solution;
@@ -40,8 +40,7 @@ public class Main {
             System.exit(0);
         } else {
             System.err.println("\nSummary for " + bestFirstStrategy.toString());
-            System.err.println("Found solution of length " + solution.size());
-            System.err.println(bestFirstStrategy.searchStatus());
+            System.err.println("Found solution of length " + solution.size() + ". " + bestFirstStrategy.searchStatus());
 
             for (State n : solution) {
                 System.err.println(n);
@@ -56,11 +55,12 @@ public class Main {
 
                 }
 
-                actions.replace(actions.length()-1, actions.length(), "");
+                actions.replace(actions.length() - 1, actions.length(), "");
 
                 System.out.println(actions);
+
                 String response = serverMessages.readLine();
-                if (response.contains("false")) {
+                if (response != null && response.contains("false")) {
                     System.err.format("Server responsed with %s to the inapplicable action: %s\n", response, act);
                     System.err.format("%s was attempted in \n%s\n", act, n.toString());
                     break;

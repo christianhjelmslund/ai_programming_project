@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Variable declaration
+branch=$(git rev-parse --abbrev-ref HEAD) # Command to get current git branch
+classpath=.:../lib/guava-28.2-jre.jar
+test_levels='../levels/performance_test_levels'
+dateNow=$(date +"%c")
+result_file_name=test_results.txt
+
+# Change class path if on Windows
+if [[ "$OSTYPE" == "msys" ]]; then
+	classpath="./;../lib/guava-28.2-jre.jar"
+fi
+
+# Cleaning project
+rm -rf out
+
+# Compiling project
+cd src
+javac -cp $classpath Main.java -d ../out > /dev/null 2>&1
+cd ../out
+
+# Test result headline (current branch, date and time)
+echo  "User: $(whoami), Branch: $branch, $dateNow" >> ../$result_file_name
+
+# Write test results for each lvl 
+for lvl in "$test_levels"/*.lvl
+do
+  # Pass lvl data to AI program, 
+  # filter its output to lines with word "Found"
+  # and write each line to terminal and file "test_results"
+  cat $lvl |  java -cp $classpath Main &>  >(grep "Found") >&2  | 
+  {
+      # Read line and print to both file and terminal
+      read i 
+      echo "$(basename $lvl): $i" | tee -a ../$result_file_name
+  }
+done
+# New line to end test result section in file
+printf "\n" >> ../$result_file_name
