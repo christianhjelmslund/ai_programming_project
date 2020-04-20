@@ -1,0 +1,4 @@
+User: christian, Branch: master, Mon Apr 20 13:00:04 2020
+MAExample.lvl: Found solution of length 30. #Explored:     88, #Frontier:    124, #Generated:    212, Time: 0.14 s 	[Used: 4.58 MB, Free: 125.42 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      5, #Generated:     24, Time: 0.09 s 	[Used: 3.08 MB, Free: 126.92 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+
