@@ -23,9 +23,7 @@ public class Main {
         // Read level and create the initial state of the problem
         SearchClient client = new SearchClient(serverMessages);
 
-        //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
         BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalcDistForCompleteMap(client.initialState));
-
 
         ArrayList<State> solution;
         try {

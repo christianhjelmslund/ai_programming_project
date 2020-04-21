@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import masystem.Box;
 import masystem.State;
 
 public class PreCalculatedDistances extends Heuristic {
@@ -89,17 +90,24 @@ public class PreCalculatedDistances extends Heuristic {
         int h = 0;
         int loopCount = 0;
 
+        ArrayList<int[]> boxes = new ArrayList<int[]>();
+
+        for (Box box: n.boxes ) {
+            boxes.add(new int[] { box.row, box.column});
+        }
+
+
         for (int[] goalCoords : goals) { // for each goal, get coords and letter
             int goalX = goalCoords[0];
             int goalY = goalCoords[1];
             char goalLetter = State.GOALS[goalX][goalY];
             int minDist = 10000;
-            for (Point boxCoords :
-                    n.boxes.keySet()) {
+            for (int[] boxCoords: boxes){
+                int boxX = boxCoords[0];
+                int boxY = boxCoords[1];
+                Box box = n.getBox(boxX,boxY);
 
-                int boxX = boxCoords.x;
-                int boxY = boxCoords.y;
-                if (n.boxes2dArray[boxX][boxY] == goalLetter){ //for all boxes with same letter as goal
+                if (box != null && box.letter == goalLetter){ //for all boxes with same letter as goal
                     int distToBox = distMaps.get(goalLetter)[boxX][boxY]; //get lowest dist to any of these boxes
                     if (distToBox < minDist){
                         minDist = distToBox;

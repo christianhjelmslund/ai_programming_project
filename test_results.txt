@@ -1,9 +1,14 @@
-User: christian, Branch: master, Mon Apr 20 13:00:04 2020
-MAExample.lvl: Found solution of length 30. #Explored:     88, #Frontier:    124, #Generated:    212, Time: 0.14 s 	[Used: 4.58 MB, Free: 125.42 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
-SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      5, #Generated:     24, Time: 0.09 s 	[Used: 3.08 MB, Free: 126.92 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+Boxes_as_arraylist
+User: sebastian, Branch: explore_performance_issues, Mon Apr 20 21:54:15 2020
+MAAIFather.lvl: Found solution of length 44. #Explored: 118.936, #Frontier: 105.751, #Generated: 224.687, Time: 3,39 s 	[Used: 147,24 MB, Free: 729,76 MB, Alloc: 877,00 MB, MaxAlloc: 2048,00 MB]
+MAExample.lvl: Found solution of length 30. #Explored:     86, #Frontier:    114, #Generated:    200, Time: 0,07 s 	[Used: 4,58 MB, Free: 125,42 MB, Alloc: 130,00 MB, MaxAlloc: 2048,00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.530, #Generated:  1.547, Time: 0,09 s 	[Used: 8,58 MB, Free: 121,42 MB, Alloc: 130,00 MB, MaxAlloc: 2048,00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,05 s 	[Used: 3,58 MB, Free: 126,42 MB, Alloc: 130,00 MB, MaxAlloc: 2048,00 MB]
 
-User: christian, Branch: master, Mon Apr 20 17:51:52 2020
-MAExample.lvl: Found solution of length 30. #Explored:     88, #Frontier:    124, #Generated:    212, Time: 0.18 s 	[Used: 4.58 MB, Free: 125.42 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
-MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1,659, #Generated:  1,676, Time: 0.15 s 	[Used: 9.30 MB, Free: 120.70 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
-SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      5, #Generated:     24, Time: 0.07 s 	[Used: 3.08 MB, Free: 126.92 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+with_array
+User: sebastian, Branch: explore_performance_issues, Mon Apr 20 22:26:40 2020
+MAAIFather.lvl: Found solution of length 44. #Explored: 118.936, #Frontier: 105.751, #Generated: 224.687, Time: 2,68 s 	[Used: 127,24 MB, Free: 421,76 MB, Alloc: 549,00 MB, MaxAlloc: 2048,00 MB]
+MAExample.lvl: Found solution of length 30. #Explored:     86, #Frontier:    114, #Generated:    200, Time: 0,06 s 	[Used: 4,02 MB, Free: 125,98 MB, Alloc: 130,00 MB, MaxAlloc: 2048,00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.530, #Generated:  1.547, Time: 0,09 s 	[Used: 6,58 MB, Free: 123,42 MB, Alloc: 130,00 MB, MaxAlloc: 2048,00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,05 s 	[Used: 3,30 MB, Free: 126,70 MB, Alloc: 130,00 MB, MaxAlloc: 2048,00 MB]
 

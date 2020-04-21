@@ -12,26 +12,13 @@ public class State {
     //All static variables will be overwritten when reading the level
     public static int MAX_ROW = 70;
     public static int MAX_COL = 70;
-    public static Map <Character,Integer> BOXCOLORS = new HashMap(); //Boxes letter -> Box color
+    public static int NUMBER_OF_AGENTS = 0;
+    public static int NUMBER_OF_BOXES = 0;
     public static boolean[][] WALLS = new boolean[MAX_ROW][MAX_COL];
     public static char[][] GOALS = new char[MAX_ROW][MAX_COL];
 
-    public char[][] boxes2dArray;
-    public ArrayList<Agent> agents;
-    public Map<Point, Box> boxes;
-
-
-
-// Arrays are indexed from the top-left of the level, with first index being row
-// and second being column.
-// Row 0: (0,0) (0,1) (0,2) (0,3) ...
-// Row 1: (1,0) (1,1) (1,2) (1,3) ...
-// Row 2: (2,0) (2,1) (2,2) (2,3) ...
-// ...
-// (Start in the top left corner, first go down, then go right)
-// E.g. this.WALLS[2] is an array of booleans having size max_col.
-// this.WALLS[row][col] is true if there's a wall at (row, col)
-//
+    public  Agent[] agents;
+    public Box[] boxes;
 
     public State parent;
     public List<Command> actions;
@@ -40,9 +27,8 @@ public class State {
 
     private int _hash = 0;
 
-    public State(State parent, char[][] boxes2dArray, ArrayList<Agent> agents, Map<Point, Box> boxes) {
-        this.boxes2dArray = boxes2dArray;
-        this.boxes = boxes;
+    public State(State parent, Box[] boxes, Agent[] agents) {
+        this.boxes =  boxes;
         this.agents = agents;
 
         this.parent = parent;
@@ -62,37 +48,27 @@ public class State {
     }
 
     public boolean isGoalState() {
-        for (int row = 1; row < MAX_ROW - 1; row++) {
-            for (int col = 1; col < MAX_COL - 1; col++) {
-                char g = GOALS[row][col];
-                char b = boxes2dArray[row][col];
-                if (g > 0 && b != g) {
-                    return false;
-                }
+        for (Box box: boxes) {
+            if(!(GOALS[box.row][box.column] > 0 && GOALS[box.row][box.column] == box.letter)){
+                return false;
             }
         }
         return true;
     }
 
     public Set<List<Command>> calcExpandedStates() {
-        Set<Command>[] agentCommands = new Set[agents.size()];
-
+        Set<Command>[] agentCommands = new Set[NUMBER_OF_AGENTS];
         // For each agent add all valid commands to Set
         for (int i = 0; i < agentCommands.length; i++) {
             agentCommands[i] = new HashSet<>();
             for (int j = 0; j < Command.EVERY.length; j++) {
-                if (isValidCommand(agents.get(i), Command.EVERY[j])) {
+                if (isValidCommand(agents[i], Command.EVERY[j])) {
                     agentCommands[i].add(Command.EVERY[j]);
                 }
             }
         }
-
-
-
         return Sets.cartesianProduct(agentCommands);
     }
-
-
 
     // Checks if an individual command performed by a certain agent is valid
     public boolean isValidCommand(Agent agent, Command cmd) {
@@ -101,21 +77,15 @@ public class State {
 
         int newAgentRow = agent.row + Command.dirToRowChange(cmd.dir1);
         int newAgentCol = agent.column + Command.dirToColChange(cmd.dir1);
+        Box box;
 
         switch (cmd.actionType) {
             case Move:
                 return cellIsFree(newAgentRow, newAgentCol);
             case Push:
-                // Make sure that there's actually a box to move
-//                System.err.println(newAgentRow);
-//                System.err.println(newAgentCol);
-//                System.err.println("-----");
-//                System.err.println(this.boxAt(newAgentRow, newAgentCol));
+                box = getBox(newAgentRow, newAgentCol);
 
-
-                // System.err.println(BOXCOLORS.get(this.boxes[newAgentRow][newAgentCol]));
-                if (!this.boxAt(newAgentRow, newAgentCol) ||
-                        agent.color != BOXCOLORS.get(this.boxes2dArray[newAgentRow][newAgentCol]))
+                if (box == null || agent.color != box.color)
                     return false;
 
                 int boxRow = newAgentRow + Command.dirToRowChange(cmd.dir2);
@@ -126,27 +96,24 @@ public class State {
                 // Cell is free where agent is going
                 int boxRowPull = agent.row + Command.dirToRowChange(cmd.dir2);
                 int boxColPull = agent.column + Command.dirToColChange(cmd.dir2);
+                box = getBox(boxRowPull, boxColPull);
 
-                if (!cellIsFree(newAgentRow, newAgentCol) || !this.boxAt(boxRowPull, boxColPull) ||
-                        agent.color != BOXCOLORS.get(this.boxes2dArray[boxRowPull][boxColPull]))
-                    return false;
-
+                return cellIsFree(newAgentRow, newAgentCol) && box != null && agent.color == box.color;
                 // .. and there's a box in "dir2" of the agent
-                return true;
             default:
                 throw new IllegalArgumentException("Command " + cmd + " was not of type Move, Pull, Push or NoMove");
 
         }
     }
 
-    private void updateBoxListInChildState(int oldBoxRow, int oldBoxCol, int newBoxRow, int newBoxCol, State childState){
-        Point oldBoxPos = new Point(oldBoxRow, oldBoxCol);
-        Box box = childState.boxes.get(oldBoxPos);
-        childState.boxes.remove(oldBoxPos);
-        box.row = newBoxRow;
-        box.column = newBoxCol;
-        childState.boxes.put(new Point(newBoxRow,newBoxCol),box);
-    }
+//    private void updateBoxListInChildState(int oldBoxRow, int oldBoxCol, int newBoxRow, int newBoxCol, State childState){
+//        Point oldBoxPos = new Point(oldBoxRow, oldBoxCol);
+//        Box box = childState.boxes.get(oldBoxPos);
+//        childState.boxes.remove(oldBoxPos);
+//        box.row = newBoxRow;
+//        box.column = newBoxCol;
+//        childState.boxes.put(new Point(newBoxRow,newBoxCol),box);
+//    }
 
     public ArrayList<State> getExpandedStates() {
         // TODO: following method calculates the new set of expanded states
@@ -176,8 +143,8 @@ public class State {
 
                 int reservedSpotsAmount = reservedSpots.size();
                 int reservedBoxesAmount = reservedBoxes.size();
-                int agentRow = agents.get(i).row;
-                int agentCol = agents.get(i).column;
+                int agentRow = agents[i].row;
+                int agentCol = agents[i].column;
                 int newReservedRow;
                 int newReservedCol;
                 int boxRow;
@@ -197,25 +164,20 @@ public class State {
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
                         reservedSpots.add(new Point(agentRow, agentCol));
 
-                        childState.agents.get(i).row = newReservedRow;
-                        childState.agents.get(i).column = newReservedCol;
-                        childState.boxes2dArray[boxRow][boxCol] = 0;
-                        childState.boxes2dArray[agentRow][agentCol] = boxes2dArray[boxRow][boxCol];
-
+                        childState.agents[i].move(newReservedRow, newReservedCol);
+                        childState.getBox(boxRow,boxCol).move(agentRow, agentCol);
 
                         if (reservedBoxesAmount + 1 != reservedBoxes.size() || reservedSpotsAmount + 2 != reservedSpots.size())
                             noConflictMove = false;
 
-                        if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
-                            updateBoxListInChildState(boxRow, boxCol, agentRow, agentCol, childState);
-                        }
+//                        if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
+//                            updateBoxListInChildState(boxRow, boxCol, agentRow, agentCol, childState);
+//                        }
                         break;
                     case Move:
-                        //TODO: TJek at de ikke skifter plads
                         newReservedRow = agentRow + Command.dirToRowChange(agentCmd.dir1);
                         newReservedCol = agentCol + Command.dirToColChange(agentCmd.dir1);
-                        childState.agents.get(i).row = newReservedRow;
-                        childState.agents.get(i).column = newReservedCol;
+                        childState.agents[i].move(newReservedRow, newReservedCol);
 
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
                         if (reservedSpotsAmount + 1 != reservedSpots.size())
@@ -230,18 +192,17 @@ public class State {
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
                         reservedSpots.add(new Point(boxRow, boxCol));
 
-                        childState.agents.get(i).row = boxRow;
-                        childState.agents.get(i).column = boxCol;
-                        childState.boxes2dArray[boxRow][boxCol] = 0;
-                        childState.boxes2dArray[newReservedRow][newReservedCol] = boxes2dArray[boxRow][boxCol];
+                        childState.agents[i].move(boxRow, boxCol);
+
+                        childState.getBox(boxRow,boxCol).move(newReservedRow, newReservedCol);
 
                         if (reservedBoxesAmount + 1 != reservedBoxes.size() ||
                                 reservedSpotsAmount + 2 != reservedSpots.size())
                             noConflictMove = false;
 
-                        if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
-                            updateBoxListInChildState(boxRow, boxCol, newReservedRow, newReservedCol, childState);
-                        }
+//                        if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
+//                            updateBoxListInChildState(boxRow, boxCol, newReservedRow, newReservedCol, childState);
+//                        }
                         break;
                     case NoOp:
                         newReservedRow = agentRow;
@@ -267,51 +228,65 @@ public class State {
         return expandedStates;
     }
 
-    // TODO: Tjek performance her
     private boolean cellIsFree(int row, int col) {
+        return !WALLS[row][col] && !hasAgent(row,col) && !hasBox(row,col);
+    }
 
-        boolean hasAgent = false;
-
-        for (Agent agent :
-                agents) {
-            if (agent.row == row && agent.column == col){
-                hasAgent = true;
-                break;
+    public Box getBox(int row, int col) {
+        for (Box box : boxes) {
+            if (box.row == row && box.column == col) {
+                return box;
             }
         }
-
-        return !WALLS[row][col] && boxes2dArray[row][col] == 0 && !hasAgent;
+        return null;
     }
 
-//TODO: CheckIfConflict...ish
-
-    private boolean boxAt(int row, int col) {
-        return this.boxes2dArray[row][col] > 0;
+    private boolean hasAgent(int row, int col) {
+        for (Agent agent : agents) {
+            if (agent.row == row && agent.column == col) {
+                return true;
+            }
+        }
+        return false;
     }
+
+    private boolean hasBox(int row, int col) {
+        for (Box box : boxes) {
+            if (box.row == row && box.column == col) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Agent getAgent(int row, int col) {
+        for (Agent agent : agents) {
+            if (agent.row == row && agent.column == col) {
+                return agent;
+            }
+        }
+        return null;
+    }
+
+
 
     private State ChildState() {
-        ArrayList<Agent> childAgents = new ArrayList<>();
-        char[][] childBoxes2dArray = new char[MAX_ROW][MAX_COL];
-        Map<Point, Box> childBoxes = new HashMap<>();
+        Agent[] childAgents = new Agent[NUMBER_OF_AGENTS];
+        Box[] childBoxes = new Box[NUMBER_OF_BOXES];
+        Agent agent;
+        Box box;
 
-
-        for (Agent agent : agents) {
-            childAgents.add(new Agent(agent.row, agent.column, agent.color));
-        } //Copy agents to child
-        for (int row = 0; row < MAX_ROW; row++) {
-            for (int col = 0; col < MAX_COL; col++) {
-                childBoxes2dArray[row][col] = boxes2dArray[row][col];
-            }
-        }//Copy boxes to child
-
-        for (Point point:
-             boxes.keySet()) {
-            Box newBox = boxes.get(point).deepCopy();
-            childBoxes.put(point, newBox);
+        for (int i = 0; i < NUMBER_OF_AGENTS; i++) {
+            agent = agents[i];
+            childAgents[i] = new Agent(agent.row, agent.column, agent.color);
         }
 
+        for (int i = 0; i < NUMBER_OF_BOXES; i++) {
+            box = boxes[i];
+            childBoxes[i] = new Box(box.row, box.column, box.color, box.letter);
+        }
 
-        return new State(this, childBoxes2dArray, childAgents, childBoxes);
+        return new State(this, childBoxes, childAgents);
     }
 
     public ArrayList<State> extractPlan() {
@@ -325,18 +300,29 @@ public class State {
         return plan;
     }
 
+//    TODO: Check if we can remove hashCode() since we don't use map anymore
     @Override
     public int hashCode() {
         if (this._hash == 0) {
             final int prime = 31;
             int result = 1;
-            for (Agent agent : this.agents) {
+            // TODO: Think about if we need to do it for color and
+            for (Agent agent : agents) {
                 result = prime * result + agent.column;
                 result = prime * result + agent.row;
+                result = prime * result + agent.color;
             }
-            result = prime * result + Arrays.deepHashCode(this.boxes2dArray);
-            result = prime * result + Arrays.deepHashCode(this.GOALS);
-            result = prime * result + Arrays.deepHashCode(this.WALLS);
+
+            for (Box box : boxes) {
+                result = prime * result + box.column;
+                result = prime * result + box.row;
+                result = prime * result + box.color;
+                result = prime * result + box.letter;
+            }
+
+            result = prime * result + Arrays.deepHashCode(GOALS);
+            result = prime * result + Arrays.deepHashCode(WALLS);
+
             this._hash = result;
         }
         return this._hash;
@@ -351,45 +337,45 @@ public class State {
         if (this.getClass() != obj.getClass())
             return false;
         State other = (State) obj;
-        if (this.agents.get(0).row != other.agents.get(0).row || this.agents.get(0).column != other.agents.get(0).column) //TODO: Extend to checking each agent by color?
+        if (this.agents[0].row != other.agents[0].row
+                || this.agents[0].column != other.agents[0].column
+                || this.agents[0].color != other.agents[0].color)
             return false;
-        if (!Arrays.deepEquals(this.boxes2dArray, other.boxes2dArray))
-            return false;
-        if (!Arrays.deepEquals(this.GOALS, other.GOALS))
-            return false;
-        return Arrays.deepEquals(this.WALLS, other.WALLS);
+        return this.boxes[0].row == other.boxes[0].row
+                && this.boxes[0].column == other.boxes[0].column
+                && this.boxes[0].color == other.boxes[0].color
+                && this.boxes[0].letter == other.boxes[0].letter;
     }
 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         for (int row = 0; row < MAX_ROW; row++) {
-            if (!this.WALLS[row][0]) {
+            if (!WALLS[row][0]) {
                 break;
             }
             for (int col = 0; col < MAX_COL; col++) {
-                if (this.boxes2dArray[row][col] > 0) {
-                    s.append(this.boxes2dArray[row][col]);
-                } else if (this.GOALS[row][col] > 0) {
-                    s.append(this.GOALS[row][col]);
-                } else if (this.WALLS[row][col]) {
+                if (row == this.boxes[0].row && col == this.boxes[0].column) {
+                    s.append(getBox(row,col).letter);
+                } else if (GOALS[row][col] > 0) {
+                    s.append(GOALS[row][col]);
+                } else if (WALLS[row][col]) {
                     s.append("+");
                 } else {
                     boolean blanc = true;
-                    for (Agent agent: agents) {
-                        if (row == agent.row && col == agent.column){
-                            s.append(agents.indexOf(agent));
+                    for (int i = 0; i < agents.length; i++) {
+                        if (row == agents[i].row && col == agents[i].column){
+                            s.append(i);
                             blanc = false;
                         }
                     }
                     if (blanc)
                         s.append(" ");
+
                 }
             }
             s.append("\n");
         }
         return s.toString();
     }
-
-
 }

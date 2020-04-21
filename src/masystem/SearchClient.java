@@ -3,9 +3,7 @@ package masystem;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
 
 public class SearchClient {
     public State initialState;
@@ -16,14 +14,13 @@ public class SearchClient {
         int maxCol = 70;
         boolean[][] walls = new boolean[maxRow][maxCol];
         char[][] goals = new char[maxRow][maxCol];
-        char[][] boxes2dArray = new char[maxRow][maxCol];
-        Map <Character,Integer> boxColors = new HashMap();
 
-        ArrayList<Agent> agents = new ArrayList<>();
-        Map<Point,Box> boxes = new HashMap<>();
+        ArrayList<Agent> agents = new ArrayList<>(); // max 9 agents
+        ArrayList<Box> boxes = new ArrayList<>(); // max number of boxes
+
         String line = "init";
 
-        while (!line.contains("#colors")){
+        while (!line.contains("#colors")) {
             //read lines until reaching colors
             line = serverMessages.readLine();
         }
@@ -34,22 +31,23 @@ public class SearchClient {
         //Categorize agents and boxes2dArray into colors
         int color = 0; //Using integer to represent a color for agent and boxes2dArray
         while (line.contains("blue") || line.contains("red") || line.contains("cyan") || line.contains("purple") || line.contains("green")
-                || line.contains("orange") || line.contains("pink") || line.contains("grey") || line.contains("lightblue") || line.contains("brown")){
-
+                || line.contains("orange") || line.contains("pink") || line.contains("grey") || line.contains("lightblue") || line.contains("brown")) {
 
             //Agents
-            for (int i = 0; i < line.length() ; i++) {
-                if ('0' <= line.charAt(i) && line.charAt(i) <= '9'){
+            for (int i = 0; i < line.length(); i++) {
+                if ('0' <= line.charAt(i) && line.charAt(i) <= '9') {
                     Agent agent = new Agent();
-                    agents.add(agent);
                     agent.color = color;
+                    agents.add(agent);
                 }
             }
-
             //Boxes
-            for (int i = 0; i < line.length() ; i++) {
-                if ('A' <= line.charAt(i) && line.charAt(i) <= 'Z'){
-                    boxColors.put(line.charAt(i), color); // Dict maps 'Letter' (of box) -> 'Color'
+            for (int i = 0; i < line.length(); i++) {
+                if ('A' <= line.charAt(i) && line.charAt(i) <= 'Z') {
+                    Box box = new Box();
+                    box.color = color;
+                    box.letter = line.charAt(i);
+                    boxes.add(box);
                 }
             }
             color++;
@@ -58,7 +56,7 @@ public class SearchClient {
 
 
         //Read initial state
-        if (!line.contains("#initial")){
+        if (!line.contains("#initial")) {
             System.err.println("Level format is not correct");
 
         } else {
@@ -75,14 +73,13 @@ public class SearchClient {
                         int number = Character.getNumericValue(chr);
                         agents.get(number).row = row;
                         agents.get(number).column = col;
-                    } else if ('A' <= chr && chr <= 'Z') { // Box.
-                        boxes2dArray[row][col] = chr;
-                        Box box = new Box();
-                        box.letter = chr;
-                        box.color = boxColors.get(chr);
-                        box.row = row;
-                        box.column = col;
-                        boxes.put(new Point(box.row,box.column), box);
+                    } else if ('A' <= chr && chr <= 'Z') { // Box
+                        for (Box box : boxes) {
+                            if (box.letter == chr) {
+                                box.row = row;
+                                box.column = col;
+                            }
+                        }
                     } else if (chr == ' ') {
                         // Free space.
                     } else {
@@ -100,7 +97,7 @@ public class SearchClient {
         int column = 0;
         int row = 0;
 
-        if (!line.contains("#goal")){
+        if (!line.contains("#goal")) {
             System.err.println("Level format is not correct");
 
         } else {
@@ -115,6 +112,7 @@ public class SearchClient {
                     char chr = line.charAt(col);
 
                     if ('A' <= chr && chr <= 'Z') { // Goal.
+                        System.err.println("row " + row + "," + "col " + col);
                         goals[row][col] = chr;
                     }
                 }
@@ -123,7 +121,6 @@ public class SearchClient {
             }
         }
 
-        //Resize walls and goals array
         boolean[][] wallsResized = new boolean[row][column];
         char[][] goalsResized = new char[row][column];
 
@@ -134,23 +131,33 @@ public class SearchClient {
             }
         }
 
-
-
         // Create new initial state
         // The WALLS and GOALS are static, so no need to initialize the arrays every
         // time
+        State.NUMBER_OF_AGENTS = agents.size();
+        State.NUMBER_OF_BOXES = boxes.size();
         State.MAX_ROW = row;
         State.MAX_COL = column;
         State.WALLS = wallsResized;
         State.GOALS = goalsResized;
-        State.BOXCOLORS = boxColors;
-        this.initialState = new State(null, boxes2dArray, agents, boxes);
+
+        Box[] boxesArray = new Box[boxes.size()];
+        Agent[] agentsArray = new Agent[agents.size()];
+        for (int i = 0; i < boxesArray.length; i++) {
+            boxesArray[i] = boxes.get(i);
+        }
+        for (int i = 0; i < agentsArray.length; i++) {
+            agentsArray[i] = agents.get(i);
+        }
+
+        this.initialState = new State(null, boxesArray, agentsArray);
     }
 
 
     public ArrayList<State> Search(BestFirstStrategy bestFirstStrategy) {
         System.err.format("Search starting with bestFirstStrategy %s.\n", bestFirstStrategy.toString());
         bestFirstStrategy.addToFrontier(this.initialState);
+
 
         int iterations = 0;
         while (true) {
@@ -159,7 +166,7 @@ public class SearchClient {
                 iterations = 0;
             }
 
-
+//            System.err.println("Frontier:"+bestFirstStrategy.countFrontier());
 
             if (bestFirstStrategy.frontierIsEmpty()) {
                 return null;
@@ -168,12 +175,13 @@ public class SearchClient {
             State leafState = bestFirstStrategy.getAndRemoveLeaf();
 
             if (leafState.isGoalState()) {
+                System.err.println("------ GOAL ------");
                 return leafState.extractPlan();
             }
 
             bestFirstStrategy.addToExplored(leafState);
             for (State n : leafState.getExpandedStates()) { // The list of expanded states is shuffled randomly; see
-                                                            // masystem.State.java.
+                // masystem.State.java.
                 if (!bestFirstStrategy.isExplored(n) && !bestFirstStrategy.inFrontier(n)) {
                     bestFirstStrategy.addToFrontier(n);
                 }
