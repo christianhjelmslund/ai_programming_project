@@ -17,6 +17,7 @@ public class State {
     public static boolean[][] WALLS = new boolean[MAX_ROW][MAX_COL];
     public static char[][] GOALS = new char[MAX_ROW][MAX_COL];
 
+
     public  Agent[] agents;
     public Box[] boxes;
 
@@ -26,6 +27,7 @@ public class State {
     private int g; //depth in graph
 
     private int _hash = 0;
+
 
     public State(State parent, Box[] boxes, Agent[] agents) {
         this.boxes =  boxes;
@@ -48,6 +50,7 @@ public class State {
     }
 
     public boolean isGoalState() {
+
         for (Box box: boxes) {
             if(!(GOALS[box.row][box.column] > 0 && GOALS[box.row][box.column] == box.letter)){
                 return false;
@@ -79,12 +82,15 @@ public class State {
         int newAgentCol = agent.column + Command.dirToColChange(cmd.dir1);
         Box box;
 
+        if (newAgentRow < 0 || newAgentRow > this.MAX_ROW || newAgentCol < 0 || newAgentCol > this.MAX_COL){
+            return false;
+        }
+
         switch (cmd.actionType) {
             case Move:
                 return cellIsFree(newAgentRow, newAgentCol);
             case Push:
                 box = getBox(newAgentRow, newAgentCol);
-
                 if (box == null || agent.color != box.color)
                     return false;
 
@@ -98,6 +104,7 @@ public class State {
                 int boxColPull = agent.column + Command.dirToColChange(cmd.dir2);
                 box = getBox(boxRowPull, boxColPull);
 
+
                 return cellIsFree(newAgentRow, newAgentCol) && box != null && agent.color == box.color;
                 // .. and there's a box in "dir2" of the agent
             default:
@@ -105,6 +112,7 @@ public class State {
 
         }
     }
+
 
 //    private void updateBoxListInChildState(int oldBoxRow, int oldBoxCol, int newBoxRow, int newBoxCol, State childState){
 //        Point oldBoxPos = new Point(oldBoxRow, oldBoxCol);
@@ -123,10 +131,13 @@ public class State {
         //TODO: Generalize to several agents - remember to check for conflicts
         ArrayList<State> expandedStates = new ArrayList<>(Command.EVERY.length);
 
+
         // TODO: Fjern kombinationen hvor alle agenter laver NoMove
         Set<Point> reservedSpots = new HashSet<>();
         Set<Point> reservedBoxes = new HashSet<>();
         State childState;
+
+
 
         for (List<Command> agentCmds :
                 expandedStatesCombinations) {
@@ -164,15 +175,14 @@ public class State {
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
                         reservedSpots.add(new Point(agentRow, agentCol));
 
-                        childState.agents[i].move(newReservedRow, newReservedCol);
-                        childState.getBox(boxRow,boxCol).move(agentRow, agentCol);
 
                         if (reservedBoxesAmount + 1 != reservedBoxes.size() || reservedSpotsAmount + 2 != reservedSpots.size())
                             noConflictMove = false;
 
-//                        if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
-//                            updateBoxListInChildState(boxRow, boxCol, agentRow, agentCol, childState);
-//                        }
+                          if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
+                              childState.agents[i].move(newReservedRow, newReservedCol);
+                              childState.getBox(boxRow,boxCol).move(agentRow, agentCol);
+                          }
                         break;
                     case Move:
                         newReservedRow = agentRow + Command.dirToRowChange(agentCmd.dir1);
@@ -192,17 +202,16 @@ public class State {
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
                         reservedSpots.add(new Point(boxRow, boxCol));
 
-                        childState.agents[i].move(boxRow, boxCol);
-
-                        childState.getBox(boxRow,boxCol).move(newReservedRow, newReservedCol);
 
                         if (reservedBoxesAmount + 1 != reservedBoxes.size() ||
                                 reservedSpotsAmount + 2 != reservedSpots.size())
                             noConflictMove = false;
 
-//                        if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
-//                            updateBoxListInChildState(boxRow, boxCol, newReservedRow, newReservedCol, childState);
-//                        }
+                        if (noConflictMove){ //Only update when noConflictMove - otherwise two agents may try to move same box in the child state
+                            childState.agents[i].move(boxRow, boxCol);
+                            childState.getBox(boxRow,boxCol).move(newReservedRow, newReservedCol);
+                        }
+
                         break;
                     case NoOp:
                         newReservedRow = agentRow;
@@ -217,6 +226,7 @@ public class State {
             }
 
             if (noConflictMove) {
+
                 // Add to expandedStates
                 childState.actions = agentCmds;
                 expandedStates.add(childState);
@@ -241,6 +251,7 @@ public class State {
         return null;
     }
 
+
     private boolean hasAgent(int row, int col) {
         for (Agent agent : agents) {
             if (agent.row == row && agent.column == col) {
@@ -258,6 +269,7 @@ public class State {
         }
         return false;
     }
+
 
     public Agent getAgent(int row, int col) {
         for (Agent agent : agents) {
@@ -332,15 +344,30 @@ public class State {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
+
         if (obj == null)
             return false;
+
         if (this.getClass() != obj.getClass())
             return false;
+
         State other = (State) obj;
+
+        /*
+        for (Agent agent : this.agents) {
+            if (!other.agents.contains(agent)){
+
+            }
+                return false;
+            }
+        }
+        */
+
         if (this.agents[0].row != other.agents[0].row
                 || this.agents[0].column != other.agents[0].column
                 || this.agents[0].color != other.agents[0].color)
             return false;
+        //TODO: VERY IMPORTANT TO UPDATE THIS
         return this.boxes[0].row == other.boxes[0].row
                 && this.boxes[0].column == other.boxes[0].column
                 && this.boxes[0].color == other.boxes[0].color
@@ -355,6 +382,7 @@ public class State {
                 break;
             }
             for (int col = 0; col < MAX_COL; col++) {
+
                 if (row == this.boxes[0].row && col == this.boxes[0].column) {
                     s.append(getBox(row,col).letter);
                 } else if (GOALS[row][col] > 0) {
@@ -363,15 +391,22 @@ public class State {
                     s.append("+");
                 } else {
                     boolean blanc = true;
+                    //agents
                     for (int i = 0; i < agents.length; i++) {
                         if (row == agents[i].row && col == agents[i].column){
                             s.append(i);
                             blanc = false;
                         }
                     }
+                    //boxes
+                    for (int i = 0; i < boxes.length; i++) {
+                        if (row == boxes[i].row && col == boxes[i].column){
+                            s.append(boxes[i].letter);
+                            blanc = false;
+                        }
+                    }
                     if (blanc)
                         s.append(" ");
-
                 }
             }
             s.append("\n");

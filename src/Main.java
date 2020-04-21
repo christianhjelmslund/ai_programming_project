@@ -23,6 +23,7 @@ public class Main {
         // Read level and create the initial state of the problem
         SearchClient client = new SearchClient(serverMessages);
 
+        //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
         BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalcDistForCompleteMap(client.initialState));
 
         ArrayList<State> solution;
@@ -40,7 +41,6 @@ public class Main {
         } else {
             System.err.println("\nSummary for " + bestFirstStrategy.toString());
             System.err.println("Found solution of length " + solution.size() + ". " + bestFirstStrategy.searchStatus());
-
 
             for (State n : solution) {
                 String act = n.actions.toString();

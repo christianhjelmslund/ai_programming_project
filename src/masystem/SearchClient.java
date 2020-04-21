@@ -2,6 +2,7 @@ package masystem;
 
 import java.awt.*;
 import java.io.BufferedReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,7 +16,9 @@ public class SearchClient {
         boolean[][] walls = new boolean[maxRow][maxCol];
         char[][] goals = new char[maxRow][maxCol];
 
-        ArrayList<Agent> agents = new ArrayList<>(); // max 9 agents
+
+        boolean[] agentsFoundInMap = new boolean[10];
+        Agent[] agents = new Agent[10];
         ArrayList<Box> boxes = new ArrayList<>(); // max number of boxes
 
         String line = "init";
@@ -38,7 +41,7 @@ public class SearchClient {
                 if ('0' <= line.charAt(i) && line.charAt(i) <= '9') {
                     Agent agent = new Agent();
                     agent.color = color;
-                    agents.add(agent);
+                    agents[Character.getNumericValue(line.charAt(i))] = agent;
                 }
             }
             //Boxes
@@ -71,8 +74,11 @@ public class SearchClient {
                         walls[row][col] = true;
                     } else if ('0' <= chr && chr <= '9') { // Agent
                         int number = Character.getNumericValue(chr);
-                        agents.get(number).row = row;
-                        agents.get(number).column = col;
+
+                        agents[number].row = row;
+                        agents[number].column = col;
+                        agentsFoundInMap[number] = true;
+
                     } else if ('A' <= chr && chr <= 'Z') { // Box
                         for (Box box : boxes) {
                             if (box.letter == chr) {
@@ -80,6 +86,7 @@ public class SearchClient {
                                 box.column = col;
                             }
                         }
+
                     } else if (chr == ' ') {
                         // Free space.
                     } else {
@@ -121,6 +128,8 @@ public class SearchClient {
             }
         }
 
+
+        //Resize walls and goals array
         boolean[][] wallsResized = new boolean[row][column];
         char[][] goalsResized = new char[row][column];
 
@@ -131,23 +140,42 @@ public class SearchClient {
             }
         }
 
+        //Put agents into arrayList for the State object
+        ArrayList<Agent> agentsList = new ArrayList<>();
+        for (int i = 0; i < agents.length; i++) {
+            if (agents[i] != null) {
+                agentsList.add(agents[i]);
+            }
+        }
+        //Remove agents which are declared in description (with color and nr) but not placed in map
+        int nrOfAgents = agentsList.size();
+        for (int i = nrOfAgents - 1; i>0; i--) {
+            if (!agentsFoundInMap[i] && nrOfAgents - 1 >= i){
+                Agent agent = agentsList.remove(i);
+                System.err.println("Removing " + agent.toString());
+            }
+        }
+
+
+
         // Create new initial state
         // The WALLS and GOALS are static, so no need to initialize the arrays every
         // time
-        State.NUMBER_OF_AGENTS = agents.size();
+        State.NUMBER_OF_AGENTS = agentsList.size();
         State.NUMBER_OF_BOXES = boxes.size();
         State.MAX_ROW = row;
         State.MAX_COL = column;
         State.WALLS = wallsResized;
         State.GOALS = goalsResized;
 
+
         Box[] boxesArray = new Box[boxes.size()];
-        Agent[] agentsArray = new Agent[agents.size()];
+        Agent[] agentsArray = new Agent[agentsList.size()];
         for (int i = 0; i < boxesArray.length; i++) {
             boxesArray[i] = boxes.get(i);
         }
         for (int i = 0; i < agentsArray.length; i++) {
-            agentsArray[i] = agents.get(i);
+            agentsArray[i] = agentsList.get(i);
         }
 
         this.initialState = new State(null, boxesArray, agentsArray);
@@ -155,7 +183,9 @@ public class SearchClient {
 
 
     public ArrayList<State> Search(BestFirstStrategy bestFirstStrategy) {
+
         System.err.format("Search starting with bestFirstStrategy %s.\n", bestFirstStrategy.toString());
+
         bestFirstStrategy.addToFrontier(this.initialState);
 
 
@@ -168,20 +198,24 @@ public class SearchClient {
 
 //            System.err.println("Frontier:"+bestFirstStrategy.countFrontier());
 
+
             if (bestFirstStrategy.frontierIsEmpty()) {
                 return null;
             }
 
+
+
             State leafState = bestFirstStrategy.getAndRemoveLeaf();
 
+
             if (leafState.isGoalState()) {
-                System.err.println("------ GOAL ------");
                 return leafState.extractPlan();
             }
 
             bestFirstStrategy.addToExplored(leafState);
+
             for (State n : leafState.getExpandedStates()) { // The list of expanded states is shuffled randomly; see
-                // masystem.State.java.
+
                 if (!bestFirstStrategy.isExplored(n) && !bestFirstStrategy.inFrontier(n)) {
                     bestFirstStrategy.addToFrontier(n);
                 }

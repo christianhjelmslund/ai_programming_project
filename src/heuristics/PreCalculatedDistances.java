@@ -102,6 +102,7 @@ public class PreCalculatedDistances extends Heuristic {
             int goalY = goalCoords[1];
             char goalLetter = State.GOALS[goalX][goalY];
             int minDist = 10000;
+
             for (int[] boxCoords: boxes){
                 int boxX = boxCoords[0];
                 int boxY = boxCoords[1];

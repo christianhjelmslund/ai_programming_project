@@ -87,6 +87,7 @@ public class PreCalcDistForCompleteMap extends Heuristic {
     public int h(State n) {
         int h = 0;
         int loopCount = 0;
+
         for (Box box : n.boxes) {
             Point p = new Point(box.row, box.column);
             int[][] distancesFromBox = distMaps.get(p);
