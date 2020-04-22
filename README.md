@@ -24,7 +24,7 @@ Folder for performance test levels:
 levels/performance_test_levels
 
 To run on Mac and Linux: 
-```./performance_test [Title]´´´
+```./performance_test [Title]```
 
 To run on Windows: 
-```bash performance_test [Title]´´´
+```bash performance_test [Title]```
