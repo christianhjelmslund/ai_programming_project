@@ -21,7 +21,7 @@ From git bash: ```sh run.sh```
 To run a performance test on the current implementation place desired test levels in performance_test_levels folder and execute script performance_test. If title provided, performance test results will be stored in file test_results. If not, test results will only be printed to terminal. 
 
 Folder for performance test levels: 
-levels/performance_test_levels
+```levels/performance_test_levels```
 
 To run on Mac and Linux: 
 ```./performance_test [Title]```
