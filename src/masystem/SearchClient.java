@@ -1,10 +1,9 @@
 package masystem;
 
-import java.awt.*;
 import java.io.BufferedReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SearchClient {
     public State initialState;
@@ -18,6 +17,8 @@ public class SearchClient {
 
 
         boolean[] agentsFoundInMap = new boolean[10];
+        Map<Character, Integer> boxColors = new HashMap<>();
+
         Agent[] agents = new Agent[10];
         ArrayList<Box> boxes = new ArrayList<>(); // max number of boxes
 
@@ -47,10 +48,11 @@ public class SearchClient {
             //Boxes
             for (int i = 0; i < line.length(); i++) {
                 if ('A' <= line.charAt(i) && line.charAt(i) <= 'Z') {
-                    Box box = new Box();
-                    box.color = color;
-                    box.letter = line.charAt(i);
-                    boxes.add(box);
+                    //Box box = new Box();
+                    //box.color = color;
+                   // box.letter = line.charAt(i);
+                   // boxes.add(box);
+                    boxColors.put(line.charAt(i), color);
                 }
             }
             color++;
@@ -80,12 +82,8 @@ public class SearchClient {
                         agentsFoundInMap[number] = true;
 
                     } else if ('A' <= chr && chr <= 'Z') { // Box
-                        for (Box box : boxes) {
-                            if (box.letter == chr) {
-                                box.row = row;
-                                box.column = col;
-                            }
-                        }
+                        Box box = new Box(row, col,boxColors.get(chr), chr);
+                        boxes.add(box);
 
                     } else if (chr == ' ') {
                         // Free space.
@@ -119,7 +117,6 @@ public class SearchClient {
                     char chr = line.charAt(col);
 
                     if ('A' <= chr && chr <= 'Z') { // Goal.
-                        System.err.println("row " + row + "," + "col " + col);
                         goals[row][col] = chr;
                     }
                 }
@@ -155,8 +152,6 @@ public class SearchClient {
                 System.err.println("Removing " + agent.toString());
             }
         }
-
-
 
         // Create new initial state
         // The WALLS and GOALS are static, so no need to initialize the arrays every

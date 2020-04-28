@@ -1,7 +1,7 @@
 LEVELS_DIR=levels/comp18/
-LEVEL=MAAIFather.lvl # change level name
+LEVEL=MABahaMAS.lvl # change level name
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
-T=300 # time out in seconds 
+T=180 # time out in seconds
 
 rm -rf out
 javac -cp "src;lib/guava-28.2-jre.jar" src/Main.java -d out
