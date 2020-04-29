@@ -21,14 +21,16 @@ public class PreCalcDistForCompleteMap extends Heuristic {
         for (int x = 0; x < State.WALLS.length; x++) {
             for (int y = 0; y < State.WALLS[x].length; y++) {
 
+
                 if (State.WALLS[x][y])
                     continue; //Only calculate distances from where there are no walls
 
                 if (State.GOALS[x][y] >= 'A' && State.GOALS[x][y] <='Z')
                     goals.add(new int[] { x, y }); // add goal to goals for
-                    int[][] distMap = createDistMap(State.MAX_ROW, State.MAX_COL);
-                    distMap = getDistMapRec(distMap, x, y, initialState, 0); //Calc distances from cell (x,y) to every other cell
-                    distMaps.put(new Point(x, y), distMap);
+
+                int[][] distMap = createDistMap(State.MAX_ROW, State.MAX_COL);
+                distMap = getDistMapRec(distMap, x, y, initialState, 0); //Calc distances from cell (x,y) to every other cell
+                distMaps.put(new Point(x, y), distMap);
 
             }
         }
@@ -96,9 +98,9 @@ public class PreCalcDistForCompleteMap extends Heuristic {
 
             //Minimize distance from boxes to agents
             for (Agent agent : n.agents) {
-                if (agent.color == box.color){
+                if (agent.color == box.color) {
                     int distanceToAgent = distancesFromBox[agent.row][agent.column];
-                    if (distanceToAgent < minDistToAgent){
+                    if (distanceToAgent < minDistToAgent) {
                         minDistToAgent = distanceToAgent;
                     }
                 }

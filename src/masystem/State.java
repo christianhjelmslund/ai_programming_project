@@ -283,7 +283,7 @@ public class State {
 
 
 
-    private State ChildState() {
+    public State ChildState() {
         Agent[] childAgents = new Agent[NUMBER_OF_AGENTS];
         Box[] childBoxes = new Box[NUMBER_OF_BOXES];
         Agent agent;
@@ -354,36 +354,51 @@ public class State {
 
         State other = (State) obj;
 
-        /*
-        for (Agent agent : this.agents) {
-            if (!other.agents.contains(agent)){
-
-            }
+        for (int i = 0; i < other.agents.length ; i++) {
+            if (!agentArrayContains(this.agents, other.agents[i])){
                 return false;
             }
         }
-        */
 
-        if (this.agents[0].row != other.agents[0].row
-                || this.agents[0].column != other.agents[0].column
-                || this.agents[0].color != other.agents[0].color)
-            return false;
-        //TODO: VERY IMPORTANT TO UPDATE THIS
-        return this.boxes[0].row == other.boxes[0].row
-                && this.boxes[0].column == other.boxes[0].column
-                && this.boxes[0].color == other.boxes[0].color
-                && this.boxes[0].letter == other.boxes[0].letter;
+        for (int i = 0; i < other.boxes.length ; i++) {
+            if (!boxArrayContains(this.boxes, other.boxes[i])){
+                return false;
+            }
+        }
+
+        return true;
     }
+
+    public static boolean agentArrayContains(Agent[] agents, MoveableObject agent) {
+        for (Agent agenti : agents) {
+            if (agenti.equals(agent)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public static boolean boxArrayContains(Box[] boxes, MoveableObject box) {
+        for (Box boxi : boxes) {
+            if (boxi.equals(box)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
+
         for (int row = 0; row < MAX_ROW; row++) {
             if (!WALLS[row][0]) {
                 break;
             }
             for (int col = 0; col < MAX_COL; col++) {
-
+                //TODO: update to put all boxes
                 if (row == this.boxes[0].row && col == this.boxes[0].column) {
                     s.append(getBox(row,col).letter);
                 } else if (GOALS[row][col] > 0) {

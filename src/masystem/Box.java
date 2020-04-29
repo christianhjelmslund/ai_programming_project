@@ -20,6 +20,11 @@ public class Box extends MoveableObject {
         this.letter = letter;
     }
 
+    @Override
+    public String toString() {
+        return "BoxColor: " + Integer.toString(color) + " At: " + Integer.toString(row) + "," +  Integer.toString(column) + "BoxLetter: " +letter;
+    }
+
 //    public Box deepCopy(){
 //        Box box = new Box();
 //        box.column = column;
