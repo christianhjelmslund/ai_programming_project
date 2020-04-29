@@ -49,10 +49,6 @@ public class SearchClient {
             //Boxes
             for (int i = 0; i < line.length(); i++) {
                 if ('A' <= line.charAt(i) && line.charAt(i) <= 'Z') {
-                    //Box box = new Box();
-                    //box.color = color;
-                   // box.letter = line.charAt(i);
-                   // boxes.add(box);
                     boxColors.put(line.charAt(i), color);
                 }
             }
@@ -83,9 +79,8 @@ public class SearchClient {
                         agentsFoundInMap[number] = true;
 
                     } else if ('A' <= chr && chr <= 'Z') { // Box
-                        Box box = new Box(row, col,boxColors.get(chr), chr);
+                        Box box = new Box(row, col, boxColors.get(chr), chr);
                         boxes.add(box);
-
                     } else if (chr == ' ') {
                         // Free space.
                     } else {
@@ -135,21 +130,8 @@ public class SearchClient {
             }
         }
 
-        //Put agents into arrayList for the State object
-        ArrayList<Agent> agentsList = new ArrayList<>();
-        for (int i = 0; i < agents.length; i++) {
-            if (agents[i] != null) {
-                agentsList.add(agents[i]);
-            }
-        }
-        //Remove agents which are declared in description (with color and nr) but not placed in map
-        int nrOfAgents = agentsList.size();
-        for (int i = nrOfAgents - 1; i>0; i--) {
-            if (!agentsFoundInMap[i] && nrOfAgents - 1 >= i){
-                Agent agent = agentsList.remove(i);
-                System.err.println("Removing " + agent.toString());
-            }
-        }
+        ArrayList<Agent> agentsList = removeAgentsWhichAreNotInMap(agents, agentsFoundInMap);
+        changeUnmovableBoxesToWalls(boxes, wallsResized, agentsList);
 
         // Create new initial state
         // The WALLS and GOALS are static, so no need to initialize the arrays every
@@ -176,6 +158,24 @@ public class SearchClient {
 
         State.GOALS = goalsArray;
         this.initialState = new State(null, boxesArray, agentsArray);
+    }
+
+    private ArrayList<Agent> removeAgentsWhichAreNotInMap(Agent[] agents, boolean[] agentsFoundInMap) {
+        ArrayList<Agent> agentsList = new ArrayList<>();
+        for (int i = 0; i < agents.length; i++) {
+            if (agents[i] != null) {
+                agentsList.add(agents[i]);
+            }
+        }
+        //Remove agents which are declared in description (with color and nr) but not placed in map
+        int nrOfAgents = agentsList.size();
+        for (int i = nrOfAgents - 1; i>0; i--) {
+            if (!agentsFoundInMap[i] && nrOfAgents - 1 >= i){
+                Agent agent = agentsList.remove(i);
+                System.err.println("Removing " + agent.toString());
+            }
+        }
+        return agentsList;
     }
 
 
@@ -223,5 +223,25 @@ public class SearchClient {
             iterations++;
         }
     }
+
+    public void changeUnmovableBoxesToWalls(ArrayList<Box> boxes, boolean[][] walls, ArrayList<Agent> agentsList){
+        ArrayList<Box> boxesChangedToWalls = new ArrayList<>();
+        for (Box box : boxes) {
+            boolean boxIsMovable = false;
+            for (Agent agent : agentsList) {
+                if (agent.color == box.color){
+                    boxIsMovable = true;
+                }
+            }
+            if (!boxIsMovable){
+                boxesChangedToWalls.add(box);
+                walls[box.row][box.column] = true;
+            }
+        }
+
+        boxes.removeAll(boxesChangedToWalls);
+        System.err.println("Boxes changed to walls: " + boxesChangedToWalls.size());
+    }
+
 
 }
