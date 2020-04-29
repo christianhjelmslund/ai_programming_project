@@ -14,13 +14,13 @@ public class SearchClient {
         int maxRow = 70;
         int maxCol = 70;
         boolean[][] walls = new boolean[maxRow][maxCol];
-        char[][] goals = new char[maxRow][maxCol];
 
 
         boolean[] agentsFoundInMap = new boolean[10];
         Map<Character, Integer> boxColors = new HashMap<>();
 
         Agent[] agents = new Agent[10];
+        ArrayList<Goal> goals = new ArrayList<>();
         ArrayList<Box> boxes = new ArrayList<>(); // max number of boxes
 
         String line = "init";
@@ -118,7 +118,7 @@ public class SearchClient {
                     char chr = line.charAt(col);
 
                     if ('A' <= chr && chr <= 'Z') { // Goal.
-                        goals[row][col] = chr;
+                        goals.add(new Goal(row, col, chr));
                     }
                 }
                 line = serverMessages.readLine();
@@ -127,14 +127,11 @@ public class SearchClient {
         }
 
 
-        //Resize walls and goals array
         boolean[][] wallsResized = new boolean[row][column];
-        char[][] goalsResized = new char[row][column];
-
+        //Resize walls
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 wallsResized[i][j] = walls[i][j];
-                goalsResized[i][j] = goals[i][j];
             }
         }
 
@@ -162,10 +159,14 @@ public class SearchClient {
         State.MAX_ROW = row;
         State.MAX_COL = column;
         State.WALLS = wallsResized;
-        State.GOALS = goalsResized;
 
         Box[] boxesArray = new Box[boxes.size()];
         Agent[] agentsArray = new Agent[agentsList.size()];
+        Goal[] goalsArray = new Goal[goals.size()];
+
+        for (int i = 0; i < goalsArray.length; i++) {
+            goalsArray[i] = goals.get(i);
+        }
         for (int i = 0; i < boxesArray.length; i++) {
             boxesArray[i] = boxes.get(i);
         }
@@ -173,6 +174,7 @@ public class SearchClient {
             agentsArray[i] = agentsList.get(i);
         }
 
+        State.GOALS = goalsArray;
         this.initialState = new State(null, boxesArray, agentsArray);
     }
 

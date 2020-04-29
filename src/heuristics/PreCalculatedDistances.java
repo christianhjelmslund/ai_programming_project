@@ -1,4 +1,5 @@
-package heuristics;
+
+/*package heuristics;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import masystem.Box;
 import masystem.State;
 
 public class PreCalculatedDistances extends Heuristic {
+
     HashMap<Character, int[][]> distMaps;
     ArrayList<int[]> goals = new ArrayList<int[]>();
 
@@ -121,7 +123,7 @@ public class PreCalculatedDistances extends Heuristic {
         return h;
     }
 
-    /*
+
     public int hOld(State n) {
         int h = 0;
         int loopCount = 0;
@@ -142,7 +144,7 @@ public class PreCalculatedDistances extends Heuristic {
         }
 
         return h;
-    }*/
+    }
 
     public void printDistMaps(HashMap<Character, int[][]> distMaps){
         System.err.println("DistMap:");
@@ -156,4 +158,7 @@ public class PreCalculatedDistances extends Heuristic {
             System.err.println("-----");
         }
     }
+
 }
+
+ */

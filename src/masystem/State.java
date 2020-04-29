@@ -15,7 +15,7 @@ public class State {
     public static int NUMBER_OF_AGENTS = 0;
     public static int NUMBER_OF_BOXES = 0;
     public static boolean[][] WALLS = new boolean[MAX_ROW][MAX_COL];
-    public static char[][] GOALS = new char[MAX_ROW][MAX_COL];
+    public static Goal[] GOALS;
 
 
     public  Agent[] agents;
@@ -52,13 +52,19 @@ public class State {
     //TODO: Fix således at vi kun tjekker de bokse der har et goal state
     public boolean isGoalState(boolean won) {
 
-
-        for (Box box: boxes) {
-            if(!(GOALS[box.row][box.column] > 0 && GOALS[box.row][box.column] == box.letter)){
+        for (Goal goal : GOALS) {
+            boolean goalIsOccupied = false;
+            for (Box box : boxes) {
+                if (goal.row == box.row && goal.column == box.column && goal.letter == box.letter) {
+                    goalIsOccupied = true;
+                    break; //we don't need to check the rest of the boxes if we found one that does occupy the goal
+                }
+            }
+            if (!goalIsOccupied) { //return false if any goal is not occupied
                 return false;
             }
         }
-        return true;
+        return true; //return true if every goal was occupied
     }
 
     public Set<List<Command>> calcExpandedStates() {
@@ -334,9 +340,6 @@ public class State {
                 result = prime * result + box.letter;
             }
 
-            result = prime * result + Arrays.deepHashCode(GOALS);
-            result = prime * result + Arrays.deepHashCode(WALLS);
-
             this._hash = result;
         }
         return this._hash;
@@ -401,9 +404,7 @@ public class State {
             for (int col = 0; col < MAX_COL; col++) {
                 //TODO: update to put all boxes
 
-                if (GOALS[row][col] > 0) {
-                    s.append(Character.toLowerCase(GOALS[row][col]));
-                } else if (WALLS[row][col]) {
+                if (WALLS[row][col]) {
                     s.append("+");
                 } else {
                     boolean blanc = true;
@@ -414,6 +415,14 @@ public class State {
                             blanc = false;
                         }
                     }
+                    //goals
+                    for (int i = 0; i < GOALS.length; i++) {
+                        if (row == GOALS[i].row && col == GOALS[i].column){
+                            s.append(Character.toLowerCase(GOALS[i].letter));
+                            blanc = false;
+                        }
+                    }
+
                     //boxes
                     for (int i = 0; i < boxes.length; i++) {
                         if (row == boxes[i].row && col == boxes[i].column){
