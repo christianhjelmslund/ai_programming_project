@@ -51,6 +51,7 @@ public class State {
 
     public boolean isGoalState() {
 
+
         for (Box box: boxes) {
             if(!(GOALS[box.row][box.column] > 0 && GOALS[box.row][box.column] == box.letter)){
                 return false;

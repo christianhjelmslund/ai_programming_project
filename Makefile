@@ -12,8 +12,8 @@ clean:
 .PHONY: compile
 compile: clean
 	mkdir $(CLASS_DIR)
-	cd $(SRC_DIR) && javac -Xlint:unchecked -cp ../lib/*:. Main.java -d ../$(CLASS_DIR)
+	cd $(SRC_DIR) && javac -Xlint:unchecked -cp .:../lib/* Main.java -d ../$(CLASS_DIR)
 
 .PHONY: run
 run: clean compile
-	cd out && java -jar ../server.jar -l ../$(LEVELS_DIR)/$(LEVEL) -c "java -cp ../lib/*:. Main" -t $(T)
+	cd out && java -jar ../server.jar -l ../$(LEVELS_DIR)/$(LEVEL) -c "java -cp .:../lib/* Main" -t $(T)
