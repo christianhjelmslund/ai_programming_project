@@ -26,6 +26,27 @@ MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.740
 MAAIFather.lvl: Found solution of length 44. #Explored: 141.352, #Frontier: 119.040, #Generated: 260.392, Time: 4,64 s 	[Used: 212,21 MB, Free: 159,79 MB, Alloc: 372,00 MB, MaxAlloc: 2002,00 MB]
 SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,12 s 	[Used: 3,98 MB, Free: 122,02 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
 
+GOALS_as_2dArray
+User: tdhes, Branch: investigate_blocks, 29. apr 2020 12:04:14
+MAExample.lvl: Found solution of length 30. #Explored:     87, #Frontier:    123, #Generated:    210, Time: 0,19 s 	[Used: 3,96 MB, Free: 122,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.474, #Generated:  1.491, Time: 0,15 s 	[Used: 6,48 MB, Free: 119,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAIFather.lvl: Found solution of length 44. #Explored: 135.197, #Frontier: 114.433, #Generated: 249.630, Time: 4,45 s 	[Used: 128,85 MB, Free: 237,15 MB, Alloc: 366,00 MB, MaxAlloc: 2002,00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,15 s 	[Used: 3,48 MB, Free: 122,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+
+GOALS_as_1dArray
+User: tdhes, Branch: investigate_blocks, 29. apr 2020 12:29:37
+MAExample.lvl: Found solution of length 30. #Explored:     89, #Frontier:    122, #Generated:    211, Time: 0,07 s 	[Used: 3,96 MB, Free: 122,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.740, #Generated:  1.757, Time: 0,08 s 	[Used: 5,48 MB, Free: 120,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAIFather.lvl: Found solution of length 44. #Explored: 136.431, #Frontier: 115.837, #Generated: 252.268, Time: 2,56 s 	[Used: 258,15 MB, Free: 245,85 MB, Alloc: 504,00 MB, MaxAlloc: 2002,00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,06 s 	[Used: 3,48 MB, Free: 122,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+
+Heuristic_maximize_distance_between_different_colors
+User: tdhes, Branch: investigate_blocks, 29. apr 2020 12:54:43
+MAExample.lvl: Found solution of length 30. #Explored:     89, #Frontier:    122, #Generated:    211, Time: 0,07 s 	[Used: 3,96 MB, Free: 122,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.740, #Generated:  1.757, Time: 0,07 s 	[Used: 5,48 MB, Free: 120,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAIFather.lvl: Found solution of length 44. #Explored: 136.431, #Frontier: 115.837, #Generated: 252.268, Time: 2,69 s 	[Used: 245,64 MB, Free: 264,36 MB, Alloc: 510,00 MB, MaxAlloc: 2002,00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,06 s 	[Used: 3,48 MB, Free: 122,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+
 before issue #23
 User: christian, Branch: master, Wed Apr 29 12:19:38 2020
 MAAIFather.lvl: Found solution of length 44. #Explored: 137,498, #Frontier: 116,194, #Generated: 253,692, Time: 4.05 s 	[Used: 148.74 MB, Free: 787.26 MB, Alloc: 936.00 MB, MaxAlloc: 2048.00 MB]

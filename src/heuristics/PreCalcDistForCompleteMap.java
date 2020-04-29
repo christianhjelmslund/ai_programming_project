@@ -8,12 +8,11 @@ import java.util.Set;
 
 import masystem.Agent;
 import masystem.Box;
+import masystem.Goal;
 import masystem.State;
 
 public class PreCalcDistForCompleteMap extends Heuristic {
     HashMap<Point, int[][]> distMaps;
-    ArrayList<int[]> goals = new ArrayList<int[]>(); //Used to loop over all goals faster than traversing every column*row
-
 
     public PreCalcDistForCompleteMap(State initialState) {
         super(initialState);
@@ -26,9 +25,6 @@ public class PreCalcDistForCompleteMap extends Heuristic {
 
                 if (State.WALLS[x][y])
                     continue; //Only calculate distances from where there are no walls
-
-                if (State.GOALS[x][y] >= 'A' && State.GOALS[x][y] <='Z')
-                    goals.add(new int[] { x, y }); // add goal to goals for
 
                 int[][] distMap = createDistMap(State.MAX_ROW, State.MAX_COL);
                 distMap = getDistMapRec(distMap, x, y, initialState, 0); //Calc distances from cell (x,y) to every other cell
@@ -109,9 +105,9 @@ public class PreCalcDistForCompleteMap extends Heuristic {
             }
 
             //Minimize distance from boxes to goals
-            for (int[] goal : goals) {
-                if (State.GOALS[goal[0]][goal[1]] == box.letter){
-                    int distanceToGoal = distancesFromBox[goal[0]][goal[1]];
+            for (Goal goal : n.GOALS) {
+                if (goal.letter == box.letter){
+                    int distanceToGoal = distancesFromBox[goal.row][goal.column];
                     if (distanceToGoal < minDistToGoal){
                         minDistToGoal = distanceToGoal;
                     }

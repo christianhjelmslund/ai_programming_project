@@ -2,6 +2,7 @@ package heuristics;
 
 import masystem.Agent;
 import masystem.Box;
+import masystem.Goal;
 import masystem.State;
 
 import java.awt.*;
@@ -10,11 +11,11 @@ import java.util.HashMap;
 
 public class PCDWithMaximizeDistToOtherColors extends Heuristic {
     HashMap<Point, int[][]> distMaps;
-    ArrayList<int[]> goals = new ArrayList<int[]>(); //Used to loop over all goals faster than traversing every column*row
 
 
     public PCDWithMaximizeDistToOtherColors(State initialState) {
         super(initialState);
+
         //Init dictionary for each cell in map, containing its distance map to every other cell
         distMaps = new HashMap<Point, int[][]>();
 
@@ -24,9 +25,6 @@ public class PCDWithMaximizeDistToOtherColors extends Heuristic {
 
                 if (State.WALLS[x][y])
                     continue; //Only calculate distances from where there are no walls
-
-                if (State.GOALS[x][y] >= 'A' && State.GOALS[x][y] <='Z')
-                    goals.add(new int[] { x, y }); // add goal to goals for
 
                 int[][] distMap = createDistMap(State.MAX_ROW, State.MAX_COL);
                 distMap = getDistMapRec(distMap, x, y, initialState, 0); //Calc distances from cell (x,y) to every other cell
@@ -95,8 +93,8 @@ public class PCDWithMaximizeDistToOtherColors extends Heuristic {
             int[][] distancesFromBox = distMaps.get(p);
             int minDistToAgent = 10000;
             int minDistToGoal = 10000;
-
             int minDistToAgentOtherColor = 10000;
+            int minDistToBoxOtherColor = 10000;
 
             for (Agent agent : n.agents) {
                 int distanceToAgent = distancesFromBox[agent.row][agent.column];
@@ -111,10 +109,21 @@ public class PCDWithMaximizeDistToOtherColors extends Heuristic {
                 }
             }
 
+            //Maximize distance between boxes of different colors
+            for (Box boxi : n.boxes) {
+                if (box.color != boxi.color){
+                    int distanceToBox = distancesFromBox[boxi.row][boxi.column];
+                    if (distanceToBox < minDistToBoxOtherColor){
+                        minDistToBoxOtherColor = distanceToBox;
+                    }
+                }
+            }
+
+
             //Minimize distance from boxes to goals
-            for (int[] goal : goals) {
-                if (State.GOALS[goal[0]][goal[1]] == box.letter){
-                    int distanceToGoal = distancesFromBox[goal[0]][goal[1]];
+            for (Goal goal : n.GOALS) {
+                if (goal.letter == box.letter){
+                    int distanceToGoal = distancesFromBox[goal.row][goal.column];
                     if (distanceToGoal < minDistToGoal){
                         minDistToGoal = distanceToGoal;
                     }
@@ -123,6 +132,8 @@ public class PCDWithMaximizeDistToOtherColors extends Heuristic {
             h = h + minDistToGoal;
             h = h + minDistToAgent;
             h = h - minDistToAgentOtherColor/100;
+            h = h - minDistToBoxOtherColor/100;
+
         }
         return h;
     }

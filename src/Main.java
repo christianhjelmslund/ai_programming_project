@@ -1,7 +1,6 @@
 import heuristics.BoxesDistanceToGoal;
 import heuristics.PCDWithMaximizeDistToOtherColors;
 import heuristics.PreCalcDistForCompleteMap;
-import heuristics.PreCalculatedDistances;
 import masystem.BestFirstStrategy;
 import masystem.SearchClient;
 import masystem.State;
