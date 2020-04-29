@@ -1,21 +1,19 @@
 package heuristics;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
 import masystem.Agent;
 import masystem.Box;
 import masystem.State;
 
-public class PreCalcDistForCompleteMap extends Heuristic {
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class PCDWithMaximizeDistToOtherColors extends Heuristic {
     HashMap<Point, int[][]> distMaps;
     ArrayList<int[]> goals = new ArrayList<int[]>(); //Used to loop over all goals faster than traversing every column*row
 
 
-    public PreCalcDistForCompleteMap(State initialState) {
+    public PCDWithMaximizeDistToOtherColors(State initialState) {
         super(initialState);
         //Init dictionary for each cell in map, containing its distance map to every other cell
         distMaps = new HashMap<Point, int[][]>();
@@ -90,7 +88,7 @@ public class PreCalcDistForCompleteMap extends Heuristic {
 
     public int h(State n) {
         int h = 0;
-        int loopCount = 0;
+
 
         for (Box box : n.boxes) {
             Point p = new Point(box.row, box.column);
@@ -98,12 +96,17 @@ public class PreCalcDistForCompleteMap extends Heuristic {
             int minDistToAgent = 10000;
             int minDistToGoal = 10000;
 
-            //Minimize distance from boxes to agents
+            int minDistToAgentOtherColor = 10000;
+
             for (Agent agent : n.agents) {
+                int distanceToAgent = distancesFromBox[agent.row][agent.column];
                 if (agent.color == box.color) {
-                    int distanceToAgent = distancesFromBox[agent.row][agent.column];
                     if (distanceToAgent < minDistToAgent) {
                         minDistToAgent = distanceToAgent;
+                    }
+                } else { //Maximize distance between Agent and Boxes of different colors
+                    if (distanceToAgent < minDistToAgentOtherColor) {
+                        minDistToAgentOtherColor = distanceToAgent;
                     }
                 }
             }
@@ -119,6 +122,7 @@ public class PreCalcDistForCompleteMap extends Heuristic {
             }
             h = h + minDistToGoal;
             h = h + minDistToAgent;
+            h = h - minDistToAgentOtherColor/100;
         }
         return h;
     }
@@ -136,4 +140,3 @@ public class PreCalcDistForCompleteMap extends Heuristic {
         }
     }
 }
-

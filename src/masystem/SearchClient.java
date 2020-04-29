@@ -1,5 +1,6 @@
 package masystem;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,7 +164,6 @@ public class SearchClient {
         State.WALLS = wallsResized;
         State.GOALS = goalsResized;
 
-
         Box[] boxesArray = new Box[boxes.size()];
         Agent[] agentsArray = new Agent[agentsList.size()];
         for (int i = 0; i < boxesArray.length; i++) {
@@ -191,6 +191,7 @@ public class SearchClient {
                 iterations = 0;
             }
 
+
 //            System.err.println("Frontier:"+bestFirstStrategy.countFrontier());
 
 
@@ -202,8 +203,10 @@ public class SearchClient {
 
             State leafState = bestFirstStrategy.getAndRemoveLeaf();
 
+            boolean solutionF = false;
 
-            if (leafState.isGoalState()) {
+
+            if (leafState.isGoalState(solutionF)) {
                 return leafState.extractPlan();
             }
 

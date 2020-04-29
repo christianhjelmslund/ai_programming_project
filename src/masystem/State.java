@@ -49,7 +49,8 @@ public class State {
         return this.parent == null;
     }
 
-    public boolean isGoalState() {
+    //TODO: Fix således at vi kun tjekker de bokse der har et goal state
+    public boolean isGoalState(boolean won) {
 
         for (Box box: boxes) {
             if(!(GOALS[box.row][box.column] > 0 && GOALS[box.row][box.column] == box.letter)){
@@ -398,10 +399,9 @@ public class State {
             }
             for (int col = 0; col < MAX_COL; col++) {
                 //TODO: update to put all boxes
-                if (row == this.boxes[0].row && col == this.boxes[0].column) {
-                    s.append(getBox(row,col).letter);
-                } else if (GOALS[row][col] > 0) {
-                    s.append(GOALS[row][col]);
+
+                if (GOALS[row][col] > 0) {
+                    s.append(Character.toLowerCase(GOALS[row][col]));
                 } else if (WALLS[row][col]) {
                     s.append("+");
                 } else {

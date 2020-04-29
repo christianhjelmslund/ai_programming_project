@@ -1,4 +1,5 @@
 import heuristics.BoxesDistanceToGoal;
+import heuristics.PCDWithMaximizeDistToOtherColors;
 import heuristics.PreCalcDistForCompleteMap;
 import heuristics.PreCalculatedDistances;
 import masystem.BestFirstStrategy;
@@ -24,7 +25,7 @@ public class Main {
         SearchClient client = new SearchClient(serverMessages);
 
         //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
-        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalcDistForCompleteMap(client.initialState));
+        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PCDWithMaximizeDistToOtherColors(client.initialState));
 
         ArrayList<State> solution;
         try {

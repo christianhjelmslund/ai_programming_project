@@ -9,7 +9,7 @@ result_file_name=test_results.txt
 
 # Change class path if on Windows
 if [[ "$OSTYPE" == "msys" ]]; then
-	classpath="./;../lib/*"
+	classpath="../lib/guava-28.2-jre.jar;./"
 fi
 
 # Cleaning project
