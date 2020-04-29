@@ -12,7 +12,7 @@ clean:
 .PHONY: compile
 compile: clean
 	mkdir $(CLASS_DIR)
-	cd $(SRC_DIR) && javac -Xlint:unchecked -cp ../lib/*:. Main.java -d ../$(CLASS_DIR)
+	cd $(SRC_DIR) && javac -cp ../lib/*:. Main.java -d ../$(CLASS_DIR)
 
 .PHONY: run
 run: clean compile
