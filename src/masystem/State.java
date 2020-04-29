@@ -132,20 +132,23 @@ public class State {
 //    }
 
     public ArrayList<State> getExpandedStates() {
-        // TODO: following method calculates the new set of expanded states
-        //  but is currently not used. How we handle the expanded states
-        //  still needs to be implemented.
+
         Set<List<Command>> expandedStatesCombinations = calcExpandedStates();
-        //TODO: Generalize to several agents - remember to check for conflicts
         ArrayList<State> expandedStates = new ArrayList<>(Command.EVERY.length);
 
-
-        // TODO: Fjern kombinationen hvor alle agenter laver NoMove
         Set<Point> reservedSpots = new HashSet<>();
         Set<Point> reservedBoxes = new HashSet<>();
         State childState;
-
-
+        int counterForNoOp;
+        int reservedSpotsAmount;
+        int reservedBoxesAmount;
+        int agentRow;
+        int agentCol;
+        int newReservedRow;
+        int newReservedCol;
+        int boxRow;
+        int boxCol;
+        boolean noConflictMove;
 
         for (List<Command> agentCmds :
                 expandedStatesCombinations) {
@@ -154,22 +157,17 @@ public class State {
             reservedBoxes.clear();
 
             childState = ChildState();
-            boolean noConflictMove = true;
+            noConflictMove = true;
+            counterForNoOp = 0;
 
             // We use logic from theory assignment about when two actions cause a conflict
             for (int i = 0; i < agentCmds.size(); i++) {
                 Command agentCmd = agentCmds.get(i);
 
-                int reservedSpotsAmount = reservedSpots.size();
-                int reservedBoxesAmount = reservedBoxes.size();
-                int agentRow = agents[i].row;
-                int agentCol = agents[i].column;
-                int newReservedRow;
-                int newReservedCol;
-                int boxRow;
-                int boxCol;
-                Point oldBoxPos;
-                Box box;
+                reservedSpotsAmount = reservedSpots.size();
+                reservedBoxesAmount = reservedBoxes.size();
+                agentRow = agents[i].row;
+                agentCol = agents[i].column;
 
                 switch (agentCmd.actionType) {
                     case Pull:
@@ -182,7 +180,6 @@ public class State {
 
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
                         reservedSpots.add(new Point(agentRow, agentCol));
-
 
                         if (reservedBoxesAmount + 1 != reservedBoxes.size() || reservedSpotsAmount + 2 != reservedSpots.size())
                             noConflictMove = false;
@@ -210,7 +207,6 @@ public class State {
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
                         reservedSpots.add(new Point(boxRow, boxCol));
 
-
                         if (reservedBoxesAmount + 1 != reservedBoxes.size() ||
                                 reservedSpotsAmount + 2 != reservedSpots.size())
                             noConflictMove = false;
@@ -222,6 +218,11 @@ public class State {
 
                         break;
                     case NoOp:
+                        counterForNoOp += 1;
+                        if (counterForNoOp == agentCmds.size()) {
+                            noConflictMove = false;
+                            break;
+                        }
                         newReservedRow = agentRow;
                         newReservedCol = agentCol;
                         reservedSpots.add(new Point(newReservedRow, newReservedCol));
@@ -232,6 +233,8 @@ public class State {
                         throw new IllegalArgumentException("Command " + agentCmd + " was not of type NoMove, Pull, Push or Move");
                 }
             }
+
+
 
             if (noConflictMove) {
 

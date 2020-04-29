@@ -47,3 +47,17 @@ MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.740
 MAAIFather.lvl: Found solution of length 44. #Explored: 136.431, #Frontier: 115.837, #Generated: 252.268, Time: 2,69 s 	[Used: 245,64 MB, Free: 264,36 MB, Alloc: 510,00 MB, MaxAlloc: 2002,00 MB]
 SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,06 s 	[Used: 3,48 MB, Free: 122,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
 
+before issue #23
+User: christian, Branch: master, Wed Apr 29 12:19:38 2020
+MAAIFather.lvl: Found solution of length 44. #Explored: 137,498, #Frontier: 116,194, #Generated: 253,692, Time: 4.05 s 	[Used: 148.74 MB, Free: 787.26 MB, Alloc: 936.00 MB, MaxAlloc: 2048.00 MB]
+MAExample.lvl: Found solution of length 30. #Explored:     85, #Frontier:    113, #Generated:    198, Time: 0.09 s 	[Used: 3.74 MB, Free: 126.26 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1,522, #Generated:  1,539, Time: 0.11 s 	[Used: 6.30 MB, Free: 123.70 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0.06 s 	[Used: 3.31 MB, Free: 126.69 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+
+after #23 has been implemented
+User: christian, Branch: remove_state_if_all_agent_actions_are_NoOp, Wed Apr 29 12:20:48 2020
+MAAIFather.lvl: Found solution of length 44. #Explored: 122,222, #Frontier: 107,361, #Generated: 229,583, Time: 3.52 s 	[Used: 177.24 MB, Free: 385.76 MB, Alloc: 563.00 MB, MaxAlloc: 2048.00 MB]
+MAExample.lvl: Found solution of length 30. #Explored:     87, #Frontier:    112, #Generated:    199, Time: 0.07 s 	[Used: 4.02 MB, Free: 125.98 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1,522, #Generated:  1,539, Time: 0.09 s 	[Used: 6.30 MB, Free: 123.70 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0.05 s 	[Used: 3.37 MB, Free: 126.63 MB, Alloc: 130.00 MB, MaxAlloc: 2048.00 MB]
+
