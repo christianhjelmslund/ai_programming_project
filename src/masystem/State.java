@@ -52,6 +52,7 @@ public class State {
     //TODO: Fix således at vi kun tjekker de bokse der har et goal state
     public boolean isGoalState(boolean won) {
 
+
         for (Box box: boxes) {
             if(!(GOALS[box.row][box.column] > 0 && GOALS[box.row][box.column] == box.letter)){
                 return false;
