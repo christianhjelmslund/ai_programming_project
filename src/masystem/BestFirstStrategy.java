@@ -13,7 +13,7 @@ public class BestFirstStrategy implements Comparator<State> {
 
     private final long startTime;
 
-    private Heuristic heuristic;
+    public Heuristic heuristic;
 
 
     public BestFirstStrategy(Heuristic heuristic) {

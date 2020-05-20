@@ -1,6 +1,4 @@
-import heuristics.BoxesDistanceToGoal;
-import heuristics.PCDWithMaximizeDistToOtherColors;
-import heuristics.PreCalcDistForCompleteMap;
+import heuristics.*;
 import masystem.BestFirstStrategy;
 import masystem.SearchClient;
 import masystem.State;
@@ -21,11 +19,15 @@ public class Main {
         System.out.println("PearEasy Client");
 
         // Read level and create the initial state of the problem
+
         SearchClient client = new SearchClient(serverMessages);
 
         //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new BoxesDistanceToGoal(client.initialState));
-        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PCDWithMaximizeDistToOtherColors(client.initialState));
-
+        //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PCDWithMaximizeDistToOtherColors(client.initialState));
+        //BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PreCalcDistVitalPathsDependancy(client.initialState));
+        BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(client.initialState));
+        // BestFirstStrategy bestFirstStrategy = new BestFirstStrategy(new PCDMergeTaskOriented(client.initialState));
+        
         ArrayList<State> solution;
         try {
             solution = client.Search(bestFirstStrategy);

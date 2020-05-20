@@ -87,7 +87,6 @@ public class PCDWithMaximizeDistToOtherColors extends Heuristic {
     public int h(State n) {
         int h = 0;
 
-
         for (Box box : n.boxes) {
             Point p = new Point(box.row, box.column);
             int[][] distancesFromBox = distMaps.get(p);
@@ -99,7 +98,7 @@ public class PCDWithMaximizeDistToOtherColors extends Heuristic {
             for (Agent agent : n.agents) {
                 int distanceToAgent = distancesFromBox[agent.row][agent.column];
                 if (agent.color == box.color) {
-                    if (distanceToAgent < minDistToAgent) {
+                    if (distanceToAgent < minDistToAgent) {//Minimize distance from boxes to goals
                         minDistToAgent = distanceToAgent;
                     }
                 } else { //Maximize distance between Agent and Boxes of different colors

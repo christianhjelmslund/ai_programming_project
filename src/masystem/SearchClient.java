@@ -1,5 +1,9 @@
 package masystem;
 
+import heuristics.Heuristic;
+import heuristics.PCDMergeRefactored;
+import heuristics.PCDMergeTaskOriented;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -79,7 +83,7 @@ public class SearchClient {
                         agentsFoundInMap[number] = true;
 
                     } else if ('A' <= chr && chr <= 'Z') { // Box
-                        Box box = new Box(row, col, boxColors.get(chr), chr);
+                        Box box = new Box(row, col, boxColors.get(chr), chr, false, -1, null);
                         boxes.add(box);
                     } else if (chr == ' ') {
                         // Free space.
@@ -188,22 +192,26 @@ public class SearchClient {
 
         int iterations = 0;
         while (true) {
-            if (iterations == 1000) {
-                System.err.println(bestFirstStrategy.searchStatus());
-                iterations = 0;
-            }
-
-
-//            System.err.println("Frontier:"+bestFirstStrategy.countFrontier());
-
 
             if (bestFirstStrategy.frontierIsEmpty()) {
                 return null;
             }
 
-
-
             State leafState = bestFirstStrategy.getAndRemoveLeaf();
+
+            if (iterations == 1000) {
+
+                System.err.println(bestFirstStrategy.searchStatus());
+                System.err.println(leafState.toString());
+                System.err.println("Heuristic value: " + bestFirstStrategy.heuristic.h(leafState));
+
+                PCDMergeRefactored heu = (PCDMergeRefactored) bestFirstStrategy.heuristic;
+                System.err.println(heu.getDistsToAssignedGoals(leafState));
+                // System.err.println("Heuristic value: " + bestFirstStrategy.heuristic.h(leafState));
+                // PCDMergeTaskOriented heu = (PCDMergeTaskOriented) bestFirstStrategy.heuristic;
+                // System.err.println(heu.getDistsToAssignedGoals(leafState));
+                iterations = 0;
+            }
 
             boolean solutionF = false;
 
@@ -214,9 +222,26 @@ public class SearchClient {
 
             bestFirstStrategy.addToExplored(leafState);
 
+            /*
+            if (bestFirstStrategy.heuristic.h(leafState) < 0) {
+                System.err.println("Current State: ");
+                System.err.println(leafState.toString());
+                System.err.println("Heuristic value: " + bestFirstStrategy.heuristic.h(leafState));
+            }
+
+             */
+
             for (State n : leafState.getExpandedStates()) { // The list of expanded states is shuffled randomly; see
 
                 if (!bestFirstStrategy.isExplored(n) && !bestFirstStrategy.inFrontier(n)) {
+                    /*
+                    if (bestFirstStrategy.heuristic.h(leafState) < 0) {
+                        System.err.println("Expanded States: ");
+                        System.err.println(n.toString());
+                        System.err.println("H: " + bestFirstStrategy.heuristic.h(n));
+                        System.err.println("____________________");
+                    }
+                     */
                     bestFirstStrategy.addToFrontier(n);
                 }
             }

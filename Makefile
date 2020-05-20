@@ -1,7 +1,7 @@
 SRC_DIR = src
 CLASS_DIR = out
-LEVELS_DIR = levels/performance_test_levels
-LEVEL = MAAIFather.lvl # change level name
+LEVELS_DIR = levels/new_levels
+LEVEL = MAExample2.lvl # change level name
 G = 150 # number of graphical steps - if you want only to run it in terminal just remove "-g" argument
 T = 180 # time out in seconds
 
@@ -16,4 +16,4 @@ compile: clean
 
 .PHONY: run
 run: clean compile
-	cd out && java -jar ../server.jar -l ../$(LEVELS_DIR)/$(LEVEL) -c "java -cp ../lib/*:. Main" -t $(T)
+	cd out && java -jar ../server.jar -g -l ../$(LEVELS_DIR)/$(LEVEL) -c "java -cp ../lib/*:. Main" -t $(T)
