@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * An implemetation of the Kuhn–Munkres assignment algorithm of the year 1957.
+ * An implemetation of the Kuhn-Munkres assignment algorithm of the year 1957.
  * https://en.wikipedia.org/wiki/Hungarian_algorithm
  *
  *

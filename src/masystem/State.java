@@ -49,7 +49,7 @@ public class State {
         return this.parent == null;
     }
 
-    //TODO: Fix således at vi kun tjekker de bokse der har et goal state
+    //TODO: Fix saaledes at vi kun tjekker de bokse der har et goal state
     public boolean isGoalState(boolean won) {
 
         for (Goal goal : GOALS) {
@@ -306,12 +306,7 @@ public class State {
 
         for (int i = 0; i < NUMBER_OF_BOXES; i++) {
             box = boxes[i];
-
-            if (box.marked){
-                childBoxes[i] = new Box(box.row, box.column, box.color, box.letter, box.marked, box.markedBy, box.assignedGoal);
-            } else {
-                childBoxes[i] = new Box(box.row, box.column, box.color, box.letter, box.assignedGoal);
-            }
+            childBoxes[i] = new Box(box.row, box.column, box.color, box.letter, box.assignedGoal);
         }   
 
         return new State(this, childBoxes, childAgents);
@@ -404,15 +399,6 @@ public class State {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-
-        System.err.print("Marked: ");
-        for (Box box : this.boxes){
-            if (box.marked) { 
-                System.err.print(box.letter+", ");
-            }
-        }
-        System.err.println();
-
         for (int row = 0; row < MAX_ROW; row++) {
             for (int col = 0; col < MAX_COL; col++) {
 

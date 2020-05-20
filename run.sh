@@ -1,5 +1,6 @@
-LEVELS_DIR=levels/performance_test_levels/
-LEVEL=MALobot.lvl # change level name
+LEVELS_DIR=levels/new_levels/
+LEVEL=MAIIOO.lvl # change level name
+
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
 T=180 # time out in seconds
 
@@ -21,7 +22,7 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 # MAKarlMarx - Next level : for mange agenter og bokse. DECENTRALIZED
 # MANavy - Decentralize
 # MANotHard - Decentralize
-# MAora - TODO: Antiblock, Assign agents to boxes
+# MAora - TODO: Antiblock, Assign agets to boxes
 # MAZEROagent - TODO: Gensidig Rækkefølge + antiblock "MARKED"
 
 # DECENTRALIZED: Løs MAEasyPeasy og MABahaMAS
