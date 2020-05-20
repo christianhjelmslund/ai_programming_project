@@ -5,9 +5,8 @@ import masystem.*;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
-import com.google.common.collect.Collections2;
+//TODO Make sure that agents do not *pull* boxes into corridors if they cannot fit.
 
 
 public class PCDMergeRefactored extends Heuristic {
@@ -15,13 +14,16 @@ public class PCDMergeRefactored extends Heuristic {
     //TODO: Hvorfor er disse ikke (char, Goal)? frem for point...
     HashMap<Goal, ArrayList<Goal>> dependencies = new HashMap<>();
     public HashSet<Character> seenLetters = new HashSet<>();
+    HashMap<Point, Boolean> corridor = new HashMap<>();
     private int distMapInitValue = 10000;
 
     //Weights
     int factorDistBoxToAgent = 1;
     int factorDistBoxToGoal = 2;
     int factorRewardForPlacingBoxAtGoal = State.MAX_ROW*State.MAX_COL;
-    int factorForPunishments = 1;
+    int typicalPunishmentFactor = 50;
+    int factorForNotMovingPunishments = 2;
+    int distanceToKeepBoxesFromGoalsb4Turn = 3;
 
 
     public PCDMergeRefactored(State initialState) {
@@ -32,9 +34,8 @@ public class PCDMergeRefactored extends Heuristic {
         initDistMapForAllCells(initialState);
 
         assignBoxesToGoals(initialState);
-
-
         initDependenciesOfBoxes(initialState);
+        initCorridors(initialState);
     }
 
 
@@ -48,11 +49,14 @@ public class PCDMergeRefactored extends Heuristic {
 
         int punishmentsForAgentsNotMoving = punishmentsForAgentsNotMoving(n);
 
+        //int punishmentForBeingCloseToOtherColors = getPunishmentForBeingCloseToOtherColors(n);
+
         //int punishmentsForBlocks = getPunishmentsForBlocks(n);
 
         h = h + distsToBoxesFromAgents*factorDistBoxToAgent;
         h = h + minDistsToAssignedGoal*factorDistBoxToGoal;
         h = h + punishmentsForAgentsNotMoving;
+        //h = h + punishmentForBeingCloseToOtherColors;
 
 
 
@@ -61,94 +65,25 @@ public class PCDMergeRefactored extends Heuristic {
 
     }
 
-    /*
-    private int getPunishmentsForBlocks(State n) {
-        int h = 0;
-        for (Box box : n.boxes) {
-            if (box.assignedGoal == null){
-                continue;
-            }
-            //Get assigned goal
-            Goal goal = box.assignedGoal;
-
-            //Get nearest agent
-            int[][] distsToBox = distMaps.get(new Point(box.row, box.column));
-            int minDist = State.MAX_ROW*State.MAX_COL;
-            Agent nearestAgent = null;
-            for (Agent agent : n.agents) {
-                int distToBox = distsToBox[agent.row][agent.column];
-                if (agent.color == box.color && minDist > distToBox){
-                    nearestAgent = agent;
-                    minDist = distToBox;
-                }
-            }
-
-
-
-        }
-
-        return h;
-    }
-
-     */
 
     public int punishmentsForAgentsNotMoving(State state){
         int punishments = 0;
         State parent = state.parent;
+
+
         if (parent==null){
             return 0;
         }
 
         for (int i = 0; i < state.agents.length ; i++) {
             if ( (state.agents[i].row == parent.agents[i].row && state.agents[i].column == parent.agents[i].column) ){
-                punishments+= factorForPunishments;
+                punishments+= factorForNotMovingPunishments;
             }
         }
         return punishments;
-
     }
 
     public void assignBoxesToGoals(State initialState){
-
-
-        HashMap<Goal, Integer> hvorforGrDenneForskel = new HashMap<>();
-
-
-
-        //WTFFFFFFF
-        //If so - replace the current assignment
-        Goal goal1 = new Goal(0,0, 'b');
-        Goal goal2 = new Goal(0,0, 'b');
-        Goal goal3 = new Goal(0,0, 'b');
-        Goal goal4 = new Goal(0,0, 'b');
-        Goal goal5 = new Goal(0,0, 'b');
-        Goal goal6 = new Goal(0,0, 'b');
-        Goal goal7 = new Goal(0,0, 'b');
-        Goal goal8 = new Goal(0,0, 'b');
-        Goal goal9 = new Goal(0,0, 'b');
-        Goal goal10 = new Goal(0,0, 'b');
-        Goal goal11 = new Goal(0,0, 'b');
-        Goal goal12 = new Goal(0,0, 'b');
-        Goal goal13 = new Goal(0,0, 'b');
-
-        hvorforGrDenneForskel.put(goal1, 1 );
-        hvorforGrDenneForskel.put(goal2, 2 );
-        hvorforGrDenneForskel.put(goal3, 3 );
-        hvorforGrDenneForskel.put(goal4, 4 );
-        hvorforGrDenneForskel.put(goal5, 5 );
-        hvorforGrDenneForskel.put(goal6, 66 );
-        hvorforGrDenneForskel.put(goal7, 7 );
-        hvorforGrDenneForskel.put(goal8, 234 );
-        hvorforGrDenneForskel.put(goal9, 3 );
-        hvorforGrDenneForskel.put(goal10, 1 );
-        hvorforGrDenneForskel.put(goal11, 2 );
-        hvorforGrDenneForskel.put(goal12, 2 );
-        //hvorforGrDenneForskel.put(goal13, 2 );
-
-
-        //WTFFFFFFF
-
-
 
         //Algorithm from: https://github.com/aalmi/HungarianAlgorithm/blob/master/HungarianAlgorithm.java
         int[][] costMatrix = new int[initialState.boxes.length][initialState.boxes.length];
@@ -207,47 +142,49 @@ public class PCDMergeRefactored extends Heuristic {
 
     }
 
-
-
-
     public int getDistsToAssignedGoals(State n) {
         int sum = 0;
         for (Box box : n.boxes) {
             if (box.assignedGoal != null) {
                 Goal goal = box.assignedGoal;
-                if (goal.row == box.row && goal.column == box.column){
-                    sum -= factorRewardForPlacingBoxAtGoal; //reward placing box at goal
-                } else if (isDependanciesSatisfied(n, box)){
-                    int[][] distancesFromGoal = distMaps.get(new Point(goal.row, goal.column));
-                    sum += distancesFromGoal[box.row][box.column];
-                } else {
-                    sum += 50;
+                int[][] distancesFromGoal = distMaps.get(new Point(goal.row, goal.column));
+                int distToGoal = distancesFromGoal[box.row][box.column];
+                if (isDependanciesSatisfied(n, box)) {
+                    if (goal.row == box.row && goal.column == box.column) {
+                        sum -= factorRewardForPlacingBoxAtGoal; //reward placing box at goal when dependencies are satisfied
+                    } else {
+                        sum += distToGoal;
+                    }
+                } else { //If dependencies for box is not satisfied, punish current state
+                    sum += typicalPunishmentFactor;
+                    //if (distToGoal < distanceToKeepBoxesFromGoalsb4Turn){
+                    //    sum += distanceToKeepBoxesFromGoalsb4Turn-distToGoal; //Better the longer away
+                   //}
                 }
             }
         }
         return sum;
     }
 
-
-
     public int getDistsToBoxesFromAgents(State n) {
-
         int maxDist = State.MAX_COL * State.MAX_ROW*State.MAX_ROW;
         int summedDistsForAgents = 0;
+        int punishCorridor = 0;
 
         //Sum distances from every agent to nearest box
         for (Agent agent : n.agents) {
+            Box minBox = null;
             int minDistToBox = maxDist;
             int minDistToBoxWithAssignedGoal = maxDist;
             int[][] distancesFromAgent = distMaps.get(new Point(agent.row, agent.column));
             for (Box box : n.boxes) {
                 if (box.color == agent.color && !boxIsAtGoal(box)) { //Only minimize dist to boxes not at goal and moveable by agent:
-
                     int distToBox = distancesFromAgent[box.row][box.column];
 
                     //Check distances to boxes with assigned goals
                     if (box.assignedGoal != null && distToBox < minDistToBoxWithAssignedGoal && isDependanciesSatisfied(n, box)) {
                         minDistToBoxWithAssignedGoal = distToBox;
+                        minBox = box;
                     }
                     //Check distances to every box
                     if (distToBox < minDistToBox) {
@@ -261,47 +198,34 @@ public class PCDMergeRefactored extends Heuristic {
                 //Prioritize minimizing dist to boxes with goals assigned
                 if (minDistToBoxWithAssignedGoal != maxDist) {
                     summedDistsForAgents += minDistToBoxWithAssignedGoal;
-                    //Otherwise prioritize minimizing dist to any box
-                } else {
+                    if (minBox != null){
+                        //Punish agent if it pulls box into a corridor
+                        // if (minBox.letter == 'I'){
+                        //     System.err.println("I point: "+minBox.column+", "+minBox.row);
+                        //     System.err.println(n.toString());
+                        // }
+                        Point boxPoint = new Point(minBox.column, minBox.row);
+                        Point agentPoint = new Point(agent.column, agent.row);
+                        if (corridor.containsKey(boxPoint) || corridor.containsKey(agentPoint)){ //minBox is at corridor
+                            Point goalPoint = new Point(minBox.assignedGoal.row, minBox.assignedGoal.column);
+                            if (distMaps.get(goalPoint)[minBox.row][minBox.column] > distMaps.get(goalPoint)[agent.row][agent.column]){
+                                punishCorridor += 2;
+                            }
+                        }
+                    }
+                } else { //Otherwise prioritize minimizing dist to any box
                     summedDistsForAgents += minDistToBox;
                 }
             }
         }
 
-        return summedDistsForAgents;
+        return summedDistsForAgents+punishCorridor;
     }
 
 
-
-    private int getMinDistsToBoxesFromGoals(State n) {
-
-        int maxDist = State.MAX_COL * State.MAX_ROW;
-        int summedDistsForGoals = 0;
-
-        //Sum distances from every goal to nearest box
-        for (Goal goal : State.GOALS) {
-            int minDist = maxDist;
-            int[][] distancesFromGoal = distMaps.get(new Point(goal.row, goal.column));
-
-            //Minimize distance from goal to nearest box:
-            for (Box box : n.boxes) {
-                int distToBox = distancesFromGoal[box.row][box.column];
-                if (distToBox < minDist && !boxIsAtGoal(box) && goal.letter == box.letter) {
-                    minDist = distToBox;
-                }
-            }
-
-            if (minDist == 0) {
-                summedDistsForGoals +=factorRewardForPlacingBoxAtGoal;
-            }
-            if (minDist != maxDist) {
-                summedDistsForGoals += minDist;
-            }
-        }
-        return summedDistsForGoals;
-    }
 
     private boolean isDependanciesSatisfied(State n, Box box){
+
         boolean isSatisfied = true;
         if (dependencies.containsKey(box.assignedGoal)) {
             for (Goal depend : dependencies.get(box.assignedGoal)) { //for all the goals that musst be satisfied before our goal
@@ -333,9 +257,6 @@ public class PCDMergeRefactored extends Heuristic {
     }
 
 
-
-
-
     // __________________________ DEPENDENCIES _____________________________________
 
     private void initDependenciesOfBoxes(State initialState) {
@@ -355,7 +276,12 @@ public class PCDMergeRefactored extends Heuristic {
         System.err.println("Dependencies:");
 
         for (Goal g : dependencies.keySet()) {
-            System.err.println(g.letter + ": " + dependencies.get(g).toString());
+            System.err.print(g.letter+": ");
+            for (Goal depend: dependencies.get(g)){
+                System.err.print(depend.letter+", ");
+            }
+            System.err.println();
+            // System.err.println(g.letter + ": " + dependencies.get(g).toString());
         }
     }
 
@@ -518,6 +444,54 @@ public class PCDMergeRefactored extends Heuristic {
             }
         }
         return false;
+    }
+
+    public void initCorridors(State initialState){
+        System.err.println("Corridors:");
+        for (int y = 0; y<State.MAX_ROW; y++){
+            for (int x = 0; x<State.MAX_COL; x++){
+                Point p = new Point(x,y);
+                if (isCorridor(initialState, p)){
+                    corridor.put(p, true);
+                    System.err.print(p.toString()+", ");
+                }
+            }
+        }
+    }
+
+    public boolean isCorridor(State initialState, Point p){
+        if (State.WALLS[p.y][p.x]){
+            return false;
+        }
+        int emptyNeighbors = 0;
+        for (int dir = 0; dir < 4; dir++){
+            int dx = 0;
+            int dy = 0;
+            switch(dir){
+                case 0:
+                dy--;
+                break;
+                case 1:
+                dx--;
+                break;
+                case 2:
+                dy++;
+                break;
+                case 3:
+                dx++;
+                break;
+            }
+            if (p.y+dy < 0 || p.x+dx < 0){
+                continue;
+            }
+            if (p.y+dy >= State.MAX_ROW || p.x+dx >= State.MAX_COL){
+                continue;
+            }
+            if (!State.WALLS[p.y+dy][p.x+dx]){ //neighbor is free
+                emptyNeighbors++;
+            }
+        }
+        return emptyNeighbors < 3;
     }
 
     //TODO: If we stay with assignedGoals: just check if box.row == box.assignedGoal.row etc...

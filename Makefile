@@ -17,3 +17,4 @@ compile: clean
 .PHONY: run
 run: clean compile
 	cd out && java -jar ../server.jar -g -l ../$(LEVELS_DIR)/$(LEVEL) -c "java -cp .:../lib/guava-28.2-jre.jar Main" -t $(T)
+

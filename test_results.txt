@@ -162,3 +162,47 @@ SAIIOO.lvl: Found solution of length 16. #Explored:     26, #Frontier:     95, #
 SAAiAiCap.lvl: Found solution of length 70. #Explored:    154, #Frontier:    668, #Generated:    822, Time: 0,13 s 	[Used: 17,96 MB, Free: 108,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
 SAAIFather.lvl: Found solution of length 127. #Explored: 17.768, #Frontier:  3.196, #Generated: 20.964, Time: 0,32 s 	[Used: 33,59 MB, Free: 92,41 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
 
+added_punishment_for_having_boxes_near_goals_when_depend_not_satisfied
+User: tdhes, Branch: investigate_blocks, 20. maj 2020 10:58:34
+MAbAnAnA.lvl: Found solution of length 91. #Explored:    171, #Frontier: 26.718, #Generated: 26.889, Time: 0,25 s 	[Used: 29,94 MB, Free: 96,06 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MABeTrayEd.lvl: Found solution of length 188. #Explored:    188, #Frontier: 34.273, #Generated: 34.461, Time: 0,42 s 	[Used: 32,21 MB, Free: 93,79 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAbongu.lvl: Found solution of length 72. #Explored:  1.119, #Frontier:  8.197, #Generated:  9.316, Time: 0,21 s 	[Used: 22,50 MB, Free: 103,50 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAGreenDots.lvl: Found solution of length 161. #Explored:    796, #Frontier: 48.070, #Generated: 48.866, Time: 0,74 s 	[Used: 41,44 MB, Free: 210,56 MB, Alloc: 252,00 MB, MaxAlloc: 2002,00 MB]
+MAJMAI.lvl: Found solution of length 43. #Explored:  1.644, #Frontier:  5.666, #Generated:  7.310, Time: 0,22 s 	[Used: 15,96 MB, Free: 110,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAKJFWAOL.lvl: Found solution of length 16. #Explored:     16, #Frontier:  1.641, #Generated:  1.657, Time: 0,05 s 	[Used: 7,96 MB, Free: 118,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MALobot.lvl: Found solution of length 153. #Explored:  1.599, #Frontier: 1.027.718, #Generated: 1.029.317, Time: 6,22 s 	[Used: 765,00 MB, Free: 270,00 MB, Alloc: 1035,00 MB, MaxAlloc: 2002,00 MB]
+MAMagicians.lvl: Found solution of length 66. #Explored:     66, #Frontier:  1.729, #Generated:  1.795, Time: 0,06 s 	[Used: 10,96 MB, Free: 115,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MANikrima.lvl: Found solution of length 30. #Explored:     81, #Frontier:    152, #Generated:    233, Time: 0,05 s 	[Used: 5,96 MB, Free: 120,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAPushPush.lvl: Found solution of length 224. #Explored: 125.084, #Frontier: 523.506, #Generated: 648.590, Time: 9,08 s 	[Used: 590,00 MB, Free: 273,00 MB, Alloc: 863,00 MB, MaxAlloc: 2002,00 MB]
+MAZEROagent.lvl: Found solution of length 389. #Explored: 230.850, #Frontier: 2.671.952, #Generated: 2.902.802, Time: 43,72 s 	[Used: 1468,88 MB, Free: 197,12 MB, Alloc: 1666,00 MB, MaxAlloc: 2002,00 MB]
+MAAiAiCap.lvl: Found solution of length 114. #Explored:    114, #Frontier:  1.052, #Generated:  1.166, Time: 0,06 s 	[Used: 8,48 MB, Free: 117,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAIFather.lvl: Found solution of length 53. #Explored:    172, #Frontier:    645, #Generated:    817, Time: 0,06 s 	[Used: 8,96 MB, Free: 117,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAiMasTers.lvl: Found solution of length 9. #Explored:     14, #Frontier:     25, #Generated:     39, Time: 0,04 s 	[Used: 5,48 MB, Free: 120,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,04 s 	[Used: 4,96 MB, Free: 121,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAIIOO.lvl: Found solution of length 16. #Explored:     22, #Frontier:     86, #Generated:    108, Time: 0,04 s 	[Used: 5,97 MB, Free: 120,03 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAAiAiCap.lvl: Found solution of length 72. #Explored:    148, #Frontier:    679, #Generated:    827, Time: 0,11 s 	[Used: 17,96 MB, Free: 108,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAAIFather.lvl: Found solution of length 129. #Explored:    836, #Frontier:    389, #Generated:  1.225, Time: 0,09 s 	[Used: 9,96 MB, Free: 116,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+
+alpha_version
+User: tdhes, Branch: investigate_blocks, 20. maj 2020 15:13:18
+MAbAnAnA.lvl: Found solution of length 88. #Explored:    149, #Frontier: 26.943, #Generated: 27.092, Time: 0,34 s 	[Used: 42,31 MB, Free: 83,69 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MABeTrayEd.lvl: Found solution of length 192. #Explored:    208, #Frontier: 35.376, #Generated: 35.584, Time: 0,47 s 	[Used: 28,79 MB, Free: 97,21 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAbongu.lvl: Found solution of length 74. #Explored:    465, #Frontier:  7.622, #Generated:  8.087, Time: 0,19 s 	[Used: 17,46 MB, Free: 108,54 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAGreenDots.lvl: Found solution of length 173. #Explored:    463, #Frontier: 103.756, #Generated: 104.219, Time: 1,14 s 	[Used: 81,05 MB, Free: 154,95 MB, Alloc: 236,00 MB, MaxAlloc: 2002,00 MB]
+MAIIOO.lvl: Found solution of length 82. #Explored:     83, #Frontier: 325.368, #Generated: 325.451, Time: 2,77 s 	[Used: 330,50 MB, Free: 173,50 MB, Alloc: 504,00 MB, MaxAlloc: 2002,00 MB]
+MAJMAI.lvl: Found solution of length 36. #Explored:  3.086, #Frontier:  9.514, #Generated: 12.600, Time: 0,29 s 	[Used: 39,93 MB, Free: 86,07 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAKJFWAOL.lvl: Found solution of length 17. #Explored:     17, #Frontier:  1.541, #Generated:  1.558, Time: 0,08 s 	[Used: 10,48 MB, Free: 115,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MALobot.lvl: Found solution of length 143. #Explored:    254, #Frontier: 599.644, #Generated: 599.898, Time: 3,09 s 	[Used: 395,00 MB, Free: 502,00 MB, Alloc: 897,00 MB, MaxAlloc: 2002,00 MB]
+MAMagicians.lvl: Found solution of length 62. #Explored:     63, #Frontier:  1.603, #Generated:  1.666, Time: 0,09 s 	[Used: 12,48 MB, Free: 113,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MANikrima.lvl: Found solution of length 30. #Explored:     73, #Frontier:    188, #Generated:    261, Time: 0,07 s 	[Used: 6,96 MB, Free: 119,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAPushPush.lvl: Found solution of length 226. #Explored: 77.977, #Frontier: 716.359, #Generated: 794.336, Time: 8,76 s 	[Used: 617,50 MB, Free: 344,50 MB, Alloc: 962,00 MB, MaxAlloc: 2002,00 MB]
+MAZEROagent.lvl: 
+MAAiAiCap.lvl: Found solution of length 114. #Explored:    117, #Frontier:    935, #Generated:  1.052, Time: 0,08 s 	[Used: 10,48 MB, Free: 115,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAIFather.lvl: Found solution of length 53. #Explored:    103, #Frontier:    441, #Generated:    544, Time: 0,09 s 	[Used: 8,48 MB, Free: 117,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAiMasTers.lvl: Found solution of length 9. #Explored:     17, #Frontier:     26, #Generated:     43, Time: 0,06 s 	[Used: 5,98 MB, Free: 120,02 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAExample.lvl: Found solution of length 19. #Explored:     19, #Frontier:      4, #Generated:     23, Time: 0,06 s 	[Used: 5,50 MB, Free: 120,50 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAIIOO.lvl: Found solution of length 14. #Explored:     16, #Frontier:     66, #Generated:     82, Time: 0,06 s 	[Used: 6,48 MB, Free: 119,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAAiAiCap.lvl: Found solution of length 72. #Explored:    181, #Frontier:    788, #Generated:    969, Time: 0,16 s 	[Used: 18,96 MB, Free: 107,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAAIFather.lvl: Found solution of length 129. #Explored:  1.231, #Frontier:    501, #Generated:  1.732, Time: 0,12 s 	[Used: 14,48 MB, Free: 111,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+
+

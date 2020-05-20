@@ -199,14 +199,14 @@ public class SearchClient {
 
             State leafState = bestFirstStrategy.getAndRemoveLeaf();
 
-            if (iterations == 1000) {
+            if (iterations == 100) {
 
                 System.err.println(bestFirstStrategy.searchStatus());
                 System.err.println(leafState.toString());
                 System.err.println("Heuristic value: " + bestFirstStrategy.heuristic.h(leafState));
 
-                PCDMergeRefactored heu = (PCDMergeRefactored) bestFirstStrategy.heuristic;
-                System.err.println(heu.getDistsToAssignedGoals(leafState));
+                //PCDMergeRefactored heu = (PCDMergeRefactored) bestFirstStrategy.heuristic;
+                //System.err.println(heu.getDistsToAssignedGoals(leafState));
                 // System.err.println("Heuristic value: " + bestFirstStrategy.heuristic.h(leafState));
                 // PCDMergeTaskOriented heu = (PCDMergeTaskOriented) bestFirstStrategy.heuristic;
                 // System.err.println(heu.getDistsToAssignedGoals(leafState));
@@ -223,25 +223,34 @@ public class SearchClient {
             bestFirstStrategy.addToExplored(leafState);
 
             /*
-            if (bestFirstStrategy.heuristic.h(leafState) < 0) {
+            int optiHeu = 1000;
+
+            if (iterations == 500) {
                 System.err.println("Current State: ");
                 System.err.println(leafState.toString());
                 System.err.println("Heuristic value: " + bestFirstStrategy.heuristic.h(leafState));
             }
 
+
              */
+
 
             for (State n : leafState.getExpandedStates()) { // The list of expanded states is shuffled randomly; see
 
                 if (!bestFirstStrategy.isExplored(n) && !bestFirstStrategy.inFrontier(n)) {
+
                     /*
-                    if (bestFirstStrategy.heuristic.h(leafState) < 0) {
+
+                    if (iterations == 500 && bestFirstStrategy.heuristic.h(n) < optiHeu) {
+                        optiHeu = bestFirstStrategy.heuristic.h(n);
                         System.err.println("Expanded States: ");
                         System.err.println(n.toString());
                         System.err.println("H: " + bestFirstStrategy.heuristic.h(n));
                         System.err.println("____________________");
                     }
+
                      */
+
                     bestFirstStrategy.addToFrontier(n);
                 }
             }
