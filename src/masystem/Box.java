@@ -3,6 +3,9 @@ package masystem;
 public class Box extends MoveableObject {
 
     public char letter;
+    public boolean marked = false;
+    public int markedBy = -1;
+    public Goal assignedGoal;
 
 
     @Override
@@ -15,14 +18,25 @@ public class Box extends MoveableObject {
 
     }
 
-    public Box(int row, int column, int color, char letter){
+    public Box(int row, int column, int color, char letter, Goal assignedGoal){
         super(row,column,color);
         this.letter = letter;
+        this.marked = false;
+        this.markedBy = -1;
+        this.assignedGoal = assignedGoal;
+    }
+
+    public Box(int row, int column, int color, char letter, boolean marked, int markedBy, Goal assignedGoal){
+        super(row,column,color);
+        this.letter = letter;
+        this.marked = marked;
+        this.markedBy = markedBy;
+        this.assignedGoal = assignedGoal;
     }
 
     @Override
     public String toString() {
-        return "BoxColor: " + Integer.toString(color) + " At: " + Integer.toString(row) + "," +  Integer.toString(column) + "BoxLetter: " +letter;
+        return letter + ": (" + Integer.toString(row) + "," +  Integer.toString(column) + ")";
     }
 
 //    public Box deepCopy(){

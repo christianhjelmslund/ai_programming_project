@@ -18,7 +18,7 @@ public class State {
     public static Goal[] GOALS;
 
 
-    public  Agent[] agents;
+    public Agent[] agents;
     public Box[] boxes;
 
     public State parent;
@@ -249,7 +249,7 @@ public class State {
         return expandedStates;
     }
 
-    private boolean cellIsFree(int row, int col) {
+    public boolean cellIsFree(int row, int col) {
         return !WALLS[row][col] && !hasAgent(row,col) && !hasBox(row,col);
     }
 
@@ -306,8 +306,13 @@ public class State {
 
         for (int i = 0; i < NUMBER_OF_BOXES; i++) {
             box = boxes[i];
-            childBoxes[i] = new Box(box.row, box.column, box.color, box.letter);
-        }
+
+            if (box.marked){
+                childBoxes[i] = new Box(box.row, box.column, box.color, box.letter, box.marked, box.markedBy, box.assignedGoal);
+            } else {
+                childBoxes[i] = new Box(box.row, box.column, box.color, box.letter, box.assignedGoal);
+            }
+        }   
 
         return new State(this, childBoxes, childAgents);
     }
@@ -400,12 +405,16 @@ public class State {
     public String toString() {
         StringBuilder s = new StringBuilder();
 
-        for (int row = 0; row < MAX_ROW; row++) {
-            if (!WALLS[row][0]) {
-                break;
+        System.err.print("Marked: ");
+        for (Box box : this.boxes){
+            if (box.marked) { 
+                System.err.print(box.letter+", ");
             }
+        }
+        System.err.println();
+
+        for (int row = 0; row < MAX_ROW; row++) {
             for (int col = 0; col < MAX_COL; col++) {
-                //TODO: update to put all boxes
 
                 if (WALLS[row][col]) {
                     s.append("+");
@@ -416,23 +425,25 @@ public class State {
                         if (row == agents[i].row && col == agents[i].column){
                             s.append(i);
                             blanc = false;
-                        }
-                    }
-                    //goals
-                    for (int i = 0; i < GOALS.length; i++) {
-                        if (row == GOALS[i].row && col == GOALS[i].column){
-                            s.append(Character.toLowerCase(GOALS[i].letter));
-                            blanc = false;
+                            continue;
                         }
                     }
 
                     //boxes
                     for (int i = 0; i < boxes.length; i++) {
-                        if (row == boxes[i].row && col == boxes[i].column){
+                        if (row == boxes[i].row && col == boxes[i].column && blanc){
                             s.append(boxes[i].letter);
                             blanc = false;
                         }
                     }
+                    //goals
+                    for (int i = 0; i < GOALS.length; i++) {
+                        if (row == GOALS[i].row && col == GOALS[i].column && blanc){
+                            s.append(Character.toLowerCase(GOALS[i].letter));
+                            blanc = false;
+                        }
+                    }
+
                     if (blanc)
                         s.append(" ");
                 }
