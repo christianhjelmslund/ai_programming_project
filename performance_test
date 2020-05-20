@@ -2,23 +2,23 @@
 
 # Variable declaration
 branch=$(git rev-parse --abbrev-ref HEAD) # Command to get current git branch
-classpath=../lib/*:.
+classpath=.:../lib/guava-28.2-jre.jar
 test_levels='../levels/performance_test_levels'
 dateNow=$(date +"%c")
 result_file_name=test_results.txt
 
 # Change class path if on Windows
 if [[ "$OSTYPE" == "msys" ]]; then
-	classpath="../lib/guava-28.2-jre.jar;./"
+	classpath="./;../lib/guava-28.2-jre.jar"
 fi
 
 # Cleaning project
 rm -rf out
 
 # Compiling project
-cd src
+cd src || exit
 javac -cp $classpath Main.java -d ../out > /dev/null 2>&1
-cd ../out
+cd ../out || exit
 
 # Test result headline (current branch, date and time)
 if [[ $1 != "" ]]; then
@@ -26,20 +26,20 @@ if [[ $1 != "" ]]; then
     echo  "User: $(whoami), Branch: $branch, $dateNow" >> ../$result_file_name
 fi
 
-# Write test results for each lvl 
+# Write test results for each lvl
 for lvl in "$test_levels"/*.lvl
 do
-  # Pass lvl data to AI program, 
+  # Pass lvl data to AI program,
   # filter its output to lines with word "Found"
-  # and write each line to terminal and file "test_results" 
-  cat $lvl |  java -cp $classpath Main &>  >(grep "Found") >&2  | 
+  # and write each line to terminal and file "test_results"
+  cat $lvl |  java -cp $classpath Main &>  >(grep "Found") >&2  |
   {
       # Read line and print to both file and terminal
-      read i 
+      read i
       if [[ $1 != "" ]]; then
          echo "$(basename $lvl): $i" >>  ../$result_file_name
          echo "Successfully stored results for level $(basename $lvl) in test_results.txt"
-      else 
+      else
          echo "$(basename $lvl): $i"
       fi
   }
@@ -47,5 +47,5 @@ done
 
 # New line to end test result section in file
 if [[ $1 != "" ]]; then
-  printf "\n" >> ../$result_file_name  
+  printf "\n" >> ../$result_file_name
 fi
