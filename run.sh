@@ -1,5 +1,5 @@
-LEVELS_DIR=levels/new_levels/
-LEVEL=MAIIOO.lvl # change level name
+LEVELS_DIR=levels/comp20/
+LEVEL=MABaguettes.lvl # change level name
 
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
 T=180 # time out in seconds
