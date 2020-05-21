@@ -1,5 +1,5 @@
 LEVELS_DIR=levels/comp20/
-LEVEL=SASokoBros.lvl # change level name
+LEVEL=MAGlaDOS.lvl # change level name
 
 
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
@@ -15,7 +15,6 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 # MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish (O CHECK DEPENDENCY)
 # MABoxAgents - TODO: (easy!) antiblock (O CHECK DEPENDENCY)
 # MAfootsteps - TODO: Antiblock. Fjern bokse fra korridor, før vi begynder at putte bokse ind i rækkefølge
-# MAGLaDOS - TODO: (easy!) antiblock
 # MANicolAI - TODO: Mere sofistikeret rækkefølge
 # MAThree - TODO: Mere sofistikeret rækkefølge
 
