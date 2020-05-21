@@ -5,6 +5,8 @@ import CENmasystem.*;
 
 import java.awt.*;
 import java.util.*;
+import java.lang.Math; 
+
 
 //TODO Make sure that agents do not *pull* boxes into corridors if they cannot fit.
 
@@ -15,6 +17,8 @@ public class PCDMergeRefactored extends Heuristic {
     HashMap<Goal, ArrayList<Goal>> dependencies = new HashMap<>();
     public HashSet<Character> seenLetters = new HashSet<>();
     HashMap<Point, Boolean> corridor = new HashMap<>();
+    HashMap<Integer, ArrayList<Point>> isBlocking = new HashMap<>();
+
     private int distMapInitValue = 10000;
 
     //Weights
@@ -36,6 +40,7 @@ public class PCDMergeRefactored extends Heuristic {
         assignBoxesToGoals(initialState);
         initDependenciesOfBoxes(initialState);
         initCorridors(initialState);
+        initBlockingBoxes(initialState);
     }
 
 
@@ -51,19 +56,62 @@ public class PCDMergeRefactored extends Heuristic {
 
         //int punishmentForBeingCloseToOtherColors = getPunishmentForBeingCloseToOtherColors(n);
 
-        //int punishmentsForBlocks = getPunishmentsForBlocks(n);
-
         h = h + distsToBoxesFromAgents*factorDistBoxToAgent;
         h = h + minDistsToAssignedGoal*factorDistBoxToGoal;
         h = h + punishmentsForAgentsNotMoving;
         h = h + moveAgentToAgentGoalWhenDone(n);
         //h = h + punishmentForBeingCloseToOtherColors;
 
+        double rand = Math.random();
+        if (rand > 0.9995){
+            h -= 2;
+        } 
 
 
         return h*2; //Resolves to weighted A*
         //return h;
 
+    }
+
+    public void initBlockingBoxes(State initialState){
+        for (int idx = 0; idx < initialState.boxes.length; idx++){
+            isBlocking.put(idx, new ArrayList<Point>());
+        }
+        //find blocking between agent and its boxes
+        for (Agent agent : initialState.agents){
+            for (int idx = 0; idx < initialState.boxes.length; idx++){
+                Box box = initialState.boxes[idx];
+                if (box.color != agent.color){ 
+                    continue;
+                }
+                if (box.assignedGoal == null){
+                    continue;
+                }
+                //find all blocking boxes between agent and boxes with same colour and an assigned goal
+                ArrayList<Box> allBlockingBoxes = getBlockingBoxes(initialState, new Point(agent.column, agent.row), new Point(box.column, box.row));
+                ArrayList<Point> vitalPath = getVitalPath(initialState, new Point(agent.column, agent.row), new Point(box.column, box.row));
+                System.err.println(agent.column+","+agent.row+" has blocking "+allBlockingBoxes.toString());
+                //convert blocking boxes to idx
+                ArrayList<Integer> blockingIdx = new ArrayList<>();
+                for (Box blockingBox : allBlockingBoxes){
+                    for (int i = 0; i<initialState.boxes.length; i++){
+                        if (initialState.boxes[i] == blockingBox){
+                            blockingIdx.add(i);
+                        }
+                    }
+                }
+                for (int i : blockingIdx){
+                    if (initialState.boxes[i].color == agent.color){
+                        continue; //ignore its own boxes
+                    }
+                    isBlocking.put(i, vitalPath);
+                }
+            }
+        }
+        System.err.println("Blocking boxes: ");
+        for (int key : isBlocking.keySet()){
+            System.err.println(initialState.boxes[key].letter+": "+isBlocking.get(key));
+        }
     }
 
     public int moveAgentToAgentGoalWhenDone(State n){
@@ -187,9 +235,9 @@ public class PCDMergeRefactored extends Heuristic {
                     }
                 } else { //If dependencies for box is not satisfied, punish current state
                     sum += typicalPunishmentFactor;
-                    //if (distToGoal < distanceToKeepBoxesFromGoalsb4Turn){
-                    //    sum += distanceToKeepBoxesFromGoalsb4Turn-distToGoal; //Better the longer away
-                   //}
+                //     if (distToGoal < distanceToKeepBoxesFromGoalsb4Turn){
+                //        sum += distanceToKeepBoxesFromGoalsb4Turn-distToGoal; //Better the longer away
+                //    }
                 }
             }
         }
@@ -207,10 +255,11 @@ public class PCDMergeRefactored extends Heuristic {
             int minDistToBox = maxDist;
             int minDistToBoxWithAssignedGoal = maxDist;
             int[][] distancesFromAgent = distMaps.get(new Point(agent.row, agent.column));
-            for (Box box : n.boxes) {
+            boolean isBlock = true;
+            for (int idx = 0; idx < n.boxes.length; idx++){
+                Box box = n.boxes[idx];
+                int distToBox = distancesFromAgent[box.row][box.column];
                 if (box.color == agent.color && !boxIsAtGoal(box)) { //Only minimize dist to boxes not at goal and moveable by agent:
-                    int distToBox = distancesFromAgent[box.row][box.column];
-
                     //Check distances to boxes with assigned goals
                     if (box.assignedGoal != null && distToBox < minDistToBoxWithAssignedGoal && isDependanciesSatisfied(n, box)) {
                         minDistToBoxWithAssignedGoal = distToBox;
@@ -219,6 +268,19 @@ public class PCDMergeRefactored extends Heuristic {
                     //Check distances to every box
                     if (distToBox < minDistToBox) {
                         minDistToBox = distToBox;
+                    }
+                }
+                ArrayList<Point> vitalPath = isBlocking.get(idx);
+                // System.err.println(vitalPath);
+                if (box.color == agent.color && vitalPath.size() > 0){ //is known to block
+                    if (vitalPath.contains(new Point(box.column, box.row))){ //still on vital path, blocking
+                        // Point blockedAgentPoint = vitalPath.get(vitalPath.size()-1);
+                        // System.err.println("Prior "+box.letter);
+                        summedDistsForAgents += distToBox*3;
+                        Point blockedAgent = vitalPath.get(vitalPath.size()-1);
+                        // System.err.println(blockedAgent.toString());
+                        summedDistsForAgents += distMaps.get(new Point(box.row, box.column))[blockedAgent.y][blockedAgent.x];
+                        isBlock = false;
                     }
                 }
             }
@@ -543,6 +605,175 @@ public class PCDMergeRefactored extends Heuristic {
             }
         }
         return emptyNeighbors < 3;
+    }
+
+    public ArrayList<Box> getBlockingBoxes (State state, Point start, Point goal) {
+        LinkedList<Step> frontier = new LinkedList<>();
+        LinkedList<Step> frontier2 = new LinkedList<>();
+        HashSet<Step> explored = new HashSet<>();
+
+        Step init = new Step(start.x, start.y, null);
+
+        frontier.add(init);
+        explored.add(init);
+
+        while (!frontier.isEmpty() || !frontier2.isEmpty()){
+            Step toExpand = null;
+            if (!frontier.isEmpty()){
+                toExpand = frontier.pollFirst();
+            } else {
+                toExpand = frontier2.pollFirst();
+            }
+            
+            //get children
+            for (int dir=0; dir<4; dir++){
+                int newX = toExpand.col;
+                int newY = toExpand.row;
+                switch(dir){
+                    case 0:
+                    newY--;
+                    break;
+                    case 1:
+                    newX--;
+                    break;
+                    case 2:
+                    newY++;
+                    break;
+                    case 3:
+                    newX++;
+                    break;
+                }
+
+                if (newX == goal.x && newY == goal.y){ //found goal point
+                    ArrayList<Box> blockingBoxes = new ArrayList<>();
+                    //TODO ADD BOX IF THERE IS ONE AT goal
+                    Step parent = toExpand;
+                    while (parent != null){
+                        for (Box box : state.boxes){
+                            // System.err.println(parent.col+","+parent.row+"!="+box.column+","+box.row);
+                            if (box.column == parent.col && box.row == parent.row){ //box on path
+                                // System.err.println("YES");
+                                blockingBoxes.add(box);
+                            }
+                        }
+                        parent = parent.parent; //go one up
+                    }
+                    return blockingBoxes;
+                }
+
+                if (newX < 0 || newX >= State.MAX_COL || newY < 0 || newY >= State.MAX_ROW) {
+                    continue; // out of bounds
+                }
+
+                if (State.WALLS[newY][newX]){ //wall
+                    continue;
+                }
+
+                Step newStep = new Step(newX, newY, toExpand);
+
+                if (explored.contains(newStep)){
+                    continue; //already added to stack
+                }
+
+                explored.add(newStep);
+                boolean isBox = false;
+                for (Box box : state.boxes){
+                    if (box.column == newX && box.row == newY){
+                        isBox = true;
+                        break;
+                    }
+                }
+
+                if (isBox) {
+                    frontier2.addLast(newStep);    
+                } else {
+                    frontier.addLast(newStep);
+                }
+            }
+        } //while end
+        return new ArrayList<Box>(); //no blockingBoxes / no dependencies
+    }
+
+    public ArrayList<Point> getVitalPath (State state, Point start, Point goal) {
+        LinkedList<Step> frontier = new LinkedList<>();
+        LinkedList<Step> frontier2 = new LinkedList<>();
+        HashSet<Step> explored = new HashSet<>();
+
+        Step init = new Step(start.x, start.y, null);
+
+        frontier.add(init);
+        explored.add(init);
+
+        while (!frontier.isEmpty() || !frontier2.isEmpty()){
+            Step toExpand = null;
+            if (!frontier.isEmpty()){
+                toExpand = frontier.pollFirst();
+            } else {
+                toExpand = frontier2.pollFirst();
+            }
+            
+            //get children
+            for (int dir=0; dir<4; dir++){
+                int newX = toExpand.col;
+                int newY = toExpand.row;
+                switch(dir){
+                    case 0:
+                    newY--;
+                    break;
+                    case 1:
+                    newX--;
+                    break;
+                    case 2:
+                    newY++;
+                    break;
+                    case 3:
+                    newX++;
+                    break;
+                }
+
+                if (newX == goal.x && newY == goal.y){ //found goal point
+                    ArrayList<Point> path = new ArrayList<>();
+                    path.add(new Point(newX, newY));
+                    //TODO ADD Point IF THERE IS ONE AT goal
+                    Step parent = toExpand;
+                    while (parent != null){
+                        path.add(new Point(parent.col, parent.row));
+                        parent = parent.parent; //go one up
+                    }
+                    return path;
+                }
+
+                if (newX < 0 || newX >= State.MAX_COL || newY < 0 || newY >= State.MAX_ROW) {
+                    continue; // out of bounds
+                }
+
+                if (State.WALLS[newY][newX]){ //wall
+                    continue;
+                }
+
+                Step newStep = new Step(newX, newY, toExpand);
+
+                if (explored.contains(newStep)){
+                    continue; //already added to stack
+                }
+
+                explored.add(newStep);
+                boolean isBox = false;
+                for (Box box : state.boxes){
+                    if (box.column == newX && box.row == newY){
+                        isBox = true;
+                        break;
+                    }
+                }
+
+                if (isBox) {
+                    frontier2.addLast(newStep);    
+                } else {
+                    frontier.addLast(newStep);
+                }
+            }
+        } //while end
+        return new ArrayList<Point>(); //no blockingBoxes / no dependencies
     }
 
     //TODO: If we stay with assignedGoals: just check if box.row == box.assignedGoal.row etc...

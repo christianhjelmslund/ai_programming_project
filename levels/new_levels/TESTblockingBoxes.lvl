@@ -1,0 +1,28 @@
+#domain
+hospital
+#levelname
+TESTacceess
+#colors
+blue: 0, A
+red: 1, B
+#initial
++++++++++++
++0   A    +
++        A+
++B    A   +
++ A      B+
++ B    A  +
++   +++++++
++ A   AAA1+
++++++++++++
+#goal
++++++++++++
++        A+
++        B+
++         +
++         +
++         +
++   +++++++
++1       0+
++++++++++++
+#end
