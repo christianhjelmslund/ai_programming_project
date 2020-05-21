@@ -56,6 +56,7 @@ public class PCDMergeRefactored extends Heuristic {
         h = h + distsToBoxesFromAgents*factorDistBoxToAgent;
         h = h + minDistsToAssignedGoal*factorDistBoxToGoal;
         h = h + punishmentsForAgentsNotMoving;
+        h = h + moveAgentToAgentGoalWhenDone(n);
         //h = h + punishmentForBeingCloseToOtherColors;
 
 
@@ -65,11 +66,40 @@ public class PCDMergeRefactored extends Heuristic {
 
     }
 
+    public int moveAgentToAgentGoalWhenDone(State n){
+        int h = 0;
+
+        for (int i = 0; i<n.agents.length; i++){
+            Agent agent = n.agents[i];
+            boolean allBoxesSat = true;
+            for (Box box : n.boxes){
+                if (box.color != agent.color) continue; //only consider agents goal
+                if (box.assignedGoal == null) continue; //only consider boxes with goals
+                if (!isSatisfied(n, box.assignedGoal)){
+                    allBoxesSat = false;
+                    break;
+                }
+            }
+            if (!allBoxesSat){
+                continue;
+            }
+
+            //if all boxes of same color as agent is satisifed. Move to agent goal
+            for (Goal agentGoal : State.AGENTGOALS){
+                if ((Character.getNumericValue(agentGoal.letter)) == i){
+                    //agentGoal is agents agentgoal ps rip
+                    h += distMaps.get(new Point(agent.row,agent.column))[agentGoal.row][agentGoal.column];
+                    break;
+                }
+            }
+        }
+        return h;
+    }
+
 
     public int punishmentsForAgentsNotMoving(State state){
         int punishments = 0;
         State parent = state.parent;
-
 
         if (parent==null){
             return 0;

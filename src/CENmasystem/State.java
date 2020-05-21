@@ -67,7 +67,7 @@ public class State {
         }
 
         for (Goal agentGoal : AGENTGOALS) {
-            int agentNumber = (int) agentGoal.letter;
+            int agentNumber = Character.getNumericValue(agentGoal.letter);
             Agent agent = agents[agentNumber];
             if (agentGoal.row != agent.row || agentGoal.column != agent.column) {
                 return false;
