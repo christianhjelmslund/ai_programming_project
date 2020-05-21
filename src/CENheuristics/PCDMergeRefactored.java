@@ -63,7 +63,7 @@ public class PCDMergeRefactored extends Heuristic {
         //h = h + punishmentForBeingCloseToOtherColors;
 
         double rand = Math.random();
-        if (rand > 0.95){
+        if (rand > 0.9995){
             h -= 2;
         } 
 
@@ -235,9 +235,9 @@ public class PCDMergeRefactored extends Heuristic {
                     }
                 } else { //If dependencies for box is not satisfied, punish current state
                     sum += typicalPunishmentFactor;
-                    if (distToGoal < distanceToKeepBoxesFromGoalsb4Turn){
-                       sum += distanceToKeepBoxesFromGoalsb4Turn-distToGoal; //Better the longer away
-                   }
+                //     if (distToGoal < distanceToKeepBoxesFromGoalsb4Turn){
+                //        sum += distanceToKeepBoxesFromGoalsb4Turn-distToGoal; //Better the longer away
+                //    }
                 }
             }
         }
@@ -278,7 +278,7 @@ public class PCDMergeRefactored extends Heuristic {
                         // System.err.println("Prior "+box.letter);
                         summedDistsForAgents += distToBox*3;
                         Point blockedAgent = vitalPath.get(vitalPath.size()-1);
-                        System.err.println(blockedAgent.toString());
+                        // System.err.println(blockedAgent.toString());
                         summedDistsForAgents += distMaps.get(new Point(box.row, box.column))[blockedAgent.y][blockedAgent.x];
                         isBlock = false;
                     }
