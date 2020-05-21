@@ -1,4 +1,3 @@
-import CENheuristics.*;
 import CENmasystem.*;
 import DECmasystem.DecentralizedSearch;
 
@@ -7,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Main {
@@ -266,7 +266,8 @@ public class Main {
         }
 
         ArrayList<Agent> agentsList = removeAgentsWhichAreNotInMap(agents, agentsFoundInMap);
-        changeUnmovableBoxesToWalls(boxes, wallsResized, agentsList);
+        ArrayList<Box> unmovableBoxes = changeUnmovableBoxesToWalls(boxes, wallsResized, agentsList);
+        removeGoalsOfUnmovableBoxes(unmovableBoxes, boxGoals);
 
         // Create new initial state
         // The WALLS and GOALS are static, so no need to initialize the arrays every
@@ -313,6 +314,23 @@ public class Main {
         return initialState;
     }
 
+    private static void removeGoalsOfUnmovableBoxes(ArrayList<Box> unmovableBoxes, ArrayList<Goal> boxGoals) {
+        HashSet<Character> goalCharsToDelete = new HashSet<>();
+        ArrayList<Goal> goalsToBeRemoved = new ArrayList<>();
+
+        for (Box box: unmovableBoxes) {
+            goalCharsToDelete.add(box.letter);
+        }
+
+        for (Goal goal : boxGoals) {
+            if (goalCharsToDelete.contains(goal.letter)){
+                goalsToBeRemoved.add(goal);
+                System.err.println("Removing" + goal.toString());
+            }
+        }
+        boxGoals.removeAll(goalsToBeRemoved);
+    }
+
     private static ArrayList<Agent> removeAgentsWhichAreNotInMap(Agent[] agents, boolean[] agentsFoundInMap) {
         ArrayList<Agent> agentsList = new ArrayList<>();
         for (int i = 0; i < agents.length; i++) {
@@ -331,7 +349,7 @@ public class Main {
         return agentsList;
     }
 
-    public static void changeUnmovableBoxesToWalls(ArrayList<Box> boxes, boolean[][] walls, ArrayList<Agent> agentsList){
+    public static ArrayList<Box> changeUnmovableBoxesToWalls(ArrayList<Box> boxes, boolean[][] walls, ArrayList<Agent> agentsList){
         ArrayList<Box> boxesChangedToWalls = new ArrayList<>();
         for (Box box : boxes) {
             boolean boxIsMovable = false;
@@ -348,6 +366,7 @@ public class Main {
 
         boxes.removeAll(boxesChangedToWalls);
         System.err.println("Boxes changed to walls: " + boxesChangedToWalls.size());
+        return boxesChangedToWalls;
     }
 
 

@@ -10,4 +10,9 @@ public class Goal {
         this.column = column;
         this.letter = letter;
     }
+
+    @Override
+    public String toString(){
+        return "Goal: (" + row + "," + column+ ")" + letter;
+    }
 }
