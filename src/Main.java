@@ -1,6 +1,9 @@
-import CENmasystem.*;
-import DECmasystem.DecentralizedSearch;
-
+import IIOO.masystem.*;
+import IIOO.masystem.centralized.CentralizedState;
+import IIOO.masystem.centralized.SearchClient;
+import IIOO.masystem.decentralized.DecentralizedSearch;
+import IIOO.masystem.decentralized.DecentralizedState;
+import IIOO.masystem.heuristics.PCDMergeRefactored;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,38 +13,35 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Main {
-
+    private static boolean centralized;
 
     public static void main(String[] args) throws Exception {
 
         BufferedReader serverMessages = new BufferedReader(new InputStreamReader(System.in));
 
-        // Use stderr to print to console
-        System.err.println("DEBUG BY THESE PRINTS");
 
         // Client name statement
         System.out.println("PearEasy Client");
 
         State initialState = loadInitialState(serverMessages);
 
-        boolean centralized = !(initialState.agents.length >= 7 && initialState.MAX_ROW*initialState.MAX_COL >= 105);
-
-
 
         SearchClient cenClient = null;
         DecentralizedSearch decClient = null;
 
-        CENmasystem.BestFirstStrategy cenBestFirstStrategy = null;
-        DECmasystem.BestFirstStrategy decBestFirstStrategy = null;
+        BestFirstStrategy cenBestFirstStrategy = null;
+        BestFirstStrategy decBestFirstStrategy = null;
 
+
+        System.err.println("CENTRALIZED: " + centralized);
 
         //___________________________________CENTRALIZED____________________________________________________
 
         // Read level and create the initial state of the problem
         if (centralized) {
             cenClient = new SearchClient(initialState);
-            cenBestFirstStrategy = new CENmasystem.BestFirstStrategy(new CENheuristics.PCDMergeRefactored(cenClient.initialState));
-            ArrayList<CENmasystem.State> solution;
+            cenBestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(cenClient.initialState));
+            ArrayList<State> solution;
             try {
                 solution = cenClient.Search(cenBestFirstStrategy);
             } catch (OutOfMemoryError ex) {
@@ -50,16 +50,15 @@ public class Main {
             }
 
             if (solution == null) {
-                System.err.println(cenBestFirstStrategy.searchStatus());
+                System.err.println(cenBestFirstStrategy.searchStatus(true));
                 System.err.println("Unable to solve level.");
                 System.exit(0);
             } else {
                 System.err.println("\nSummary for " + cenBestFirstStrategy.toString());
-                System.err.println("Found solution of length " + solution.size() + ". " + cenBestFirstStrategy.searchStatus());
+                System.err.println("Found solution of length " + solution.size() + ". " + cenBestFirstStrategy.searchStatus(true));
 
-                for (CENmasystem.State n : solution) {
+                for (State n : solution) {
                     String act = n.actions.toString();
-
                     StringBuilder actions = new StringBuilder();
 
                     for (int i = 0; i < n.actions.size(); i++) {
@@ -90,10 +89,10 @@ public class Main {
         //___________________________________DECENTRALIZED____________________________________________________
 
         } else {
-            decClient = new DecentralizedSearch(initialState);
-            decBestFirstStrategy = new DECmasystem.BestFirstStrategy(new DECheuristics.PCDMergeRefactored(decClient.initialState));
+            decClient = new DecentralizedSearch((DecentralizedState)initialState);
+            decBestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(decClient.initialState));
 
-            ArrayList<DECmasystem.State> solution;
+            ArrayList<State> solution;
             try {
                 solution = decClient.Search(decBestFirstStrategy);
             } catch (OutOfMemoryError ex) {
@@ -109,7 +108,7 @@ public class Main {
                 System.err.println("\nSummary for " + decBestFirstStrategy.toString());
                 System.err.println("Found solution of length " + solution.size() + ". " + decBestFirstStrategy.searchStatus(true));
 
-                for (DECmasystem.State n : solution) {
+                for (State n : solution) {
                     String act = n.actions.toString();
 
                     StringBuilder actions = new StringBuilder();
@@ -132,13 +131,7 @@ public class Main {
                     }
                 }
             }
-
-
         }
-
-
-
-        
 
     }
 
@@ -146,7 +139,6 @@ public class Main {
         int maxRow = 70;
         int maxCol = 70;
         boolean[][] walls = new boolean[maxRow][maxCol];
-
 
         boolean[] agentsFoundInMap = new boolean[10];
         Map<Character, Integer> boxColors = new HashMap<>();
@@ -212,7 +204,7 @@ public class Main {
                         agentsFoundInMap[number] = true;
 
                     } else if ('A' <= chr && chr <= 'Z') { // Box
-                        Box box = new Box(row, col, boxColors.get(chr), chr, false, -1, null);
+                        Box box = new Box(row, col, boxColors.get(chr), chr,  null);
                         boxes.add(box);
                     } else if (chr == ' ') {
                         // Free space.
@@ -272,21 +264,15 @@ public class Main {
         // Create new initial state
         // The WALLS and GOALS are static, so no need to initialize the arrays every
         // time
-        CENmasystem.State.NUMBER_OF_AGENTS = agentsList.size();
-        DECmasystem.State.NUMBER_OF_AGENTS = agentsList.size();
+        State.NUMBER_OF_AGENTS = agentsList.size();
 
-        CENmasystem.State.NUMBER_OF_BOXES = boxes.size();
-        DECmasystem.State.NUMBER_OF_BOXES = boxes.size();
+        State.NUMBER_OF_BOXES = boxes.size();
 
-        CENmasystem.State.MAX_ROW = row;
-        DECmasystem.State.MAX_ROW = row;
+        State.MAX_ROW = row;
 
-        CENmasystem.State.MAX_COL = column;
-        DECmasystem.State.MAX_COL = column;
+        State.MAX_COL = column;
 
-        CENmasystem.State.WALLS = wallsResized;
-        DECmasystem.State.WALLS = wallsResized;
-
+        State.WALLS = wallsResized;
 
         Box[] boxesArray = new Box[boxes.size()];
         Agent[] agentsArray = new Agent[agentsList.size()];
@@ -297,6 +283,7 @@ public class Main {
             boxGoalsArray[i] = boxGoals.get(i);
         }
         for (int i = 0; i < boxesArray.length; i++) {
+
             boxesArray[i] = boxes.get(i);
         }
         for (int i = 0; i < agentsArray.length; i++) {
@@ -307,11 +294,13 @@ public class Main {
             agentGoalsArray[i] = agentGoals.get(i);
         }
 
-        CENmasystem.State.BOXGOALS = boxGoalsArray;
-        CENmasystem.State.AGENTGOALS = agentGoalsArray;
+        State.BOXGOALS = boxGoalsArray;
+        State.AGENTGOALS = agentGoalsArray;
 
-        State initialState = new State(null, boxesArray, agentsArray);
-        return initialState;
+        centralized = !(State.NUMBER_OF_AGENTS >= 7 && State.MAX_ROW*State.MAX_COL >= 105);
+
+        return centralized ? new CentralizedState(null, boxesArray, agentsArray)
+                : new DecentralizedState(null, boxesArray, agentsArray);
     }
 
     private static void removeGoalsOfUnmovableBoxes(ArrayList<Box> unmovableBoxes, ArrayList<Goal> boxGoals) {
@@ -334,9 +323,9 @@ public class Main {
 
     private static ArrayList<Agent> removeAgentsWhichAreNotInMap(Agent[] agents, boolean[] agentsFoundInMap) {
         ArrayList<Agent> agentsList = new ArrayList<>();
-        for (int i = 0; i < agents.length; i++) {
-            if (agents[i] != null) {
-                agentsList.add(agents[i]);
+        for (Agent value : agents) {
+            if (value != null) {
+                agentsList.add(value);
             }
         }
         //Remove agents which are declared in description (with color and nr) but not placed in map
@@ -364,7 +353,6 @@ public class Main {
                 walls[box.row][box.column] = true;
             }
         }
-
         boxes.removeAll(boxesChangedToWalls);
         System.err.println("Boxes changed to walls: " + boxesChangedToWalls.size());
         return boxesChangedToWalls;
