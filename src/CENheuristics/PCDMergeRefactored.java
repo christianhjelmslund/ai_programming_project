@@ -439,7 +439,7 @@ public class PCDMergeRefactored extends Heuristic {
                 if (newX == goal.x && newY == goal.y) {
                     ArrayList<Goal> goals = new ArrayList<>();
                     Step parent = toExpand;
-                    while (parent != null) {
+                    while (parent.parent != null) {
                         for (Goal goalTemp : State.BOXGOALS) {
                             if (goalTemp.row == parent.row && goalTemp.column == parent.col) {
                                 goals.add(goalTemp);
