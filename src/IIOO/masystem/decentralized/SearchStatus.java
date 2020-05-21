@@ -21,21 +21,18 @@ public class SearchStatus extends TimerTask {
 
     @Override
     public void run() {
-
         int activeAgents = 0;
+        StringBuilder searchStatus = new StringBuilder();
         for (int i = 0; i < agentAIS.size(); i++) {
-            System.err.printf("AgentAI %d: ", i);
             if (agentAIS.get(i).runningStatus() != Thread.State.TERMINATED){
                 activeAgents++;
             }
-            String searchStatus = agentAIS.get(i).searchStatus();
-            System.err.println(searchStatus);
+//            System.err.printf("AgentAI %d: ", i);
+            searchStatus.append(String.format("AgentAI %d: %s\n", i, agentAIS.get(i).searchStatus()));
 
         }
-        System.err.printf("\nMemory used: %s\n", Memory.stringRep());
-        System.err.printf("Time used: %3.2f s\n", timeSpent());
-        System.err.printf("Active agentsAIs: %d\n\n", activeAgents);
-
+        searchStatus.append(String.format("Memory used: %s\nTime used: %3.2f s\nActive agentAIs: %d\n", Memory.stringRep(), timeSpent(), activeAgents));
+        System.err.println(searchStatus);
     }
 
     public float timeSpent() {
@@ -43,9 +40,16 @@ public class SearchStatus extends TimerTask {
     }
 
     public void terminate() {
-        System.err.printf("Total memory used: %s\n", Memory.stringRep());
-        System.err.printf("Total time used: %s\n", timeSpent());
         timer.cancel();
+        timer.purge();
+        StringBuilder searchStatus = new StringBuilder();
+        searchStatus.append("Finished with result:\n");
+        for (int i = 0; i < agentAIS.size(); i++) {
+//            System.err.printf("AgentAI %d: ", i);
+            searchStatus.append(String.format("AgentAI %d: %s\n", i, agentAIS.get(i).searchStatus()));
+        }
+        searchStatus.append(String.format("Memory used: %s\nTime used: %3.2f s\n", Memory.stringRep(), timeSpent()));
+        System.err.println(searchStatus);
     }
 
 }

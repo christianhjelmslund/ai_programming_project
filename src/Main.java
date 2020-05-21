@@ -55,7 +55,7 @@ public class Main {
                 System.exit(0);
             } else {
                 System.err.println("\nSummary for " + cenBestFirstStrategy.toString());
-                System.err.println("Found solution of length " + solution.size() + ". " + cenBestFirstStrategy.searchStatus(true));
+                System.err.println("Found solution with centralized AI of length " + solution.size() + ". " + cenBestFirstStrategy.searchStatus(true));
 
                 for (State n : solution) {
                     String act = n.actions.toString();
@@ -81,15 +81,10 @@ public class Main {
             }
 
 
-
-
-
-
-
-        //___________________________________DECENTRALIZED____________________________________________________
+            //___________________________________DECENTRALIZED____________________________________________________
 
         } else {
-            decClient = new DecentralizedSearch((DecentralizedState)initialState);
+            decClient = new DecentralizedSearch((DecentralizedState) initialState);
             decBestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(decClient.initialState));
 
             ArrayList<State> solution;
@@ -105,8 +100,7 @@ public class Main {
                 System.err.println("Unable to solve level.");
                 System.exit(0);
             } else {
-                System.err.println("\nSummary for " + decBestFirstStrategy.toString());
-                System.err.println("Found solution of length " + solution.size() + ". " + decBestFirstStrategy.searchStatus(true));
+                System.err.println("\nSummary for " + decBestFirstStrategy.toString() + "\nFound solution with decentralized AI of length " + solution.size() + ". " + decBestFirstStrategy.searchStatusDecentralized());
 
                 for (State n : solution) {
                     String act = n.actions.toString();
@@ -204,7 +198,7 @@ public class Main {
                         agentsFoundInMap[number] = true;
 
                     } else if ('A' <= chr && chr <= 'Z') { // Box
-                        Box box = new Box(row, col, boxColors.get(chr), chr,  null);
+                        Box box = new Box(row, col, boxColors.get(chr), chr, null);
                         boxes.add(box);
                     } else if (chr == ' ') {
                         // Free space.
@@ -297,7 +291,7 @@ public class Main {
         State.BOXGOALS = boxGoalsArray;
         State.AGENTGOALS = agentGoalsArray;
 
-        centralized = !(State.NUMBER_OF_AGENTS >= 7 && State.MAX_ROW*State.MAX_COL >= 105);
+        centralized = !(State.NUMBER_OF_AGENTS >= 7 && State.MAX_ROW * State.MAX_COL >= 105);
 
         return centralized ? new CentralizedState(null, boxesArray, agentsArray)
                 : new DecentralizedState(null, boxesArray, agentsArray);
@@ -307,12 +301,12 @@ public class Main {
         HashSet<Character> goalCharsToDelete = new HashSet<>();
         ArrayList<Goal> goalsToBeRemoved = new ArrayList<>();
 
-        for (Box box: unmovableBoxes) {
+        for (Box box : unmovableBoxes) {
             goalCharsToDelete.add(box.letter);
         }
 
         for (Goal goal : boxGoals) {
-            if (goalCharsToDelete.contains(goal.letter)){
+            if (goalCharsToDelete.contains(goal.letter)) {
                 goalsToBeRemoved.add(goal);
             }
         }
@@ -330,8 +324,8 @@ public class Main {
         }
         //Remove agents which are declared in description (with color and nr) but not placed in map
         int nrOfAgents = agentsList.size();
-        for (int i = nrOfAgents - 1; i>0; i--) {
-            if (!agentsFoundInMap[i] && nrOfAgents - 1 >= i){
+        for (int i = nrOfAgents - 1; i > 0; i--) {
+            if (!agentsFoundInMap[i] && nrOfAgents - 1 >= i) {
                 Agent agent = agentsList.remove(i);
                 System.err.println("Removing " + agent.toString());
             }
@@ -339,16 +333,16 @@ public class Main {
         return agentsList;
     }
 
-    public static ArrayList<Box> changeUnmovableBoxesToWalls(ArrayList<Box> boxes, boolean[][] walls, ArrayList<Agent> agentsList){
+    public static ArrayList<Box> changeUnmovableBoxesToWalls(ArrayList<Box> boxes, boolean[][] walls, ArrayList<Agent> agentsList) {
         ArrayList<Box> boxesChangedToWalls = new ArrayList<>();
         for (Box box : boxes) {
             boolean boxIsMovable = false;
             for (Agent agent : agentsList) {
-                if (agent.color == box.color){
+                if (agent.color == box.color) {
                     boxIsMovable = true;
                 }
             }
-            if (!boxIsMovable){
+            if (!boxIsMovable) {
                 boxesChangedToWalls.add(box);
                 walls[box.row][box.column] = true;
             }

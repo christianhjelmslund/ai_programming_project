@@ -36,7 +36,6 @@ public class DecentralizedState extends State {
     @Override
     public ArrayList<State> getExpandedStates() {
         Set<Command> validCommands = calcExpandedStates();
-        System.err.printf("\nPRINTING STATE FOR AGENT %d: \n %s%s\n", agentIdx, this, validCommands);
         ArrayList<State> expandedStates = new ArrayList<>();
         DecentralizedState childState;
         for (Command command : validCommands) {

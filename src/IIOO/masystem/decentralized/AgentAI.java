@@ -110,10 +110,10 @@ public class AgentAI implements Runnable {
 
     public String searchStatus() {
         if (thread.getState() != Thread.State.TERMINATED){
-            return bestFirstStrategy.searchStatus(false);
+            return String.format("\t\t\t%s",bestFirstStrategy.searchStatus(false));
         }
 
-        return "Done: " + finalSearchStatus;
+        return String.format("Done: \t%s", finalSearchStatus);
     }
 
     public ArrayList<State> getPlan() {

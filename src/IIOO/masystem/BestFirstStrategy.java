@@ -77,7 +77,10 @@ public class BestFirstStrategy implements Comparator<State> {
         return withMemoryAndTime ?
                 String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d, Time: %3.2f s \t%s", this.countExplored(), this.countFrontier(), this.countExplored()+this.countFrontier(), this.timeSpent(), Memory.stringRep())
                 : String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d", this.countExplored(), this.countFrontier(), this.countExplored()+this.countFrontier());
+    }
 
+    public String searchStatusDecentralized(){
+        return String.format("Time: %3.2f s \t%s", timeSpent(), Memory.stringRep());
     }
 
     public float timeSpent() {
