@@ -10,6 +10,8 @@ cd src
 javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
 cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;../lib/guava-28.2-jre.jar Main " -g $G  -t $T
 
+
+
 # _______Unsolvable Levels from comp18_________
 # MAAlphaOne
 # MAAntsStar - TODO: indbyg rækkefølge (evt. straf boxes og agents som er i korridor før deres tur)
