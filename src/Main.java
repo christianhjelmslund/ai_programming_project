@@ -325,10 +325,11 @@ public class Main {
         for (Goal goal : boxGoals) {
             if (goalCharsToDelete.contains(goal.letter)){
                 goalsToBeRemoved.add(goal);
-                System.err.println("Removing" + goal.toString());
             }
         }
         boxGoals.removeAll(goalsToBeRemoved);
+        System.err.println("Goals (with no boxes) removed: " + goalsToBeRemoved.size());
+
     }
 
     private static ArrayList<Agent> removeAgentsWhichAreNotInMap(Agent[] agents, boolean[] agentsFoundInMap) {

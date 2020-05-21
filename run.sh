@@ -1,5 +1,5 @@
 LEVELS_DIR=levels/comp20/
-LEVEL=MABaguettes.lvl # change level name
+LEVEL=MAThree.lvl # change level name
 
 
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
@@ -13,19 +13,22 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 
 # _______Unsolvable Levels from comp20_________
 # MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish
-# MAAIstars - DECENTRALIZED, rækkefølge af både bokse og agenter - TODO: Agentgoals + order of those + DECENTRALIZED
-# MABaguettes - TODO: NULLPOINTER 211
 # MABoxAgents - TODO: (easy!) antiblock
-# MAdeepChaos - TODO: Agentgoals +  ARRAYINDEXOUTOFBOUNDS
 # MAfootsteps - TODO: Antiblock. Fjern bokse fra korridor, før vi begynder at putte bokse ind i rækkefølge
-# MAFPHPOP - TODO: DECENTRALIZED (hard) + antiblock (9 agents)
 # MAGLaDOS - TODO: (easy!) antiblock
-# MAKaren - TODO: NULLPOINTER 124
 # MANicolAI - TODO: Mere sofistikeret rækkefølge
+# MAThree - TODO: Mere sofistikeret rækkefølge
+
+
+
+
+# MAAIstars - rækkefølge af både bokse og agenter - TODO: DECENTRALIZED Agentgoals + order of those
+# MADeepPlan - TODO: DECENTRALIZED
+# MAFPHPOP - TODO: DECENTRALIZED (hard) + antiblock (9 agents)
+# MAKaren - TODO: DECENTRALIZED
 # MAReftAI - TODO: DECENTRALIZED, (Easy?!) assign objectives correctly?
 # MASokoBros - TODO: DECENTRALIZED, (hard) needs unblock
-# MATheZoo - TODO: Relativ simpel hvis vi håndterer konflikter
-# MAThree - TODO: NULLPOINTER 181
+# MATheZoo - TODO: DECENTRALIZED Relativ simpel hvis vi håndterer konflikter
 # MAVAikings - TODO: DECENTRALIZED, konflikthåndtering
 
 
