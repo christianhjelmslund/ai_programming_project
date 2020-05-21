@@ -11,6 +11,15 @@ javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
 cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -g $G  -t $T
 
 
+#mkdir out
+#cd src
+#javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
+#cd ../out && java -jar ../server.jar -l ../levels/comp20SOLV/MAIIOO.lvl -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180
+
+#mkdir out
+#cd src && javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
+#cd ../out && java -jar ../server.jar -l ../levels/comp20SOLV -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180 -o "ioio.zip"
+
 # _______Unsolvable Levels from comp20_________
 # MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish (O CHECK DEPENDENCY)
 # MABoxAgents - TODO: (easy!) antiblock (O CHECK DEPENDENCY)
@@ -21,12 +30,12 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 
 
 
-# MAAIstars - rækkefølge af både bokse og agenter - TODO: DECENTRALIZED Agentgoals + order of those
-# MADeepPlan - TODO: DECENTRALIZED
-# MAFPHPOP - TODO: DECENTRALIZED (hard) + antiblock (9 agents)
-# MAKaren - TODO: DECENTRALIZED
-# MAReftAI - TODO: DECENTRALIZED, (Easy?!) assign objectives correctly?
-# MASokoBros - TODO: DECENTRALIZED, (hard) needs unblock
+# MAAIstars - rækkefølge af både bokse og agenter - TODO: DECENTRALIZED Agentgoals + order of those JA
+# MADeepPlan - TODO: DECENTRALIZED NEJ
+# MAFPHPOP - TODO: DECENTRALIZED (hard) + antiblock (9 agents) NEJ
+# MAKaren - TODO: DECENTRALIZED MÅSKE
+# MAReftAI - TODO: DECENTRALIZED, (Easy?!) assign objectives correctly? MÅSKE
+# MASokoBros - TODO: DECENTRALIZED, (hard) needs unblock NEJ
 # MATheZoo - TODO: DECENTRALIZED Relativ simpel hvis vi håndterer konflikter
 # MAVAikings - TODO: DECENTRALIZED, konflikthåndtering
 
@@ -54,7 +63,3 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 
 
 
-
-#mkdir out
-#cd src && javac -cp ./;../lib/guava-28.2-jre.jar Main.java -d ../out
-#cd ../out && java -jar ../server.jar -l ../levels/comp20SOLV -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180 -o "ioio.zip"
