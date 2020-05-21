@@ -3,7 +3,7 @@
 # Variable declaration
 branch=$(git rev-parse --abbrev-ref HEAD) # Command to get current git branch
 classpath=.:../lib/guava-28.2-jre.jar
-test_levels='../levels/performance_test_levels'
+test_levels='../levels/comp20SOLV'
 dateNow=$(date +"%c")
 result_file_name=test_results.txt
 

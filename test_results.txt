@@ -206,3 +206,42 @@ SAAiAiCap.lvl: Found solution of length 72. #Explored:    181, #Frontier:    788
 SAAIFather.lvl: Found solution of length 129. #Explored:  1.231, #Frontier:    501, #Generated:  1.732, Time: 0,12 s 	[Used: 14,48 MB, Free: 111,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
 
 
+
+with_cap_on_agents_to_DECENTR
+User: tdhes, Branch: investigate_blocks, 21. maj 2020 10:28:03
+MAChuligans.lvl: Found solution of length 54. #Explored:     55, #Frontier:  8.416, #Generated:  8.471, Time: 0,16 s 	[Used: 8,32 MB, Free: 117,68 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MACoronAI.lvl: Found solution of length 45. #Explored:    187, #Frontier: 59.937, #Generated: 60.124, Time: 0,53 s 	[Used: 30,33 MB, Free: 95,67 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MADeepMinds.lvl: Found solution of length 33. #Explored:     90, #Frontier:  1.544, #Generated:  1.634, Time: 0,09 s 	[Used: 12,48 MB, Free: 113,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAIIOO.lvl: Found solution of length 80. #Explored:    588, #Frontier: 1.215.701, #Generated: 1.216.289, Time: 11,72 s 	[Used: 1257,00 MB, Free: 184,00 MB, Alloc: 1441,00 MB, MaxAlloc: 2002,00 MB]
+MAMSecretA.lvl: Found solution of length 34. #Explored:     34, #Frontier:    216, #Generated:    250, Time: 0,06 s 	[Used: 7,48 MB, Free: 118,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAMulle.lvl: Found solution of length 86. #Explored: 12.590, #Frontier: 13.292, #Generated: 25.882, Time: 0,53 s 	[Used: 37,08 MB, Free: 88,92 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAMAAIStro.lvl: Found solution of length 25. #Explored:     25, #Frontier:    291, #Generated:    316, Time: 0,07 s 	[Used: 6,96 MB, Free: 119,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MANeverAI.lvl: Found solution of length 153. #Explored:    244, #Frontier:  3.766, #Generated:  4.010, Time: 0,12 s 	[Used: 20,48 MB, Free: 105,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAThreePO.lvl: Found solution of length 70. #Explored:     70, #Frontier:  3.428, #Generated:  3.498, Time: 0,11 s 	[Used: 19,48 MB, Free: 106,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MATrueGlue.lvl: Found solution of length 70. #Explored:     70, #Frontier: 19.888, #Generated: 19.958, Time: 0,23 s 	[Used: 16,90 MB, Free: 109,10 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAaiaioh.lvl: Found solution of length 12. #Explored:     12, #Frontier:    346, #Generated:    358, Time: 0,08 s 	[Used: 6,48 MB, Free: 119,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAAIcaramba.lvl: Found solution of length 5. #Explored:      0, #Frontier:      0, #Generated:      0, Time: 0,07 s 	[Used: 9,00 MB, Free: 117,00 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+MAaicecubes.lvl: Found solution of length 66. #Explored:     77, #Frontier:  1.188, #Generated:  1.265, Time: 0,08 s 	[Used: 9,48 MB, Free: 116,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+
+SAChuligans.lvl: Found solution of length 216. #Explored:    216, #Frontier:    518, #Generated:    734, Time: 0,09 s 	[Used: 11,48 MB, Free: 114,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SACoronAI.lvl: Found solution of length 63. #Explored:    180, #Frontier:    562, #Generated:    742, Time: 0,10 s 	[Used: 12,48 MB, Free: 113,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SADeepMinds.lvl: Found solution of length 276. #Explored: 63.214, #Frontier: 12.208, #Generated: 75.422, Time: 1,32 s 	[Used: 66,00 MB, Free: 60,00 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SADeepPlan.lvl: Found solution of length 331. #Explored:    351, #Frontier:    617, #Generated:    968, Time: 0,12 s 	[Used: 17,96 MB, Free: 108,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAFPHPOP.lvl: Found solution of length 4822. #Explored:  5.433, #Frontier: 34.964, #Generated: 40.397, Time: 5,32 s 	[Used: 185,73 MB, Free: 79,27 MB, Alloc: 265,00 MB, MaxAlloc: 2002,00 MB]
+SAGLaDOS.lvl: Found solution of length 281. #Explored:    285, #Frontier:  1.400, #Generated:  1.685, Time: 0,10 s 	[Used: 29,50 MB, Free: 96,50 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAIIOO.lvl: Found solution of length 14. #Explored:     18, #Frontier:     80, #Generated:     98, Time: 0,06 s 	[Used: 6,48 MB, Free: 119,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAMSecretA.lvl: Found solution of length 36. #Explored:     36, #Frontier:     50, #Generated:     86, Time: 0,06 s 	[Used: 6,51 MB, Free: 119,49 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAMulle.lvl: Found solution of length 86. #Explored:  1.625, #Frontier:    352, #Generated:  1.977, Time: 0,14 s 	[Used: 16,96 MB, Free: 109,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAMAAIStro.lvl: Found solution of length 11. #Explored:     11, #Frontier:     10, #Generated:     21, Time: 0,06 s 	[Used: 5,97 MB, Free: 120,03 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SANeverAI.lvl: Found solution of length 390. #Explored:    396, #Frontier:  1.003, #Generated:  1.399, Time: 0,10 s 	[Used: 13,48 MB, Free: 112,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SANicolAI.lvl: Found solution of length 122. #Explored:    183, #Frontier:    231, #Generated:    414, Time: 0,07 s 	[Used: 7,96 MB, Free: 118,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SASokoBros.lvl: Found solution of length 119. #Explored: 22.398, #Frontier: 28.926, #Generated: 51.324, Time: 1,25 s 	[Used: 55,00 MB, Free: 71,00 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAThreePO.lvl: Found solution of length 158. #Explored:    158, #Frontier:    550, #Generated:    708, Time: 0,09 s 	[Used: 11,96 MB, Free: 114,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SATrueGlue.lvl: Found solution of length 110. #Explored:    110, #Frontier:    288, #Generated:    398, Time: 0,08 s 	[Used: 7,96 MB, Free: 118,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAVAikings.lvl: Found solution of length 2048. #Explored:  2.048, #Frontier:  1.591, #Generated:  3.639, Time: 0,20 s 	[Used: 20,36 MB, Free: 105,64 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAaiaioh.lvl: Found solution of length 11. #Explored:     12, #Frontier:     49, #Generated:     61, Time: 0,06 s 	[Used: 6,00 MB, Free: 120,00 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAAIcaramba.lvl: Found solution of length 50. #Explored:  1.023, #Frontier:    291, #Generated:  1.314, Time: 0,11 s 	[Used: 12,96 MB, Free: 113,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAaicecubes.lvl: Found solution of length 27. #Explored:     27, #Frontier:     27, #Generated:     54, Time: 0,06 s 	[Used: 5,96 MB, Free: 120,04 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+SAAIstars.lvl: Found solution of length 38. #Explored:    148, #Frontier:     32, #Generated:    180, Time: 0,07 s 	[Used: 6,48 MB, Free: 119,52 MB, Alloc: 126,00 MB, MaxAlloc: 2002,00 MB]
+
+
