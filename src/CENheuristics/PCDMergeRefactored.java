@@ -62,10 +62,10 @@ public class PCDMergeRefactored extends Heuristic {
         h = h + moveAgentToAgentGoalWhenDone(n);
         //h = h + punishmentForBeingCloseToOtherColors;
 
-        double rand = Math.random();
+   /*     double rand = Math.random();
         if (rand > 0.9995){
             h -= 2;
-        } 
+        } */
 
 
         return h*2; //Resolves to weighted A*
@@ -220,6 +220,13 @@ public class PCDMergeRefactored extends Heuristic {
 
     }
 
+    public boolean boxesAreAdjacent(Box box1, Box box2){
+        return (box1.row == box2.row + 1 && box1.column == box2.column) ||
+                (box1.row == box2.row -1 && box1.column == box2.column) ||
+                (box1.row == box2.row && box1.column == box2.column +1) ||
+                (box1.row == box2.row && box1.column == box2.column -1);
+    }
+
     public int getDistsToAssignedGoals(State n) {
         int sum = 0;
         for (Box box : n.boxes) {
@@ -227,11 +234,18 @@ public class PCDMergeRefactored extends Heuristic {
                 Goal goal = box.assignedGoal;
                 int[][] distancesFromGoal = distMaps.get(new Point(goal.row, goal.column));
                 int distToGoal = distancesFromGoal[box.row][box.column];
+
                 if (isDependanciesSatisfied(n, box)) {
                     if (goal.row == box.row && goal.column == box.column) {
                         sum -= factorRewardForPlacingBoxAtGoal; //reward placing box at goal when dependencies are satisfied
                     } else {
                         sum += distToGoal;
+                        for (Box boxOther : n.boxes) {
+                            if (boxesAreAdjacent(box, boxOther) ) {
+                                sum+=1;
+                                break;
+                            }
+                        }
                     }
                 } else { //If dependencies for box is not satisfied, punish current state
                     sum += typicalPunishmentFactor;

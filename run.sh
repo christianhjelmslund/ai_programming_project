@@ -1,5 +1,5 @@
 LEVELS_DIR=levels/comp20/
-LEVEL=MAGlaDOS.lvl # change level name
+LEVEL=MAIIOO.lvl # change level name
 
 
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
