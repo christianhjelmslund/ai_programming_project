@@ -1,5 +1,5 @@
 LEVELS_DIR=levels/comp20/
-LEVEL=MACoronAI.lvl # change level name
+LEVEL=MAThree.lvl # change level name
 
 
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
@@ -9,6 +9,29 @@ rm -rf out
 cd src
 javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
 cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;../lib/guava-28.2-jre.jar Main " -g $G  -t $T
+
+
+# _______Unsolvable Levels from comp20_________
+# MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish
+# MABoxAgents - TODO: (easy!) antiblock
+# MAfootsteps - TODO: Antiblock. Fjern bokse fra korridor, før vi begynder at putte bokse ind i rækkefølge
+# MAGLaDOS - TODO: (easy!) antiblock
+# MANicolAI - TODO: Mere sofistikeret rækkefølge
+# MAThree - TODO: Mere sofistikeret rækkefølge
+
+
+
+
+# MAAIstars - rækkefølge af både bokse og agenter - TODO: DECENTRALIZED Agentgoals + order of those
+# MADeepPlan - TODO: DECENTRALIZED
+# MAFPHPOP - TODO: DECENTRALIZED (hard) + antiblock (9 agents)
+# MAKaren - TODO: DECENTRALIZED
+# MAReftAI - TODO: DECENTRALIZED, (Easy?!) assign objectives correctly?
+# MASokoBros - TODO: DECENTRALIZED, (hard) needs unblock
+# MATheZoo - TODO: DECENTRALIZED Relativ simpel hvis vi håndterer konflikter
+# MAVAikings - TODO: DECENTRALIZED, konflikthåndtering
+
+
 
 
 

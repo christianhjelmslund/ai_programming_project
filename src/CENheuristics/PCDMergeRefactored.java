@@ -299,7 +299,28 @@ public class PCDMergeRefactored extends Heuristic {
                         Point boxPoint = new Point(minBox.column, minBox.row);
                         Point agentPoint = new Point(agent.column, agent.row);
                         if (corridor.containsKey(boxPoint) || corridor.containsKey(agentPoint)){ //minBox is at corridor
+
                             Point goalPoint = new Point(minBox.assignedGoal.row, minBox.assignedGoal.column);
+                            //System.err.println("ERROR AT: " + goalPoint);
+                            /*
+                            for (Box box :
+                                    n.boxes) {
+                                System.err.println(box);
+
+                            }
+                            for (Goal goal :
+                                    State.AGENTGOALS) {
+                                System.err.println("Agent Goal:" + goal.row + "," +goal.column);
+
+                            }
+                            for (Goal goal :
+                                    State.BOXGOALS) {
+                                System.err.println("BOX Goal:" + goal.row + "," +goal.column);
+
+                            }
+                            */
+
+
                             if (distMaps.get(goalPoint)[minBox.row][minBox.column] > distMaps.get(goalPoint)[agent.row][agent.column]){
                                 punishCorridor += 2;
                             }
