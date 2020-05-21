@@ -24,7 +24,8 @@ public class Main {
 
         State initialState = loadInitialState(serverMessages);
 
-        boolean centralized = initialState.agents.length <= 5;
+        boolean centralized = !(initialState.agents.length >= 7 && initialState.MAX_ROW*initialState.MAX_COL >= 105);
+
 
 
         SearchClient cenClient = null;
