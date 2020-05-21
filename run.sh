@@ -1,5 +1,5 @@
 LEVELS_DIR=levels/comp20/
-LEVEL=MAThree.lvl # change level name
+LEVEL=SASokoBros.lvl # change level name
 
 
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
@@ -8,12 +8,12 @@ T=180 # time out in seconds
 rm -rf out
 cd src
 javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
-cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;../lib/guava-28.2-jre.jar Main " -g $G  -t $T
+cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -g $G  -t $T
 
 
 # _______Unsolvable Levels from comp20_________
-# MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish
-# MABoxAgents - TODO: (easy!) antiblock
+# MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish (O CHECK DEPENDENCY)
+# MABoxAgents - TODO: (easy!) antiblock (O CHECK DEPENDENCY)
 # MAfootsteps - TODO: Antiblock. Fjern bokse fra korridor, før vi begynder at putte bokse ind i rækkefølge
 # MAGLaDOS - TODO: (easy!) antiblock
 # MANicolAI - TODO: Mere sofistikeret rækkefølge
@@ -56,10 +56,6 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 
 
 
-# ________ Notes For optimal heuristic ______________
-# TODO: GreenDots performs a lot better without assignment of boxes to goals!
-# TODO: Optimer initiel tildeling af boxes til goals. Eksempelvis med PREDICATE/FILTER: Skal indeholde alle bogstaver? The Hungarian Algorithm!!!
-# TODO: Somehow guide agents away from vital paths ... Larger punishment the longer into the "valley?"
-# TODO: Find en måde at få agenter til at gå uden om bokse, selvom den korteste vej er igennem
-# TODO: Kun minimér afstand fra bokse til mål når agenters tur
-# TODO: Several red agents should never go to same box (assign agents to boxes)
+#mkdir out
+#cd src && javac -cp ./;../lib/guava-28.2-jre.jar Main.java -d ../out
+#cd ../out && java -jar ../server.jar -l ../levels/comp20SOLV -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180 -o "ioio.zip"
