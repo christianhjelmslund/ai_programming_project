@@ -15,7 +15,8 @@ public class State {
     public static int NUMBER_OF_AGENTS = 0;
     public static int NUMBER_OF_BOXES = 0;
     public static boolean[][] WALLS = new boolean[MAX_ROW][MAX_COL];
-    public static Goal[] GOALS;
+    public static Goal[] BOXGOALS;
+    public static Goal[] AGENTGOALS;
 
 
     public Agent[] agents;
@@ -52,7 +53,7 @@ public class State {
     //TODO: Fix saaledes at vi kun tjekker de bokse der har et goal state
     public boolean isGoalState(boolean won) {
 
-        for (Goal goal : GOALS) {
+        for (Goal goal : BOXGOALS) {
             boolean goalIsOccupied = false;
             for (Box box : boxes) {
                 if (goal.row == box.row && goal.column == box.column && goal.letter == box.letter) {
@@ -64,6 +65,15 @@ public class State {
                 return false;
             }
         }
+
+        for (Goal agentGoal : AGENTGOALS) {
+            int agentNumber = (int) agentGoal.letter;
+            Agent agent = agents[agentNumber];
+            if (agentGoal.row != agent.row || agentGoal.column != agent.column) {
+                return false;
+            }
+        }
+
         return true; //return true if every goal was occupied
     }
 
@@ -423,9 +433,16 @@ public class State {
                         }
                     }
                     //goals
-                    for (int i = 0; i < GOALS.length; i++) {
-                        if (row == GOALS[i].row && col == GOALS[i].column && blanc){
-                            s.append(Character.toLowerCase(GOALS[i].letter));
+                    for (int i = 0; i < BOXGOALS.length; i++) {
+                        if (row == BOXGOALS[i].row && col == BOXGOALS[i].column && blanc){
+                            s.append(Character.toLowerCase(BOXGOALS[i].letter));
+                            blanc = false;
+                        }
+                    }
+
+                    for (int i = 0; i < AGENTGOALS.length; i++) {
+                        if (row == AGENTGOALS[i].row && col == AGENTGOALS[i].column && blanc){
+                            s.append(AGENTGOALS[i].letter);
                             blanc = false;
                         }
                     }

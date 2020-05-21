@@ -151,7 +151,8 @@ public class Main {
         Map<Character, Integer> boxColors = new HashMap<>();
 
         Agent[] agents = new Agent[10];
-        ArrayList<Goal> goals = new ArrayList<>();
+        ArrayList<Goal> agentGoals = new ArrayList<>();
+        ArrayList<Goal> boxGoals = new ArrayList<>();
         ArrayList<Box> boxes = new ArrayList<>(); // max number of boxes
 
         String line = "init";
@@ -244,7 +245,9 @@ public class Main {
                     char chr = line.charAt(col);
 
                     if ('A' <= chr && chr <= 'Z') { // Goal.
-                        goals.add(new Goal(row, col, chr));
+                        boxGoals.add(new Goal(row, col, chr));
+                    } else if ('0' <= chr && chr <= '9') { // agentGoal
+                        agentGoals.add(new Goal(row, col, chr));
                     }
                 }
                 line = serverMessages.readLine();
@@ -285,10 +288,11 @@ public class Main {
 
         Box[] boxesArray = new Box[boxes.size()];
         Agent[] agentsArray = new Agent[agentsList.size()];
-        Goal[] goalsArray = new Goal[goals.size()];
+        Goal[] boxGoalsArray = new Goal[boxGoals.size()];
+        Goal[] agentGoalsArray = new Goal[agentGoals.size()];
 
-        for (int i = 0; i < goalsArray.length; i++) {
-            goalsArray[i] = goals.get(i);
+        for (int i = 0; i < boxGoalsArray.length; i++) {
+            boxGoalsArray[i] = boxGoals.get(i);
         }
         for (int i = 0; i < boxesArray.length; i++) {
             boxesArray[i] = boxes.get(i);
@@ -297,7 +301,12 @@ public class Main {
             agentsArray[i] = agentsList.get(i);
         }
 
-        CENmasystem.State.GOALS = goalsArray;
+        for (int i = 0; i < agentGoalsArray.length; i++) {
+            agentGoalsArray[i] = agentGoals.get(i);
+        }
+
+        CENmasystem.State.BOXGOALS = boxGoalsArray;
+        CENmasystem.State.AGENTGOALS = agentGoalsArray;
 
         State initialState = new State(null, boxesArray, agentsArray);
         return initialState;

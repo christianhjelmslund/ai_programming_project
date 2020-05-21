@@ -15,7 +15,7 @@ public class DecentralizedSearch {
 
         Agent[] childAgents = new Agent[cenState.NUMBER_OF_AGENTS];
         Box[] childBoxes = new Box[cenState.NUMBER_OF_BOXES];
-        Goal[] GOALS = new Goal[cenState.GOALS.length];
+        Goal[] GOALS = new Goal[cenState.BOXGOALS.length];
 
 
         for (int i = 0; i < cenState.NUMBER_OF_AGENTS; i++) {
@@ -27,8 +27,8 @@ public class DecentralizedSearch {
 
         }
 
-        for (int i = 0; i < cenState.GOALS.length; i++) {
-            GOALS[i] =new Goal(cenState.GOALS[i].row, cenState.GOALS[i].column, cenState.GOALS[i].letter);
+        for (int i = 0; i < cenState.BOXGOALS.length; i++) {
+            GOALS[i] =new Goal(cenState.BOXGOALS[i].row, cenState.BOXGOALS[i].column, cenState.BOXGOALS[i].letter);
         }
 
         initialState = new State(null, childBoxes, childAgents);

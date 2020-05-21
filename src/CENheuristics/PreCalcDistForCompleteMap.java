@@ -102,7 +102,7 @@ public class PreCalcDistForCompleteMap extends Heuristic {
             }
 
             //Minimize distance from boxes to goals
-            for (Goal goal : n.GOALS) {
+            for (Goal goal : n.BOXGOALS) {
                 if (goal.letter == box.letter){
                     int distanceToGoal = distancesFromBox[goal.row][goal.column];
                     if (distanceToGoal < minDistToGoal){

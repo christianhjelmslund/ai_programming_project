@@ -96,8 +96,8 @@ public class PCDMergeRefactored extends Heuristic {
         for (int i = 0; i < initialState.boxes.length ; i++) { //Each column is a goal
             Goal goal = null;
             int[][] distmap = null;
-            if (i<State.GOALS.length){
-                goal = State.GOALS[i];
+            if (i<State.BOXGOALS.length){
+                goal = State.BOXGOALS[i];
                 distmap = distMaps.get(new Point(goal.row, goal.column));
             }
             for (int j = 0; j < initialState.boxes.length ; j++) { //Each row represents a box
@@ -119,9 +119,9 @@ public class PCDMergeRefactored extends Heuristic {
 
         //Now assign actual boxes to goals, where subaarays in assignmentIndexes are {boxIndex, nearestGoalIndex}
         for (int i = 0; i < assignmentIndexes.length; i++) {
-            if (assignmentIndexes[i][1] < State.GOALS.length) {
+            if (assignmentIndexes[i][1] < State.BOXGOALS.length) {
                 Box box = initialState.boxes[assignmentIndexes[i][0]];
-                Goal goal = State.GOALS[assignmentIndexes[i][1]];
+                Goal goal = State.BOXGOALS[assignmentIndexes[i][1]];
                 box.assignedGoal = goal;
             }
         }
@@ -244,7 +244,7 @@ public class PCDMergeRefactored extends Heuristic {
         //RIP this methods runtime
         for (Box box : n.boxes){
             if (box.color == agent.color){
-                for (Goal goal : n.GOALS){
+                for (Goal goal : n.BOXGOALS){
                     if (goal.letter == box.letter){
                         if (!isSatisfied(n, goal)){
                             return false;
@@ -327,7 +327,7 @@ public class PCDMergeRefactored extends Heuristic {
                     ArrayList<Goal> goals = new ArrayList<>();
                     Step parent = toExpand;
                     while (parent != null) {
-                        for (Goal goalTemp : State.GOALS) {
+                        for (Goal goalTemp : State.BOXGOALS) {
                             if (goalTemp.row == parent.row && goalTemp.column == parent.col) {
                                 goals.add(goalTemp);
                             }
@@ -352,7 +352,7 @@ public class PCDMergeRefactored extends Heuristic {
                 }
 
                 boolean isGoal = false;
-                for (Goal goalTemp : State.GOALS) {
+                for (Goal goalTemp : State.BOXGOALS) {
                     if (goalTemp.row == newY && goalTemp.column == newX) {
                         isGoal = true;
                         break;
