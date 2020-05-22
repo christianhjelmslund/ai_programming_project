@@ -1,5 +1,5 @@
 LEVELS_DIR=levels/comp20/
-LEVEL=MAIIOO.lvl # change level name
+LEVEL=MAAIstars.lvl # change level name
 
 
 G=150 # number of graphical steps - if you want only to run it in terminal just remove "-g $G" argument
@@ -16,9 +16,9 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 #javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
 #cd ../out && java -jar ../server.jar -l ../levels/comp20SOLV/MAIIOO.lvl -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180
 
-mkdir out
-cd src && javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
-cd ../out && java -jar ../server.jar -l ../levels/comp20 -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180 -o "ioio.zip"
+#mkdir out
+#cd src && javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
+#cd ../out && java -jar ../server.jar -l ../levels/comp20 -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180 -o "ioio.zip"
 
 # _______Unsolvable Levels from comp20_________
 # MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish (O CHECK DEPENDENCY)
@@ -26,8 +26,6 @@ cd ../out && java -jar ../server.jar -l ../levels/comp20 -c "java -cp ./;../lib/
 # MAfootsteps - TODO: Antiblock. Fjern bokse fra korridor, før vi begynder at putte bokse ind i rækkefølge
 # MANicolAI - TODO: Mere sofistikeret rækkefølge
 # MAThree - TODO: Mere sofistikeret rækkefølge
-
-
 
 
 # MAAIstars - rækkefølge af både bokse og agenter - TODO: DECENTRALIZED Agentgoals + order of those JA
