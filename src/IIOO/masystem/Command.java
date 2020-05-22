@@ -88,6 +88,34 @@ public class Command {
         this.dir2 = d2;
     }
 
+    public Command invert() {
+        Command newCommand;
+        Dir newAgentDir = Dir.N;
+        for (Dir d : Dir.values()) {
+            if (isOpposite(this.dir1, d)) {
+                newAgentDir = d;
+                break;
+            }
+        }
+        switch(this.actionType) {
+            case Move:
+                newCommand = new Command(Type.Move, newAgentDir, null);
+                return newCommand;
+            case Push:
+                newCommand = new Command(Type.Pull, newAgentDir, this.dir2);
+                return newCommand;
+            case Pull:
+                newCommand = new Command(Type.Push, newAgentDir, this.dir2);
+                return newCommand;
+
+            default:
+                System.err.println("Not yet implemented - command invert");
+                break;
+        }
+
+        return null;
+    }
+
     @Override
     public String toString() {
         if (this.actionType == Type.NoOp) {
