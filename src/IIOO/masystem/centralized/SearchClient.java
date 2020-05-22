@@ -29,7 +29,7 @@ public class SearchClient {
 
             State leafState = bestFirstStrategy.getAndRemoveLeaf();
 
-            if (iterations == 100) {
+            if (iterations == 1000) {
 
 
                 System.err.println(bestFirstStrategy.searchStatus(true));

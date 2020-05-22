@@ -16,9 +16,9 @@ cd ../out && java -jar ../server.jar -l ../$LEVELS_DIR/$LEVEL -c "java -cp ./;..
 #javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
 #cd ../out && java -jar ../server.jar -l ../levels/comp20SOLV/MAIIOO.lvl -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180
 
-#mkdir out
-#cd src && javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
-#cd ../out && java -jar ../server.jar -l ../levels/comp20SOLV -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180 -o "ioio.zip"
+mkdir out
+cd src && javac -cp "./;../lib/guava-28.2-jre.jar" Main.java -d ../out
+cd ../out && java -jar ../server.jar -l ../levels/comp20 -c "java -cp ./;../lib/guava-28.2-jre.jar Main" -t 180 -o "ioio.zip"
 
 # _______Unsolvable Levels from comp20_________
 # MAaiaicapn - kræver at box hives væk fra et mål først - TODO: antiblock -ish (O CHECK DEPENDENCY)
