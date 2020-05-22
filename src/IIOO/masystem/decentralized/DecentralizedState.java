@@ -68,6 +68,13 @@ public class DecentralizedState extends State {
         return new DecentralizedState(this, childBoxes, childAgents, this.agentIdx);
     }
 
+    public void executeCommands(ArrayList<Command> commands) {
+        for (int agentIdx = 0; agentIdx < commands.size(); agentIdx++) {
+            this.setAgentIdx(agentIdx);
+            executeCommand(commands.get(agentIdx));
+        }
+    }
+
     public void executeCommand(Command command) {
         int agentRow = this.agents[agentIdx].row;
         int agentCol = this.agents[agentIdx].column;

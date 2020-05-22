@@ -15,6 +15,153 @@ public class DecentralizedSearch {
         initialState = state;
     }
 
+    private ArrayList<Conflict> findConflicts(ArrayList<Command> commands, State state) {
+        ArrayList<Conflict> conflicts = new ArrayList<>();
+        ArrayList<Coordinate> reservedCoords = new ArrayList<>();
+        // TODO: The variables below should be dictionaries
+        ArrayList<Coordinate> failedActionFromCoords = new ArrayList<>();
+        ArrayList<Coordinate> failedActionToCoords = new ArrayList<>();
+        for (int i = 0; i < commands.size(); i++) {
+            Command command = commands.get(i);
+            Agent agent = state.agents[i];
+            state.isValidCommand(agent, command);
+            switch (command.actionType) {
+                case Move:
+                    int row = agent.row + Command.dirToRowChange(command.dir1);
+                    int column = agent.column + Command.dirToColChange(command.dir1);
+                    Coordinate coord = new Coordinate(row, column, i);
+                    
+                    if (state.isValidCommand(agent, command)) {
+                        int coordIdx = reservedCoords.indexOf(coord);
+                        if (coordIdx == -1) {
+                            reservedCoords.add(coord);
+                        } else {
+                            Conflict conflict = new Conflict(reservedCoords.get(coordIdx).agentIdx, coord.agentIdx, Conflict.Type.FreeCell);
+                            conflicts.add(conflict);
+                        }
+                    } else {
+                        failedActionToCoords.add(coord);
+                        failedActionFromCoords.add(new Coordinate(agent.row, agent.column, i));
+                    }
+                        
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+
+        for (Coordinate toCoordinate : failedActionToCoords) { //TODO: Change to dictionaries
+            int agentIdx = toCoordinate.agentIdx;
+            Coordinate fromCoordinate = null;
+            Coordinate conflictingFromCoordinate = null;
+            for (Coordinate c : failedActionFromCoords) {
+                if (agentIdx == c.agentIdx) {
+                    fromCoordinate = c;
+                } else if (toCoordinate.equals(c)) {
+                    conflictingFromCoordinate = c;
+                }
+            }
+
+            if (conflictingFromCoordinate != null) {
+                Coordinate conflictingToCoodinate = null;
+                for (Coordinate c : failedActionToCoords) {
+                    if (c.agentIdx == conflictingFromCoordinate.agentIdx) {
+                        conflictingToCoodinate = c;
+                    }
+                }
+
+                if (conflictingToCoodinate != null && fromCoordinate.equals(conflictingToCoodinate)) {
+                    conflicts.add(new Conflict(agentIdx, conflictingToCoodinate.agentIdx, Conflict.Type.DeadLock));
+                } else {
+                    conflicts.add(new Conflict(agentIdx, conflictingFromCoordinate.agentIdx, Conflict.Type.Blocker));
+                }
+            } else {
+                // TODO: add a blocker conflict. who is responsible
+            }
+
+        }
+
+        return conflicts;
+    }
+
+    private ArrayList<Command> resolveConflicts(ArrayList<AgentAI> agentAIs, ArrayList<Command> commands, ArrayList<Objective> objectives, State state) {
+        ArrayList<Conflict> conflicts = findConflicts(commands, state);
+        for (Conflict conflict : conflicts) {
+            int lowAgentIdx = conflict.getLowIdx();
+            int highAgentIdx = conflict.getHighIdx();
+
+            switch (conflict.conflictType) { // See Conflict.java for explanations of conflict types
+                case FreeCell:
+                    commands.set(highAgentIdx, new Command());
+                    agentAIs.get(highAgentIdx).decreasePlanIdx(1);
+                    break;
+                
+                case DeadLock:
+                    commands.set(lowAgentIdx, new Command());
+                    agentAIs.get(lowAgentIdx).decreasePlanIdx(1);
+
+                    commands.set(highAgentIdx, agentAIs.get(highAgentIdx).goBack());
+                    break;
+
+                case Blocker:
+                    commands.set(conflict.agentIdx1, new Command());
+                    agentAIs.get(conflict.agentIdx1).decreasePlanIdx(1);
+
+                    // TODO: add objective
+                    // objectives.add(new FreeCellObjective(row, col));
+                
+                default:
+                    System.err.println("Not a valid conflict type");
+                    break;
+            }
+        }
+
+        return commands;
+    }
+
+    private void assignFreeCellObjectives(ArrayList<AgentAI> agentAIs2, ArrayList<Objective> freeCellObjectives) {
+        // TODO: implement this method
+    
+    }
+
+    public ArrayList<State> searchV2(BestFirstStrategy bestFirstStrategy) {
+        ArrayList<State> finalPlan = new ArrayList<>();
+        // The variables below might not need to be global
+        this.heuristic = bestFirstStrategy.getHeuristic();
+        this.agentAIs = new ArrayList<>();
+
+        for (int i = 0; i < this.initialState.agents.length; i++) {
+            DecentralizedState state = (DecentralizedState) initialState.ChildState();
+            state.parent = null;
+            this.agentAIs.add(new AgentAI(this.initialState.agents[i], i, new BestFirstStrategy(this.heuristic), state));
+        }
+
+        DecentralizedState currentState = this.initialState;
+
+        assignObjectivesToAgentAIs(agentAIs, currentState);
+
+        ArrayList<Objective> freeCellObjectives = new ArrayList<>();
+
+        while (!currentState.isGoalState()) {
+            ArrayList<Command> commands = new ArrayList<>();
+            assignFreeCellObjectives(agentAIs, freeCellObjectives);
+
+            for (AgentAI agentAI : agentAIs) {
+                commands.add(agentAI.getCommand(currentState));
+            }
+
+            commands = resolveConflicts(agentAIs, commands, freeCellObjectives, currentState);
+
+            currentState = (DecentralizedState) currentState.ChildState();
+            currentState.executeCommands(commands);
+            currentState.actions = commands;
+            finalPlan.add(currentState);
+        }
+
+        return finalPlan;
+    }
+
     public ArrayList<State> Search(BestFirstStrategy bestFirstStrategy) {
         // The variables below might not need to be global
         this.heuristic = bestFirstStrategy.getHeuristic();
@@ -42,10 +189,6 @@ public class DecentralizedSearch {
 
         for (AgentAI agentAI : agentAIs) {
             plans.add(agentAI.getPlan());
-        }
-
-        if (!plansAreConsistent(plans)) {
-            replan();
         }
 
         // Step 3: Use the first action of each plan to update the currentState
@@ -83,6 +226,7 @@ public class DecentralizedSearch {
     }
 
     private void assignObjectivesToAgentAIs(ArrayList<AgentAI> agentAIs, State state) {
+        // TODO: make sure that agent goals are assigned to corresponding agents
         // Every goal is given to some agent
 
         for (Goal goal : State.BOXGOALS) {
@@ -104,14 +248,6 @@ public class DecentralizedSearch {
             }
             chosenAgentAI.addObjective(goal);
         }
-    }
-
-    private void replan() {
-
-    }
-
-    private boolean plansAreConsistent(ArrayList<ArrayList<State>> plans) {
-        return true;
     }
 
     @Override

@@ -12,8 +12,10 @@ public class AgentAI implements Runnable {
     private final int agentIdx;
     private final BestFirstStrategy bestFirstStrategy;
     private final State state;
+    private ArrayList<Objective> newObjectives; // TODO: will should replace the objectives field.
     private ArrayList<Goal> objectives; // Objectives are goal positions
     private ArrayList<State> plan;
+    private int planIdx = 0;
     private String finalSearchStatus = null;
 
     public AgentAI(Agent agent, int agentIdx, BestFirstStrategy bestFirstStrategy, State state) {
@@ -32,6 +34,32 @@ public class AgentAI implements Runnable {
         return this.state;
     }
 
+    public boolean hasObjective() {
+        return newObjectives != null && !newObjectives.isEmpty();
+    }
+
+    public boolean hasPlan() {
+        return plan != null && planIdx < plan.size();
+    }
+
+    public Command getCommand(State state) {
+        if (hasObjective()) {
+            if (!hasPlan()) {
+                search();
+            }
+            if (!hasPlan()) { // It could find a solution to its objective
+                
+                return new Command();
+            }
+            
+            Command command = plan.get(planIdx).actions.get(0);
+            planIdx++;
+            return command;
+        } else {
+            return new Command();
+        }
+    }
+
     public void search() {
 
         bestFirstStrategy.addToFrontier(state);
@@ -47,6 +75,7 @@ public class AgentAI implements Runnable {
             if (objectivesReached(leafState)) {
                 finalSearchStatus = bestFirstStrategy.searchStatus(false);
                 plan = leafState.extractPlan();
+                planIdx = 0;
                 break;
             }
 
@@ -125,6 +154,15 @@ public class AgentAI implements Runnable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void decreasePlanIdx(int amount) {
+        planIdx -= amount;
+    }
+
+    public Command goBack() {
+        decreasePlanIdx(2);
+        return plan.get(planIdx).actions.get(0).invert();
     }
 
 
