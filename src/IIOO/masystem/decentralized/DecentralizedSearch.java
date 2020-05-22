@@ -46,7 +46,7 @@ public class DecentralizedSearch {
                         }
                     } else {
                         toCoordDict.put(agentIdx, coord);
-                        fromCoordDict.put(agentIdx, new Coordinate(agent.row, agent.column, agentIdx))
+                        fromCoordDict.put(agentIdx, new Coordinate(agent.row, agent.column, agentIdx));
 
                         failedActionToCoords.add(coord);
                         failedActionFromCoords.add(new Coordinate(agent.row, agent.column, agentIdx));
