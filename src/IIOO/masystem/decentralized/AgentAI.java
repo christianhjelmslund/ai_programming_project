@@ -48,7 +48,7 @@ public class AgentAI implements Runnable {
                 search();
             }
             if (!hasPlan()) { // It could find a solution to its objective
-                
+                // TODO: an extension could be to add a free cell objective here. Or maybe reassign objective
                 return new Command();
             }
             

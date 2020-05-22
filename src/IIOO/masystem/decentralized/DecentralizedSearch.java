@@ -1,6 +1,8 @@
 package IIOO.masystem.decentralized;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 import IIOO.masystem.*;
 import IIOO.masystem.heuristics.Heuristic;
@@ -19,17 +21,20 @@ public class DecentralizedSearch {
         ArrayList<Conflict> conflicts = new ArrayList<>();
         ArrayList<Coordinate> reservedCoords = new ArrayList<>();
         // TODO: The variables below should be dictionaries
+        Hashtable<Integer, Coordinate> fromCoordDict = new Hashtable<>();
+        Hashtable<Integer, Coordinate> toCoordDict = new Hashtable<>();
+
         ArrayList<Coordinate> failedActionFromCoords = new ArrayList<>();
         ArrayList<Coordinate> failedActionToCoords = new ArrayList<>();
-        for (int i = 0; i < commands.size(); i++) {
-            Command command = commands.get(i);
-            Agent agent = state.agents[i];
-            state.isValidCommand(agent, command);
+        for (int agentIdx = 0; agentIdx < commands.size(); agentIdx++) {
+            Command command = commands.get(agentIdx);
+            Agent agent = state.agents[agentIdx];
+            // state.isValidCommand(agent, command);
             switch (command.actionType) {
                 case Move:
                     int row = agent.row + Command.dirToRowChange(command.dir1);
                     int column = agent.column + Command.dirToColChange(command.dir1);
-                    Coordinate coord = new Coordinate(row, column, i);
+                    Coordinate coord = new Coordinate(row, column, agentIdx);
                     
                     if (state.isValidCommand(agent, command)) {
                         int coordIdx = reservedCoords.indexOf(coord);
@@ -40,8 +45,11 @@ public class DecentralizedSearch {
                             conflicts.add(conflict);
                         }
                     } else {
+                        toCoordDict.put(agentIdx, coord);
+                        fromCoordDict.put(agentIdx, new Coordinate(agent.row, agent.column, agentIdx))
+
                         failedActionToCoords.add(coord);
-                        failedActionFromCoords.add(new Coordinate(agent.row, agent.column, i));
+                        failedActionFromCoords.add(new Coordinate(agent.row, agent.column, agentIdx));
                     }
                         
                     break;
