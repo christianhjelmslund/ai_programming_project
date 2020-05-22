@@ -248,6 +248,13 @@ public class DecentralizedSearch {
             }
             chosenAgentAI.addObjective(goal);
         }
+
+        for (Goal goal : State.AGENTGOALS) {
+            agentAIs.get(Character.getNumericValue(goal.letter)).addObjective(goal);
+            System.err.println("Assigned Agent " + goal.toString() + " to " + agentAIs.indexOf(agentAIs.get(Character.getNumericValue(goal.letter))));
+        }
+
+
     }
 
     @Override
