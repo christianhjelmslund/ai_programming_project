@@ -12,7 +12,7 @@ public class Agent extends MoveableObject {
 
     @Override
     public String toString() {
-       return "AgentColor: " + Integer.toString(color) + " At: " + Integer.toString(row) + "," +  Integer.toString(column);
+       return "AgentColor: " + color + " At: " + row + "," + column;
     }
 
     @Override
@@ -23,11 +23,9 @@ public class Agent extends MoveableObject {
             return false;
         } else if (obj instanceof Agent) {
             Agent agent = (Agent) obj;
-            if (agent.row == this.row 
-                && agent.column == this.column
-                && agent.color == this.color){
-                return true;
-            }
+            return agent.row == this.row
+                    && agent.column == this.column
+                    && agent.color == this.color;
         }
         return false;
     }

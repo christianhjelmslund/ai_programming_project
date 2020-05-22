@@ -148,8 +148,7 @@ public class CentralizedState extends State {
         return expandedStates;
     }
 
-    @Override
-    public State ChildState() {
+    public CentralizedState ChildState() {
 
         Agent[] childAgents = new Agent[NUMBER_OF_AGENTS];
         Box[] childBoxes = new Box[NUMBER_OF_BOXES];

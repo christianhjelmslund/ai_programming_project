@@ -34,17 +34,12 @@ public class SearchStatus extends TimerTask {
         System.err.println(searchStatus);
     }
 
-    public float timeSpent() {
-        return (System.currentTimeMillis() - this.startTime) / 1000f;
-    }
-
     public void terminate() {
         timer.cancel();
         timer.purge();
         StringBuilder searchStatus = new StringBuilder();
         searchStatus.append(String.format("Finished after %s with result:\n", TimeSpent.timeSpent()));
         for (int i = 0; i < agentAIS.size(); i++) {
-//            System.err.printf("AgentAI %d: ", i);
             searchStatus.append(String.format("AgentAI %d: %s\n", i, agentAIS.get(i).searchStatus()));
         }
         searchStatus.append(String.format("Memory used: %s\nTime used: %s\n", Memory.stringRep(), TimeSpent.timeSpent()));

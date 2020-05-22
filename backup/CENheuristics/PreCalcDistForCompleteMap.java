@@ -117,7 +117,6 @@ public class PreCalcDistForCompleteMap extends Heuristic {
     }
 
     public void printDistMaps(HashMap<Character, int[][]> distMaps){
-        System.err.println("DistMap:");
         for (char key: distMaps.keySet()){ //for each distMap
             for (int[] line: distMaps.get(key)){
                 for (int val: line){

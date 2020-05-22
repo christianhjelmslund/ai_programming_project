@@ -14,13 +14,13 @@ public abstract class State {
     public static Goal[] BOXGOALS;
     public static Goal[] AGENTGOALS;
 
-    public Agent[] agents;
-    public Box[] boxes;
+    public final Agent[] agents;
+    public final Box[] boxes;
 
     public State parent;
     public List<Command> actions;
 
-    private int g; //depth in graph
+    private final int g; //depth in graph
 
     private int _hash = 0;
 
@@ -45,7 +45,6 @@ public abstract class State {
         return this.parent == null;
     }
 
-    //TODO: Fix saaledes at vi kun tjekker de bokse der har et goal state
     public boolean isGoalState() {
 
         for (Goal goal : BOXGOALS) {
@@ -81,7 +80,7 @@ public abstract class State {
         int newAgentCol = agent.column + Command.dirToColChange(cmd.dir1);
         Box box;
 
-        if (newAgentRow < 0 || newAgentRow > this.MAX_ROW || newAgentCol < 0 || newAgentCol > this.MAX_COL){
+        if (newAgentRow < 0 || newAgentRow > MAX_ROW || newAgentCol < 0 || newAgentCol > MAX_COL){
             return false;
         }
 
@@ -273,20 +272,6 @@ public abstract class State {
         return false;
     }
 
-
-    public Agent getAgent(int row, int col) {
-        for (Agent agent : agents) {
-            if (agent.row == row && agent.column == col) {
-                return agent;
-            }
-        }
-        return null;
-    }
-
-
-
-    public abstract State ChildState() ;
-
     public ArrayList<State> extractPlan() {
         ArrayList<State> plan = new ArrayList<>();
         State n = this;
@@ -298,13 +283,11 @@ public abstract class State {
         return plan;
     }
 
-//    TODO: Check if we can remove hashCode() since we don't use map anymore
     @Override
     public int hashCode() {
         if (this._hash == 0) {
             final int prime = 31;
             int result = 1;
-            // TODO: Think about if we need to do it for color and
             for (Agent agent : agents) {
                 result = prime * result + agent.column;
                 result = prime * result + agent.row;
@@ -390,25 +373,25 @@ public abstract class State {
                         }
                     }
                     //boxes
-                    for (int i = 0; i < boxes.length; i++) {
+                    for (Box box : boxes) {
 
-                        if (row == boxes[i].row && col == boxes[i].column && blanc){
-                            s.append(boxes[i].letter);
+                        if (row == box.row && col == box.column && blanc) {
+                            s.append(box.letter);
 
                             blanc = false;
                         }
                     }
                     //goals
-                    for (int i = 0; i < BOXGOALS.length; i++) {
-                        if (row == BOXGOALS[i].row && col == BOXGOALS[i].column && blanc){
-                            s.append(Character.toLowerCase(BOXGOALS[i].letter));
+                    for (Goal boxgoal : BOXGOALS) {
+                        if (row == boxgoal.row && col == boxgoal.column && blanc) {
+                            s.append(Character.toLowerCase(boxgoal.letter));
                             blanc = false;
                         }
                     }
 
-                    for (int i = 0; i < AGENTGOALS.length; i++) {
-                        if (row == AGENTGOALS[i].row && col == AGENTGOALS[i].column && blanc){
-                            s.append(AGENTGOALS[i].letter);
+                    for (Goal agentgoal : AGENTGOALS) {
+                        if (row == agentgoal.row && col == agentgoal.column && blanc) {
+                            s.append(agentgoal.letter);
                             blanc = false;
                         }
                     }

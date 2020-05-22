@@ -40,7 +40,15 @@ do
          echo "$(basename $lvl): $i" >>  ../$result_file_name
          echo "Successfully stored results for level $(basename $lvl) in test_results.txt"
       else
-         echo "$(basename $lvl): $i"
+        name=$(basename "$lvl")
+        length=${#name}
+        printf "%s : " "$(basename "$lvl")"
+        while [ "$((length))" -lt 15 ]
+        do
+          printf " "
+          length=$((length+1))
+        done
+        printf "%s\n" "$i"
       fi
   }
 done

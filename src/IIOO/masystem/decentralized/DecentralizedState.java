@@ -40,7 +40,7 @@ public class DecentralizedState extends State {
         DecentralizedState childState;
         for (Command command : validCommands) {
             if (command.actionType != Command.Type.NoOp) {
-                childState = (DecentralizedState)ChildState();
+                childState = ChildState();
                 childState.executeCommand(command);
                 ArrayList<Command> actions = new ArrayList<>();
                 actions.add(command);
@@ -52,8 +52,7 @@ public class DecentralizedState extends State {
         return expandedStates;
     }
 
-    @Override
-    public State ChildState() {
+    public DecentralizedState ChildState() {
         Agent[] childAgents = new Agent[NUMBER_OF_AGENTS];
         Box[] childBoxes = new Box[NUMBER_OF_BOXES];
 
@@ -102,17 +101,6 @@ public class DecentralizedState extends State {
 
                 boxRow += Command.dirToRowChange(command.dir2);
                 boxCol += Command.dirToColChange(command.dir2);
-
-                if (this.getBox(prevBoxRow, prevBoxCol) == null) {
-
-                    System.err.println("ERROR HERE");
-                    System.err.println(prevBoxRow);
-                    System.err.println(prevBoxCol);
-                    for (Box box : boxes) {
-                        System.err.println(box);
-                    }
-                }
-
 
                 this.getBox(prevBoxRow,prevBoxCol).move(boxRow, boxCol);
 

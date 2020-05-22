@@ -6,6 +6,7 @@ import IIOO.masystem.decentralized.DecentralizedState;
 import IIOO.masystem.heuristics.PCDMergeRefactored;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,14 +25,11 @@ public class Main {
 
         State initialState = loadInitialState(serverMessages);
 
-        SearchClient cenClient = null;
-        DecentralizedSearch decClient = null;
+        SearchClient cenClient;
+        DecentralizedSearch decClient;
 
-        BestFirstStrategy cenBestFirstStrategy = null;
-        BestFirstStrategy decBestFirstStrategy = null;
-
-
-        System.err.println("CENTRALIZED: " + centralized);
+        BestFirstStrategy cenBestFirstStrategy;
+        BestFirstStrategy decBestFirstStrategy;
 
         //___________________________________CENTRALIZED____________________________________________________
 
@@ -55,34 +53,10 @@ public class Main {
                 System.exit(0);
             } else {
                 System.err.println("\nSummary for " + cenBestFirstStrategy.toString());
-                System.err.println("Found solution with centralized AI of length " + solution.size() + ". " + cenBestFirstStrategy.searchStatus(true));
-
-                for (State n : solution) {
-                    String act = n.actions.toString();
-                    StringBuilder actions = new StringBuilder();
-
-                    for (int i = 0; i < n.actions.size(); i++) {
-                        actions.append(n.actions.get(i).toString());
-                        actions.append(";");
-
-                    }
-
-                    actions.replace(actions.length() - 1, actions.length(), "");
-
-                    System.out.println(actions);
-
-                    String response = serverMessages.readLine();
-                    if (response != null && response.contains("false")) {
-                        System.err.format("Server responsed with %s to the inapplicable action: %s\n", response, act);
-                        System.err.format("%s was attempted in \n%s\n", act, n.toString());
-                        break;
-                    }
-                }
+                System.err.println("Found solution. Centralized, length: " + solution.size() + ". " + cenBestFirstStrategy.searchStatus(true));
+                printSolution(serverMessages, solution);
             }
-
-
             //___________________________________DECENTRALIZED____________________________________________________
-
         } else {
             TimeSpent.startTime();
             decClient = new DecentralizedSearch((DecentralizedState) initialState);
@@ -101,33 +75,33 @@ public class Main {
                 System.err.println("Unable to solve level.");
                 System.exit(0);
             } else {
-                System.err.println("\nSummary for " + decBestFirstStrategy.toString() + "\nFound solution with decentralized AI of length " + solution.size() + ". " + TimeSpent.timeSpent() + Memory.stringRep());
-
-                for (State n : solution) {
-                    String act = n.actions.toString();
-
-                    StringBuilder actions = new StringBuilder();
-
-                    for (int i = 0; i < n.actions.size(); i++) {
-                        actions.append(n.actions.get(i).toString());
-                        actions.append(";");
-
-                    }
-
-                    actions.replace(actions.length() - 1, actions.length(), "");
-
-                    System.out.println(actions);
-
-                    String response = serverMessages.readLine();
-                    if (response != null && response.contains("false")) {
-                        System.err.format("Server responsed with %s to the inapplicable action: %s\n", response, act);
-                        System.err.format("%s was attempted in \n%s\n", act, n.toString());
-                        break;
-                    }
-                }
+                System.err.println("\nFound solution. Decentralized, length: " + solution.size() + ". Time: " + TimeSpent.timeSpent() + ". " + Memory.stringRep());
+                printSolution(serverMessages, solution);
             }
         }
 
+    }
+
+    private static void printSolution(BufferedReader serverMessages, ArrayList<State> solution) throws IOException {
+        for (State n : solution) {
+            String act = n.actions.toString();
+            StringBuilder actions = new StringBuilder();
+
+            for (int i = 0; i < n.actions.size(); i++) {
+                actions.append(n.actions.get(i).toString());
+                actions.append(";");
+            }
+            actions.replace(actions.length() - 1, actions.length(), "");
+
+            System.out.println(actions);
+
+            String response = serverMessages.readLine();
+            if (response != null && response.contains("false")) {
+                System.err.format("Server responded with %s to the inapplicable action: %s\n", response, act);
+                System.err.format("%s was attempted in \n%s\n", act, n.toString());
+                break;
+            }
+        }
     }
 
     private static State loadInitialState(BufferedReader serverMessages) throws Exception {
@@ -201,9 +175,7 @@ public class Main {
                     } else if ('A' <= chr && chr <= 'Z') { // Box
                         Box box = new Box(row, col, boxColors.get(chr), chr, null);
                         boxes.add(box);
-                    } else if (chr == ' ') {
-                        // Free space.
-                    } else {
+                    } else if (chr != ' '){
                         System.err.println("Error, read invalid level character: " + (int) chr);
                         System.exit(1);
                     }
@@ -247,9 +219,7 @@ public class Main {
         boolean[][] wallsResized = new boolean[row][column];
         //Resize walls
         for (int i = 0; i < row; i++) {
-            for (int j = 0; j < column; j++) {
-                wallsResized[i][j] = walls[i][j];
-            }
+            System.arraycopy(walls[i], 0, wallsResized[i], 0, column);
         }
 
         ArrayList<Agent> agentsList = removeAgentsWhichAreNotInMap(agents, agentsFoundInMap);
@@ -312,8 +282,6 @@ public class Main {
             }
         }
         boxGoals.removeAll(goalsToBeRemoved);
-        System.err.println("Goals (with no boxes) removed: " + goalsToBeRemoved.size());
-
     }
 
     private static ArrayList<Agent> removeAgentsWhichAreNotInMap(Agent[] agents, boolean[] agentsFoundInMap) {
@@ -327,8 +295,7 @@ public class Main {
         int nrOfAgents = agentsList.size();
         for (int i = nrOfAgents - 1; i > 0; i--) {
             if (!agentsFoundInMap[i] && nrOfAgents - 1 >= i) {
-                Agent agent = agentsList.remove(i);
-                System.err.println("Removing " + agent.toString());
+                agentsList.remove(i);
             }
         }
         return agentsList;
@@ -341,6 +308,7 @@ public class Main {
             for (Agent agent : agentsList) {
                 if (agent.color == box.color) {
                     boxIsMovable = true;
+                    break;
                 }
             }
             if (!boxIsMovable) {
@@ -349,7 +317,6 @@ public class Main {
             }
         }
         boxes.removeAll(boxesChangedToWalls);
-        System.err.println("Boxes changed to walls: " + boxesChangedToWalls.size());
         return boxesChangedToWalls;
     }
 

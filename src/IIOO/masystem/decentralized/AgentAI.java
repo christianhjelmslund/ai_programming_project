@@ -8,11 +8,11 @@ import java.lang.Thread;
 public class AgentAI implements Runnable {
 
     private Thread thread;
-    private Agent agent;
+    private final Agent agent;
     private final int agentIdx;
     private final BestFirstStrategy bestFirstStrategy;
     private final State state;
-    private ArrayList<Goal> objectives; // Objectives are goal positions
+    private final ArrayList<Goal> objectives; // Objectives are goal positions
     private ArrayList<State> plan;
     private String finalSearchStatus = null;
 
@@ -26,10 +26,6 @@ public class AgentAI implements Runnable {
 
     public Agent getAgent() {
         return this.agent;
-    }
-
-    public State getState() {
-        return this.state;
     }
 
     public void search() {

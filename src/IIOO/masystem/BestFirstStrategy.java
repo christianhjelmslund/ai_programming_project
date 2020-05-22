@@ -7,13 +7,13 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class BestFirstStrategy implements Comparator<State> {
-    private HashSet<State> explored;
-    private PriorityQueue<State> frontier;
-    private HashSet<State> frontierSet;
+    private final HashSet<State> explored;
+    private final PriorityQueue<State> frontier;
+    private final HashSet<State> frontierSet;
 
     private final long startTime;
 
-    public Heuristic heuristic;
+    public final Heuristic heuristic;
 
 
     public BestFirstStrategy(Heuristic heuristic) {
@@ -75,14 +75,9 @@ public class BestFirstStrategy implements Comparator<State> {
     public String searchStatus(boolean withMemoryAndTime) {
 
         return withMemoryAndTime ?
-                String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d, Time: %3.2f s \t%s", this.countExplored(), this.countFrontier(), this.countExplored()+this.countFrontier(), this.timeSpent(), Memory.stringRep())
+                String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d,\t Time: %3.2f s \t%s", this.countExplored(), this.countFrontier(), this.countExplored()+this.countFrontier(), this.timeSpent(), Memory.stringRep())
                 : String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d", this.countExplored(), this.countFrontier(), this.countExplored()+this.countFrontier());
     }
-
-    public String searchStatusDecentralized(){
-        return String.format("Time: %3.2f s \t%s", timeSpent(), Memory.stringRep());
-    }
-
     public float timeSpent() {
         return (System.currentTimeMillis() - this.startTime) / 1000f;
     }

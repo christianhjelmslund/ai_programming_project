@@ -3,8 +3,9 @@ package IIOO.masystem.heuristics;
 import java.awt.*;
 
 public class Step {
-        public Step parent;
-        public int row, col;
+        public final Step parent;
+        public final int row;
+    public final int col;
 
         public Step(int col, int row, Step parent) {
             this.col = col;

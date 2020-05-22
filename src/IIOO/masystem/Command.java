@@ -68,7 +68,7 @@ public class Command {
     }
 
     public final Type actionType;
-    public final Dir dir1; //TODO: refactor dir1 and d1 to agentDir
+    public final Dir dir1;
     public final Dir dir2;
 
     public Command() {

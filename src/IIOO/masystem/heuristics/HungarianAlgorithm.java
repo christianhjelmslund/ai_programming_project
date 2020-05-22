@@ -14,20 +14,16 @@ import java.util.Set;
  */
 public class HungarianAlgorithm {
 
-    int[][] matrix; // initial matrix (cost matrix)
+    final int[][] matrix; // initial matrix (cost matrix)
 
     // markers in the matrix
-    int[] squareInRow, squareInCol, rowIsCovered, colIsCovered, staredZeroesInRow;
+    final int[] squareInRow;
+    final int[] squareInCol;
+    final int[] rowIsCovered;
+    final int[] colIsCovered;
+    final int[] staredZeroesInRow;
 
     public HungarianAlgorithm(int[][] matrix) {
-        if (matrix.length != matrix[0].length) {
-            try {
-                throw new IllegalAccessException("The matrix is not square!");
-            } catch (IllegalAccessException ex) {
-                System.err.println(ex);
-                System.exit(1);
-            }
-        }
 
         this.matrix = matrix;
         squareInRow = new int[matrix.length];       // squareInRow & squareInCol indicate the position
@@ -118,9 +114,9 @@ public class HungarianAlgorithm {
         for (int i = 0; i < matrix[0].length; i++) {
             // find the min value of the current column
             int currentColMin = Integer.MAX_VALUE;
-            for (int j = 0; j < matrix.length; j++) {
-                if (matrix[j][i] < currentColMin) {
-                    currentColMin = matrix[j][i];
+            for (int[] ints : matrix) {
+                if (ints[i] < currentColMin) {
+                    currentColMin = ints[i];
                 }
             }
             // subtract min value from each element of the current column
@@ -146,7 +142,6 @@ public class HungarianAlgorithm {
                     colHasSquare[j] = 1;
                     squareInRow[i] = j; // save the row-position of the zero
                     squareInCol[j] = i; // save the column-position of the zero
-                    continue; // jump to next row
                 }
             }
         }
@@ -224,14 +219,14 @@ public class HungarianAlgorithm {
      * @param mainZero => Z_0 of Step 4
      */
     private void step6(int[] mainZero) {
-        int i = mainZero[0];
+        int i;
         int j = mainZero[1];
 
         Set<int[]> K = new LinkedHashSet<>();
         //(a)
         // add Z_0 to K
         K.add(mainZero);
-        boolean found = false;
+        boolean found;
         do {
             // (b)
             // add Z_1 to K if

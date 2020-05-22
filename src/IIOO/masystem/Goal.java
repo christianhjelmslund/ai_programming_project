@@ -1,9 +1,9 @@
 package IIOO.masystem;
 
 public class Goal {
-    public int row;
-    public int column;
-    public char letter;
+    public final int row;
+    public final int column;
+    public final char letter;
 
     public Goal(int row, int column, char letter){
         this.row = row;

@@ -7,7 +7,6 @@ import IIOO.masystem.heuristics.Heuristic;
 
 public class DecentralizedSearch {
 
-    private ArrayList<AgentAI> agentAIs;
     private Heuristic heuristic;
     public final DecentralizedState initialState;
 
@@ -18,12 +17,12 @@ public class DecentralizedSearch {
     public ArrayList<State> Search(BestFirstStrategy bestFirstStrategy) {
         // The variables below might not need to be global
         this.heuristic = bestFirstStrategy.getHeuristic();
-        this.agentAIs = new ArrayList<>();
+        ArrayList<AgentAI> agentAIs = new ArrayList<>();
 
         for (int i = 0; i < this.initialState.agents.length; i++) {
-            DecentralizedState state = (DecentralizedState) initialState.ChildState();
+            DecentralizedState state = initialState.ChildState();
             state.parent = null;
-            this.agentAIs.add(new AgentAI(this.initialState.agents[i], i, new BestFirstStrategy(this.heuristic), state));
+            agentAIs.add(new AgentAI(this.initialState.agents[i], i, new BestFirstStrategy(this.heuristic), state));
         }
 
         DecentralizedState currentState = this.initialState;
@@ -44,9 +43,9 @@ public class DecentralizedSearch {
             plans.add(agentAI.getPlan());
         }
 
-        if (!plansAreConsistent(plans)) {
-            replan();
-        }
+//        if (!plansAreConsistent(plans)) {
+//            replan();
+//        }
 
         // Step 3: Use the first action of each plan to update the currentState
         ArrayList<State> finalPlan = new ArrayList<>();
@@ -59,7 +58,7 @@ public class DecentralizedSearch {
         }
 
         for (int i = 0; i < longestPlan; i++) {
-            currentState = (DecentralizedState) currentState.ChildState();
+            currentState = currentState.ChildState();
             currentState.actions = new ArrayList<>();
 
             for (int planIndex = 0; planIndex < plans.size(); planIndex++) {
@@ -104,14 +103,6 @@ public class DecentralizedSearch {
             }
             chosenAgentAI.addObjective(goal);
         }
-    }
-
-    private void replan() {
-
-    }
-
-    private boolean plansAreConsistent(ArrayList<ArrayList<State>> plans) {
-        return true;
     }
 
     @Override

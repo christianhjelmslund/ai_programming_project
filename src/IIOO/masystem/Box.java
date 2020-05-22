@@ -3,18 +3,20 @@ package IIOO.masystem;
 
 public class Box extends MoveableObject {
 
-    public char letter;
+    public final char letter;
     public Goal assignedGoal;
 
 
     @Override
-    public boolean equals(Object object) {
-        Box other = (Box) object;
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (this.getClass() != o.getClass())
+            return false;
+        Box other = (Box) o;
         return this.row == other.row && this.column == other.column && this.letter == other.letter; //Color is unnecessary as boxes of same letter cannot have different colors
-    }
-
-    public Box() {
-
     }
 
     public Box(int row, int column, int color, char letter, Goal assignedGoal) {
