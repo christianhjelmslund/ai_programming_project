@@ -19,12 +19,10 @@ public class Main {
 
         BufferedReader serverMessages = new BufferedReader(new InputStreamReader(System.in));
 
-
         // Client name statement
         System.out.println("PearEasy Client");
 
         State initialState = loadInitialState(serverMessages);
-
 
         SearchClient cenClient = null;
         DecentralizedSearch decClient = null;
@@ -38,6 +36,8 @@ public class Main {
         //___________________________________CENTRALIZED____________________________________________________
 
         // Read level and create the initial state of the problem
+        // Start recording time
+
         if (centralized) {
             cenClient = new SearchClient(initialState);
             cenBestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(cenClient.initialState));
@@ -84,6 +84,7 @@ public class Main {
             //___________________________________DECENTRALIZED____________________________________________________
 
         } else {
+            TimeSpent.startTime();
             decClient = new DecentralizedSearch((DecentralizedState) initialState);
             decBestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(decClient.initialState));
 
@@ -100,7 +101,7 @@ public class Main {
                 System.err.println("Unable to solve level.");
                 System.exit(0);
             } else {
-                System.err.println("\nSummary for " + decBestFirstStrategy.toString() + "\nFound solution with decentralized AI of length " + solution.size() + ". " + decBestFirstStrategy.searchStatusDecentralized());
+                System.err.println("\nSummary for " + decBestFirstStrategy.toString() + "\nFound solution with decentralized AI of length " + solution.size() + ". " + TimeSpent.timeSpent() + Memory.stringRep());
 
                 for (State n : solution) {
                     String act = n.actions.toString();
