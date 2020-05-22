@@ -1,0 +1,66 @@
+#domain
+hospital
+#levelname
+MAMAAIStro
+#colors
+blue: 0, A
+red: 1, B
+#initial
+++++++++++++++++
++0          A  +
++++ ++++++ + + +
++++ + B 1+ + + +
++++ + ++++ + + +
++++ +      + + +
++++ ++++++++ + +
++++            +
+++++++++++++++++
+#goal
+++++++++++++++++
++              +
++++ ++++++ + + +
++++ +    + + + +
++++ + ++++ + + +
++++ +      + + +
++++ ++++++++ + +
++++   A B      +
+++++++++++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+134950510:Move(E);Move(W)
+135450552:Move(E);Push(W,W)
+135912985:Move(E);Push(W,S)
+136383324:Move(W);Push(S,S)
+136863586:Move(E);Push(S,E)
+137304957:Move(W);Push(E,E)
+137702764:Move(E);Push(E,E)
+138132943:Move(E);Push(E,E)
+138507513:Move(E);Push(E,E)
+138897802:Move(E);Push(E,N)
+139390609:Move(E);Push(N,N)
+139830031:Move(E);Push(N,N)
+140234244:Move(E);Move(S)
+140587618:Move(E);Move(N)
+140964600:Push(E,S);Push(N,N)
+141363503:Push(S,S);Push(N,E)
+141727877:Push(S,S);Push(E,E)
+142266737:Push(S,S);Push(E,S)
+142629110:Push(S,S);Push(S,S)
+142998790:Push(S,S);Push(S,S)
+143301077:Push(S,W);Push(S,S)
+143609774:Push(W,W);Push(S,S)
+143915370:Push(W,W);Push(S,S)
+144302507:Push(W,W);Push(S,W)
+144721894:Push(W,W);Push(W,W)
+145139424:Push(W,W);Push(W,W)
+145518147:NoOp;Push(W,W)
+#end
+#solved
+true
+#numactions
+27
+#time
+145518147
+#end

@@ -1,0 +1,77 @@
+#domain
+hospital
+#levelname
+MADeepMinds
+#colors
+red: 0, A
+blue: 1, B
+green: 2, C
+#initial
+++++++++
++      +
++0+ +  +
++1+ +AC+
++++ ++++
++ 2  B +
+++++++++
+#goal
+++++++++
++A   B +
++ + +  +
++ + +  +
++++ ++++
++C     +
+++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+161594482:Move(N);NoOp;Move(E)
+162419478:Move(E);Move(N);Move(N)
+163321045:Move(E);Move(N);Move(N)
+164489482:Move(E);Move(E);Move(N)
+166457090:Move(E);Move(E);Move(S)
+167250084:Move(S);Move(E);Move(N)
+168656328:Pull(E,S);Move(W);Move(S)
+169451649:Push(W,N);Move(S);Move(S)
+170170704:Push(N,W);Move(S);Move(S)
+171017052:Push(W,W);Move(N);Move(N)
+171802548:Push(W,W);Move(S);Move(S)
+173429262:Push(W,W);Move(S);Move(W)
+175165780:Move(E);Move(S);Move(W)
+176677270:Move(S);Move(E);Move(E)
+177332053:Move(S);Push(E,E);Move(E)
+177841258:Move(N);Pull(W,E);Move(N)
+178334927:Move(N);Pull(W,E);Move(N)
+178899616:Move(E);Pull(N,E);Move(N)
+179784524:Move(E);Pull(N,S);Move(N)
+180364408:Move(S);Push(S,S);Move(E)
+180816873:Move(S);Push(S,E);Move(E)
+181226307:Move(N);Pull(N,E);Move(E)
+181755405:Move(S);Push(S,W);Move(S)
+182299012:NoOp;Push(W,W);Pull(W,S)
+182846323:Move(E);Pull(E,W);Push(E,N)
+183487536:Move(W);Pull(N,W);Push(N,W)
+184103390:Move(E);Pull(N,S);Push(W,W)
+184666287:Move(W);Push(S,S);Push(W,W)
+185352372:Move(N);Push(S,W);Push(W,S)
+186110869:Move(S);Pull(E,W);Push(S,S)
+186665250:Move(N);Pull(E,W);Push(S,S)
+187205089:Move(S);Pull(E,W);Push(S,S)
+187632152:Move(N);Push(W,W);Push(S,W)
+187952114:Move(N);NoOp;Push(W,W)
+188261385:Move(E);Push(W,W);NoOp
+188563240:Move(S);Push(W,N);NoOp
+188877797:Move(S);Push(N,N);NoOp
+189163191:Move(W);Push(N,N);Move(E)
+189452478:Move(E);Push(N,N);Move(E)
+189727927:Move(N);Push(N,E);Move(E)
+190192646:Move(N);Push(E,E);Move(E)
+#end
+#solved
+true
+#numactions
+41
+#time
+190192646
+#end

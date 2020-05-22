@@ -1,0 +1,65 @@
+#domain
+hospital
+#levelname
+SAThree
+#colors
+red: 0, F
+blue: E, N, M
+grey: B, S, R
+#initial
++++++++++++++++++
++              0+
++       +F+     +
++   B    +      +
++          ++++++
++++ +   S   M   +
+++  ++        +++
++  +E   +    RN +
++  +   + +      +
++               +
++++++++++++++++++
+#goal
++++++++++++++++++
++               +
++       + +     +
++   B    +      +
++          ++++++
++++ +   S   M   +
+++  ++        +++
++  +E   +    RN +
++  +   +F+      +
++               +
++++++++++++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+134010653:Move(W)
+134260981:Move(W)
+134582327:Move(W)
+134834028:Move(W)
+135084025:Move(W)
+135557115:Move(W)
+135846063:Pull(W,S)
+136264143:Push(E,E)
+136610191:Push(E,E)
+136851429:Push(E,S)
+137102544:Push(S,S)
+137371803:Push(S,W)
+137612367:Push(W,S)
+137858848:Push(S,S)
+138158251:Push(S,S)
+138410133:Push(S,S)
+138638580:Push(S,S)
+138892424:Push(S,S)
+139255629:Push(S,W)
+139540377:Push(W,W)
+139790419:Push(W,N)
+#end
+#solved
+true
+#numactions
+21
+#time
+139790419
+#end

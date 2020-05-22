@@ -1,0 +1,94 @@
+#domain
+hospital
+#levelname
+MAChuligans
+#colors
+red: 0, A
+green: 1, B
+blue: 2, C
+#initial
+++++++++++++++++++++++++
++                      +
++          +++++++++++++
++      B             C2+
++   A                  +
++                      +
+++++++++++++++++++     +
++  0                   +
++                   1  +
+++++++++++++++++++++++++
+#goal
+++++++++++++++++++++++++
++C                    A+
++          +++++++++++++
++                      +
++                      +
++                      +
+++++++++++++++++++     +
++                      +
++                     B+
+++++++++++++++++++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+287744874:Move(E);Move(N);Push(W,W)
+288696499:Move(E);Move(N);Push(W,W)
+289550833:Move(E);Move(W);Push(W,W)
+290413473:Move(E);Move(W);Push(W,W)
+291291498:Move(E);Move(N);Push(W,W)
+292643502:Move(E);Move(W);Push(W,W)
+293442817:Move(E);Move(N);Push(W,W)
+294882536:Move(E);Move(N);Push(W,W)
+297036465:Move(E);Move(W);Push(W,W)
+297980643:Move(E);Move(W);Push(W,W)
+298427545:Move(E);Move(W);Push(W,W)
+299190680:Move(E);Move(W);Push(W,N)
+299938250:Move(E);Move(W);Push(N,W)
+300631760:Move(E);Move(W);Push(W,N)
+301259598:Move(E);Move(W);Push(N,W)
+301848955:Move(N);Move(W);Push(W,W)
+302423952:Move(N);Move(W);Push(W,W)
+304431061:Move(N);Push(W,S);Push(W,W)
+306057239:Move(W);Push(S,S);Push(W,W)
+307505520:Move(W);Push(S,E);Push(W,W)
+308410376:Move(W);Push(E,E);Push(W,W)
+309038087:Move(W);Push(E,E);Push(W,W)
+309552925:Move(W);Push(E,E);Move(S)
+310039289:Move(W);Push(E,E);Move(W)
+310561459:Move(W);Push(E,E);Move(E)
+311116261:Move(W);Push(E,E);Move(W)
+311672326:Move(W);Push(E,E);Move(E)
+312389323:Move(W);Push(E,E);Move(N)
+312899954:Move(W);Push(E,E);Move(S)
+313423281:Move(W);Push(E,E);Move(E)
+313947770:Move(W);Push(E,S);Move(N)
+314485790:Pull(S,W);Push(S,E);Move(S)
+314940923:Push(N,N);Push(E,S);Move(E)
+315412347:Push(N,E);Push(S,E);Move(S)
+315865286:Push(E,N);Push(E,S);Move(S)
+316297042:Push(N,E);Push(S,E);Move(N)
+316723118:Push(E,E);Push(E,E);Move(S)
+317092770:Push(E,N);Move(W);Move(S)
+317463774:Push(N,E);Move(W);Move(N)
+317843666:Push(E,E);Move(W);Move(N)
+318263675:Push(E,E);Move(E);Move(N)
+318633097:Push(E,E);Move(N);Move(S)
+319010641:Push(E,E);Move(N);Move(S)
+319678142:Push(E,E);Move(E);Move(S)
+320111153:Push(E,E);Move(E);Move(N)
+320497507:Push(E,E);Move(S);Move(W)
+320846846:Push(E,E);Move(N);Move(W)
+321236078:Push(E,E);Move(S);Move(S)
+321585392:Push(E,E);Move(S);Move(N)
+321956930:Push(E,E);Move(N);Move(E)
+322317108:Push(E,E);Move(W);Move(W)
+322658926:Push(E,E);Move(W);Move(N)
+#end
+#solved
+true
+#numactions
+52
+#time
+322658926
+#end

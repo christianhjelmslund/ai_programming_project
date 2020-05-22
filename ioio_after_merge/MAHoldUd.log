@@ -1,0 +1,50 @@
+#domain
+hospital
+#levelname
+MAHoldUd
+#colors
+red: 0, A
+blue: 1, B, 6, G
+green: 2, C
+cyan: 3, D
+purple: 4, E, 5, F
+#initial
+++++++++++++++++
+++++ + + + + + +
+++++1+2+3+4+5+6+++++
++0A B C D E F G    +
+++++++++++++++++++++
+#goal
+++++++++++++++++
+++++1+2+3+4+5+6+
+++++ + + + + + +++++
++                 A+
+++++++++++++++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+8141271964:Push(E,E);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S)
+8141803551:Push(E,E);NoOp;Push(S,S);Push(S,S);Push(S,S);Push(S,S);Push(S,S)
+8142339080:Push(E,E);NoOp;Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S)
+8142821713:Push(E,E);NoOp;NoOp;Push(S,S);Push(S,S);Push(S,S);Push(S,S)
+8143343861:Push(E,E);Push(S,S);NoOp;Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S)
+8143780321:Push(E,E);Pull(N,S);NoOp;NoOp;Push(S,S);Push(S,S);Push(S,S)
+8144239876:Push(E,E);Push(S,S);Push(S,S);NoOp;Pull(N,S);Pull(N,S);Pull(N,S)
+8145242028:Push(E,E);Pull(N,S);Pull(N,S);NoOp;NoOp;Push(S,S);Push(S,S)
+8145782812:Push(E,E);Push(S,S);Push(S,S);Push(S,S);NoOp;Pull(N,S);Pull(N,S)
+8146161635:Push(E,E);Pull(N,S);Pull(N,S);Pull(N,S);NoOp;NoOp;Push(S,S)
+8146553900:Push(E,E);Push(S,S);Push(S,S);Push(S,S);Push(S,S);NoOp;Pull(N,S)
+8147153332:Push(E,E);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);NoOp;NoOp
+8147886647:Push(E,E);Push(S,S);Push(S,S);Push(S,S);Push(S,S);Push(S,S);NoOp
+8148596174:Push(E,E);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);NoOp
+8149228993:Push(E,E);Push(S,S);Push(S,S);Push(S,S);Push(S,S);Push(S,S);Push(S,S)
+8149819272:Push(E,E);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S);Pull(N,S)
+#end
+#solved
+true
+#numactions
+16
+#time
+8149819272
+#end

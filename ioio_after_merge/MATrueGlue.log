@@ -1,0 +1,120 @@
+#domain
+hospital
+#levelname
+MATrueGlue
+#colors
+red: 0, A
+green: 1, B
+blue: 2, C
+#initial
+++++++++++++++++++++++
++     C +         0  +
++       +       2 +  +
++       +         + A+
++                 ++ +
++       +         ++ +
++       +     +   + ++
++       +     +   +  +
++             +   +  +
++B            +   +  +
++  1    +     +   +  +
++      +++++  +   +  +
++                 +  +
++      ++++++++++    +
++                    +
+++++++++++++++++++++++
+#goal
+++++++++++++++++++++++
++  A    +            +
++       +         +  +
++       +         +  +
++                 ++B+
++       +         ++C+
++       +     +   + ++
++       +     +   +  +
++             +   +  +
++             +   +  +
++       +     +   +  +
++      +++++  +   +  +
++                 +  +
++      ++++++++++    +
++                    +
+++++++++++++++++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+439404719:Move(E);Move(N);Move(W)
+439992468:Move(S);Move(W);Move(W)
+440755475:Move(E);Push(W,S);Move(S)
+441547312:Push(S,W);Pull(E,S);Move(W)
+442153744:Push(W,N);Push(W,N);Move(S)
+442878974:Push(N,N);Push(N,E);Move(W)
+443510401:Push(N,W);Push(E,N);Move(W)
+444254334:Push(W,W);Push(N,W);Move(W)
+445111107:Push(W,S);Pull(S,W);Move(W)
+445796209:Push(S,S);Push(N,W);Move(E)
+447125946:Push(S,S);Pull(E,W);Move(W)
+448045044:Push(S,W);Pull(E,W);Move(N)
+448830488:Push(W,W);Pull(E,W);Move(S)
+449496377:Push(W,W);Push(W,N);Move(E)
+449973833:Push(W,W);Push(N,N);Move(W)
+450401134:Push(W,W);Pull(E,N);Move(W)
+450815139:Push(W,W);Push(W,S);Move(W)
+451212453:Push(W,W);Push(S,S);Move(N)
+451681597:Push(W,W);Pull(N,S);Move(N)
+452064991:Push(W,W);Pull(N,S);Move(W)
+452473229:Push(W,W);Pull(E,S);Pull(S,N)
+452884979:Push(W,W);Pull(S,W);Push(N,E)
+453462163:Push(W,W);Pull(E,N);Push(E,S)
+454030048:Push(W,N);Push(W,W);Push(S,S)
+455143052:Push(N,N);Pull(S,W);Push(S,E)
+456089613:Push(N,N);Push(N,N);Push(E,E)
+457482622:Push(N,W);Pull(E,N);Push(E,E)
+458016393:Push(W,W);Push(W,S);Push(E,N)
+458532542:Move(S);Pull(W,S);Push(N,E)
+459042794:Move(E);Pull(S,E);Push(E,E)
+459511886:Move(S);Push(N,W);Push(E,E)
+459984573:Move(E);Pull(E,W);Push(E,E)
+460396230:Move(W);Pull(E,W);Push(E,N)
+460821933:Move(N);Push(W,W);Push(N,N)
+461336804:Move(W);Push(W,S);Push(N,E)
+461736352:Move(N);Pull(E,S);Push(E,E)
+462139930:Move(E);Pull(N,W);Push(E,E)
+462529904:Move(W);Push(S,S);Push(E,E)
+462894831:Move(S);Pull(E,S);Push(E,E)
+463284647:Move(N);Pull(E,W);Push(E,S)
+463686306:Move(E);Push(W,S);Push(S,S)
+464138472:Move(W);Push(S,E);Push(S,E)
+464517616:Move(E);Push(E,S);Push(E,S)
+464930491:Move(S);Pull(N,S);Push(S,S)
+466304953:Move(S);Pull(W,S);Move(N)
+466723759:Move(W);Push(E,N);Move(W)
+467077718:Move(E);Push(N,N);Move(N)
+467578851:Move(N);Push(N,E);Move(S)
+467975821:Move(E);Push(E,E);Move(N)
+468336136:Move(E);Push(E,N);Move(E)
+468711323:Move(N);Push(N,N);Move(S)
+469057235:Move(S);Push(N,N);Move(W)
+469307343:Move(S);Push(N,E);Move(E)
+469520351:Move(W);Push(E,E);Move(S)
+469744454:Move(E);Push(E,E);Move(N)
+469939266:Move(W);Push(E,E);Move(S)
+470166749:Move(N);Push(E,E);Move(N)
+470446076:Move(W);Push(E,E);Move(S)
+470745312:Move(N);Push(E,E);Move(N)
+470949871:Move(S);Push(E,E);Move(S)
+471138477:Move(S);Push(E,E);Move(N)
+471339956:Move(W);Push(E,E);Move(N)
+471528875:Move(W);Push(E,E);Move(W)
+471733229:Move(W);Push(E,S);Move(S)
+471927836:Move(S);Push(S,S);Move(N)
+472131703:Move(S);Push(S,S);Move(N)
+#end
+#solved
+true
+#numactions
+66
+#time
+472131703
+#end

@@ -1,0 +1,61 @@
+#domain
+hospital
+#levelname
+SAaicecubes
+#colors
+red: 0, A
+#initial
+++++++++++++
++0+     +  +
++  +  +  + +
++   +A + + +
++    + + + +
++      +   +
+++++++++++++
+#goal
+++++++++++++
++ +     +A +
++  +  +  + +
++   +  + + +
++    + + + +
++      +   +
+++++++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+127898697:Move(S)
+135268408:Move(E)
+135782539:Move(S)
+136069088:Move(S)
+136312960:Move(S)
+136687582:Move(E)
+137000766:Move(E)
+137362411:Move(E)
+137730371:Move(E)
+138086888:Move(N)
+138673048:Move(N)
+139650423:Push(W,N)
+140022556:Push(N,N)
+140442044:Push(N,E)
+140896724:Push(E,E)
+141253358:Push(E,S)
+141644983:Push(S,E)
+142060302:Push(E,S)
+142330286:Push(S,S)
+142590805:Push(S,S)
+142873153:Push(S,E)
+143147971:Push(E,E)
+143417574:Push(E,N)
+143675274:Push(N,N)
+143945770:Push(N,N)
+144310048:Push(N,N)
+144622828:Push(N,W)
+#end
+#solved
+true
+#numactions
+27
+#time
+144622828
+#end

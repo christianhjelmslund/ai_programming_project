@@ -1,0 +1,80 @@
+#domain
+hospital
+#levelname
+SAAIcaramba
+#colors
+red: 0, A, B, C
+#initial
+++++++++++
++0C    BA+
++++++ ++++
+    + +
+    + +
+    +++
+#goal
+++++++++++
++        +
++++++B++++
+    +C+
+    +A+
+    +++
+#end
+#clientname
+PearEasy Client
+#actions
+241220725:Push(E,E)
+242460172:Push(E,E)
+243050919:Push(E,E)
+243527292:Push(E,S)
+245481156:Pull(E,S)
+247399707:Push(W,W)
+247775211:Move(E)
+248726696:Pull(W,E)
+249081665:Push(W,W)
+249688312:Push(W,W)
+250015544:Move(E)
+250282501:Move(E)
+250648121:Pull(W,E)
+250898770:Push(E,S)
+251129431:Pull(E,S)
+251340492:Move(E)
+251604120:Pull(W,E)
+251832225:Push(W,W)
+252028501:Move(E)
+252272001:Pull(W,E)
+252492238:Push(W,W)
+252755970:Move(E)
+253030935:Pull(W,E)
+253335223:Push(E,S)
+253569738:Push(S,S)
+253784188:Push(S,S)
+254069883:Move(N)
+254267296:Move(N)
+254519734:Move(W)
+254729179:Pull(E,W)
+254941714:Pull(S,W)
+255174694:Push(N,E)
+255379912:Pull(W,E)
+255583691:Move(W)
+255805962:Pull(E,W)
+256024067:Push(E,E)
+256266861:Move(W)
+256481748:Pull(E,W)
+256801403:Push(E,E)
+257596296:Move(W)
+258129708:Pull(E,W)
+258772105:Push(W,S)
+259608317:Push(S,S)
+260141548:Move(N)
+260333942:Move(E)
+260541964:Pull(W,E)
+260758783:Pull(W,E)
+260995976:Push(E,S)
+#end
+#solved
+true
+#numactions
+48
+#time
+260995976
+#end

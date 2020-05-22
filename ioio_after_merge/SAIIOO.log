@@ -1,0 +1,58 @@
+#domain
+hospital
+#levelname
+SAIIOO
+#colors
+red: 0, A, B
+#initial
+++++++++++++++
++    ABA     +
++    A A     +
++    A0A     +
++    A A     +
++    A A     +
++    A A     +
++    A A     +
+++++++ +++++++
+++++++ +++++++
+++++++++++++++
+#goal
+++++++++++++++
++            +
++            +
++            +
++            +
++            +
++            +
++            +
+++++++A+++++++
+++++++B+++++++
+++++++++++++++
+#end
+#clientname
+PearEasy Client
+#actions
+145778754:Move(N)
+146226349:Pull(S,N)
+146694421:Pull(S,N)
+147447714:Pull(S,N)
+148227163:Pull(S,N)
+148626146:Pull(S,N)
+148906644:Push(W,W)
+149191402:Move(E)
+149553775:Pull(W,N)
+149917175:Push(E,S)
+150269683:Push(S,S)
+150631444:Move(N)
+150947616:Move(W)
+151313196:Pull(E,W)
+151758631:Pull(N,W)
+152461256:Push(S,S)
+#end
+#solved
+true
+#numactions
+16
+#time
+152461256
+#end
