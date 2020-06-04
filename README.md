@@ -36,15 +36,15 @@ To run on Windows:
 
 ## Project Structure
 
-The only two folders which are *actually needed* is `src` and `lib`. The rest are for convenience, but we let them stay be in the project code.
+The only two folders which are *actually needed* are `src` and `lib`. The rest are for "convenience".
 
 `levels` directory contains levels in which you can use to test the client.
 
 `Makefile` is to create run configurations for unix systems.
 
-`performance_test` is to run all levels in the `levels/performance_test_levels` directory, to be able to easy test the changes made.
-
 `run.sh` is to create run configurations for Windows systems (and unix)
+
+`performance_test` is to run all levels in the `levels/performance_test_levels` directory, to be able to easy test the changes made.
 
 `server.jar` is the server that the client writes to
 
