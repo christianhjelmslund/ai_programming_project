@@ -1,7 +1,7 @@
 package IIOO.masystem;
 
 
-public class Box extends MoveableObject {
+public class Box extends MovableObject {
 
     public final char letter;
     public Goal assignedGoal;

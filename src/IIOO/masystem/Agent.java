@@ -1,7 +1,7 @@
 package IIOO.masystem;
 
 
-public class Agent extends MoveableObject {
+public class Agent extends MovableObject {
 
     public Agent() {
 

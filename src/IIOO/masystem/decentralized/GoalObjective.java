@@ -4,7 +4,7 @@ import IIOO.masystem.Box;
 import IIOO.masystem.Agent;
 
 public class GoalObjective extends Objective {
-    private char character; 
+    private final char character;
 
     public GoalObjective(int row, int col, char c) {
         super(row, col);
@@ -27,5 +27,4 @@ public class GoalObjective extends Objective {
 
 		return false;
 	}
-
 }

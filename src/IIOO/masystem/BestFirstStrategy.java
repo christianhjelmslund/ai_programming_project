@@ -1,7 +1,9 @@
 package IIOO.masystem;
 
+import IIOO.masystem.decentralized.Objective;
 import IIOO.masystem.heuristics.Heuristic;
 
+import java.util.Set;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -15,7 +17,6 @@ public class BestFirstStrategy implements Comparator<State> {
 
     public final Heuristic heuristic;
 
-
     public BestFirstStrategy(Heuristic heuristic) {
         this.explored = new HashSet<>();
         this.startTime = System.currentTimeMillis();
@@ -24,17 +25,14 @@ public class BestFirstStrategy implements Comparator<State> {
         this.frontierSet = new HashSet<>();
     }
 
-
     public int fAStar(State n) {
         return n.g() + this.heuristic.h(n);
     }
 
-
     @Override
     public int compare(State n1, State n2) {
-        return fAStar(n1)-fAStar(n2);
+        return fAStar(n1) - fAStar(n2);
     }
-
 
     public void addToExplored(State n) {
         this.explored.add(n);
@@ -59,6 +57,12 @@ public class BestFirstStrategy implements Comparator<State> {
         frontierSet.add(n);
     }
 
+    public void addToFrontier(State n, Set<Objective> objectives) {
+        this.heuristic.setObjectives(objectives);
+        frontier.add(n);
+        frontierSet.add(n);
+    }
+
     public int countFrontier() {
         return frontier.size();
     }
@@ -75,9 +79,10 @@ public class BestFirstStrategy implements Comparator<State> {
     public String searchStatus(boolean withMemoryAndTime) {
 
         return withMemoryAndTime ?
-                String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d,\t Time: %3.2f s \t%s", this.countExplored(), this.countFrontier(), this.countExplored()+this.countFrontier(), this.timeSpent(), Memory.stringRep())
-                : String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d", this.countExplored(), this.countFrontier(), this.countExplored()+this.countFrontier());
+                String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d,\t Time: %3.2f s \t%s", this.countExplored(), this.countFrontier(), this.countExplored() + this.countFrontier(), this.timeSpent(), Memory.stringRep())
+                : String.format("#Explored: %,6d, #Frontier: %,6d, #Generated: %,6d", this.countExplored(), this.countFrontier(), this.countExplored() + this.countFrontier());
     }
+
     public float timeSpent() {
         return (System.currentTimeMillis() - this.startTime) / 1000f;
     }

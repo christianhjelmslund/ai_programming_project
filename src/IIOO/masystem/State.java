@@ -334,7 +334,7 @@ public abstract class State {
         return true;
     }
 
-    public static boolean agentArrayContains(Agent[] agents, MoveableObject agent) {
+    public static boolean agentArrayContains(Agent[] agents, MovableObject agent) {
         for (Agent agenti : agents) {
             if (agenti.equals(agent)) {
                 return true;
@@ -344,7 +344,7 @@ public abstract class State {
 
     }
 
-    public static boolean boxArrayContains(Box[] boxes, MoveableObject box) {
+    public static boolean boxArrayContains(Box[] boxes, MovableObject box) {
         for (Box boxi : boxes) {
             if (boxi.equals(box)) {
                 return true;

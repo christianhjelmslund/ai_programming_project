@@ -3,7 +3,8 @@ import IIOO.masystem.centralized.CentralizedState;
 import IIOO.masystem.centralized.SearchClient;
 import IIOO.masystem.decentralized.DecentralizedSearch;
 import IIOO.masystem.decentralized.DecentralizedState;
-import IIOO.masystem.heuristics.PCDMergeRefactored;
+import IIOO.masystem.heuristics.DecentralizedHeuristic;
+import IIOO.masystem.heuristics.CentralizedHeuristic;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,17 +29,15 @@ public class Main {
         SearchClient cenClient;
         DecentralizedSearch decClient;
 
-        BestFirstStrategy cenBestFirstStrategy;
-        BestFirstStrategy decBestFirstStrategy;
-
         //___________________________________CENTRALIZED____________________________________________________
 
         // Read level and create the initial state of the problem
         // Start recording time
 
         if (centralized) {
+            BestFirstStrategy cenBestFirstStrategy;
             cenClient = new SearchClient(initialState);
-            cenBestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(cenClient.initialState));
+            cenBestFirstStrategy = new BestFirstStrategy(new CentralizedHeuristic(cenClient.initialState));
             ArrayList<State> solution;
             try {
                 solution = cenClient.Search(cenBestFirstStrategy);
@@ -59,19 +58,18 @@ public class Main {
             //___________________________________DECENTRALIZED____________________________________________________
         } else {
             TimeSpent.startTime();
-            decClient = new DecentralizedSearch((DecentralizedState) initialState);
-            decBestFirstStrategy = new BestFirstStrategy(new PCDMergeRefactored(decClient.initialState));
+            decClient = new DecentralizedSearch((DecentralizedState) initialState,new BestFirstStrategy(new DecentralizedHeuristic(initialState)) );
 
             ArrayList<State> solution;
             try {
-                solution = decClient.Search(decBestFirstStrategy);
+                solution = decClient.Search();
             } catch (OutOfMemoryError ex) {
                 System.err.println("Maximum memory usage exceeded.");
                 solution = null;
             }
 
             if (solution == null) {
-                System.err.println(decBestFirstStrategy.searchStatus(true));
+//                System.err.println(decBestFirstStrategy.searchStatus(true));
                 System.err.println("Unable to solve level.");
                 System.exit(0);
             } else {
@@ -118,6 +116,9 @@ public class Main {
         ArrayList<Box> boxes = new ArrayList<>(); // max number of boxes
 
         String line = "init";
+
+        boolean unmoveableBoxesDeactivated = false;
+
 
         while (!line.contains("#colors")) {
             //read lines until reaching colors
@@ -223,20 +224,19 @@ public class Main {
         }
 
         ArrayList<Agent> agentsList = removeAgentsWhichAreNotInMap(agents, agentsFoundInMap);
-        ArrayList<Box> unmovableBoxes = changeUnmovableBoxesToWalls(boxes, wallsResized, agentsList);
-        removeGoalsOfUnmovableBoxes(unmovableBoxes, boxGoals);
+
+        if (!unmoveableBoxesDeactivated){
+            ArrayList<Box> unmovableBoxes = changeUnmovableBoxesToWalls(boxes, wallsResized, agentsList);
+            removeGoalsOfUnmovableBoxes(unmovableBoxes, boxGoals);
+        }
 
         // Create new initial state
         // The WALLS and GOALS are static, so no need to initialize the arrays every
         // time
         State.NUMBER_OF_AGENTS = agentsList.size();
-
         State.NUMBER_OF_BOXES = boxes.size();
-
         State.MAX_ROW = row;
-
         State.MAX_COL = column;
-
         State.WALLS = wallsResized;
 
         Box[] boxesArray = new Box[boxes.size()];

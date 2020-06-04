@@ -1,16 +1,16 @@
 package IIOO.masystem;
 
-public abstract class MoveableObject {
+public abstract class MovableObject {
 
     public int row;
     public int column;
     public int color;
 
-    public MoveableObject() {
+    public MovableObject() {
 
     }
 
-    public MoveableObject(int row, int column, int color) {
+    public MovableObject(int row, int column, int color) {
         this.row = row;
         this.column = column;
         this.color = color;

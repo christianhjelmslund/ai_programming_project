@@ -12,6 +12,9 @@ public class Coordinate {
         this.agentIdx = agentIdx;
     }
 
+    public Coordinate() {
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -20,9 +23,7 @@ public class Coordinate {
             return false;
         } else if (obj instanceof Coordinate) {
             Coordinate coord = (Coordinate) obj;
-            if (coord.row == this.row && coord.column == this.column) {
-                return true;
-            }
+            return coord.row == this.row && coord.column == this.column;
         }
         return false;
     }

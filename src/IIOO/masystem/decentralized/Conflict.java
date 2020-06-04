@@ -1,13 +1,12 @@
 package IIOO.masystem.decentralized;
 
-public class Conflict {
-    public int agentIdx1;
-    public int agentIdx2;
-    public Type conflictType;
+import java.util.ArrayList;
 
-    public enum Type {
-        DeadLock, FreeCell, Blocker
-    }
+import IIOO.masystem.Command;
+
+public abstract class Conflict {
+    public final int agentIdx1;
+    public final int agentIdx2;
 
     // Conflict types explanations
     // DeadLock:    Two agentAIs are somehow blocking the action of the other. 
@@ -20,23 +19,18 @@ public class Conflict {
     // Blocker:     An agent (A2) somehow blocks the plan of another agent (A1).
     //              Agent (A1) will create a free cell objective, which should be assigned to agent (A2).
 
-    public Conflict(int aIdx1, int aIdx2, Type t) {
+    public Conflict(int aIdx1, int aIdx2) {
         this.agentIdx1 = aIdx1;
         this.agentIdx2 = aIdx2;
-        this.conflictType = t;
     }
 
     public int getLowIdx() {
-        if (agentIdx1 < agentIdx2) {
-            return agentIdx1;
-        }
-        return agentIdx2;
+        return Math.min(agentIdx1, agentIdx2);
     }
 
     public int getHighIdx() {
-        if (agentIdx1 > agentIdx2) {
-            return agentIdx1;
-        }
-        return agentIdx2;
-    }   
+        return Math.max(agentIdx1, agentIdx2);
+    }
+
+	public abstract void resolve(AgentAI[] agentAIs, ArrayList<Command> commands, ArrayList<Objective> objectives);
 }
