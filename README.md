@@ -49,3 +49,5 @@ The only two folders which are *actually needed* are `src` and `lib`. The rest a
 `server.jar` is the server that the client writes to
 
 `test_results` a text file containing the results of the performance tests
+
+**The paper: https://github.com/christianhjelmslund/ai_programming_project/blob/master/IIOO_paper.pdf**
